@@ -652,6 +652,8 @@ obj/item/clothing/suit/cassock
 	body_parts_covered = ARMS|LEGS|FULL_TORSO|IGNORE_INV //transparent
 	allowed = list (/obj/item/weapon/fireaxe)
 	sterility = 100
+	starting_materials = list(MAT_PLASTIC = 5*CC_PER_SHEET_MISC) //Recipe calls for 5 sheets
+	w_type = RECYK_MISC
 
 /obj/item/clothing/suit/kefkarobe
 	name = "Crazed Jester's Robe"
