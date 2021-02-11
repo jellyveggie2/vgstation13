@@ -653,7 +653,7 @@ obj/item/clothing/suit/cassock
 	allowed = list (/obj/item/weapon/fireaxe)
 	sterility = 100
 	starting_materials = list(MAT_PLASTIC = 5*CC_PER_SHEET_MISC) //Recipe calls for 5 sheets
-	w_type = RECYK_MISC
+	w_type = RECYK_PLASTIC
 
 /obj/item/clothing/suit/kefkarobe
 	name = "Crazed Jester's Robe"

@@ -70,7 +70,7 @@
 	melt_temperature = MELTPOINT_PLASTIC
 	bendable = FALSE
 	starting_materials = list(MAT_PLASTIC = 1*CC_PER_SHEET_MISC) //Recipe calls for 1 sheet
-	w_type = RECYK_MISC
+	w_type = RECYK_PLASTIC
 
 /*
  * Forks
@@ -180,7 +180,7 @@
 	icon_state = "pfork"
 	melt_temperature = MELTPOINT_PLASTIC
 	starting_materials = list(MAT_PLASTIC = 1*CC_PER_SHEET_MISC) //Recipe calls for 1 sheet
-	w_type = RECYK_MISC
+	w_type = RECYK_PLASTIC
 
 /*
  * Knives
@@ -220,7 +220,7 @@
 	sharpness = 0.8
 	melt_temperature = MELTPOINT_PLASTIC
 	starting_materials = list(MAT_PLASTIC = 1*CC_PER_SHEET_MISC) //Recipe calls for 1 sheet
-	w_type = RECYK_MISC
+	w_type = RECYK_PLASTIC
 
 /obj/item/weapon/kitchen/utensil/knife/nazi
 	name = "nazi knife"
