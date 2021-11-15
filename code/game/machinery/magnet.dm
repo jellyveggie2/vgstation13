@@ -194,7 +194,7 @@
 					continue
 				step_towards(S, center)
 
-		use_power(electricity_level * 5)
+		machine_power_load.add_apparent_load(electricity_level * 5)
 		sleep(13 - electricity_level)
 
 	pulling = 0

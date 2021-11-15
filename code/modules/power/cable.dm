@@ -46,7 +46,7 @@ By design, d1 is the smallest direction and d2 is the highest
 	var/build_status = 0 //1 means it needs rebuilding during the next tick or on usage
 	var/oldavail = 0
 	var/oldnewavail = 0
-	var/oldload = 0
+	var/datum/powernet_load/oldload = new()
 
 /obj/structure/cable/supports_holomap()
 	return TRUE
@@ -222,7 +222,7 @@ By design, d1 is the smallest direction and d2 is the highest
 
 /obj/structure/cable/proc/report_load(mob/user)
 	if((powernet) && (powernet.avail > 0))		// is it powered?
-		to_chat(user, "<SPAN CLASS='warning'>Power network status report - Load: [format_watts(powernet.load)] - Available: [format_watts(powernet.avail)].</SPAN>")
+		to_chat(user, "<SPAN CLASS='warning'>Power network status report - Load: [format_watts(powernet.load.apparent_load())] - Available: [format_watts(powernet.avail)].</SPAN>")
 	else
 		to_chat(user, "<SPAN CLASS='notice'>The cable is not powered.</SPAN>")
 
@@ -322,13 +322,13 @@ By design, d1 is the smallest direction and d2 is the highest
 	if(get_powernet())
 		powernet.newavail += amount
 
-/obj/structure/cable/proc/add_load(var/amount)
+/obj/structure/cable/proc/add_load(var/datum/powernet_load/load)
 	if(get_powernet())
-		powernet.load += amount
+		powernet.load.add_load(load)
 
 /obj/structure/cable/proc/surplus()
 	if(get_powernet())
-		return powernet.avail-powernet.load
+		return powernet.get_excess()
 	else
 		return 0
 

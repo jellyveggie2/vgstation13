@@ -292,7 +292,7 @@
 		return
 	spawn()
 		if (src.engaged && teleport(AM))
-			use_power(teleport_power_usage)
+			machine_power_load.add_apparent_load(teleport_power_usage)
 
 
 /obj/machinery/teleport/hub/Cross(atom/movable/mover, turf/target, height=1.5, air_group = 0)
@@ -411,7 +411,7 @@
 		count++
 		hub.engaged = 1
 		hub.update_icon()
-		use_power(teleport_power_usage)
+		machine_power_load.add_apparent_load(teleport_power_usage)
 	visible_message("<span class='notice'>[count] teleporter[count>1?"s":""] engaged!</span>", range = 2)
 	src.add_fingerprint(usr)
 	src.engaged = 1

@@ -92,7 +92,7 @@
 		return
 	//No idle power usage, unlike a normal disposal.
 	if(flush_count < flush_every_ticks) //Compactors don't autocompact, but they do need to charge up over 30 ticks. We'll repurpose those variables here.
-		use_power(500)
+		machine_power_load.add_apparent_load(500)
 		flush_count++
 
 /obj/machinery/disposal/compactor/attackby(var/obj/item/I, var/mob/user)

@@ -265,7 +265,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 		if(istype(L))
 			var/datum/gas_mixture/env = L.return_air()
 			env.add_thermal_energy(heating_power)
-			use_power(heating_power / 1000) // This doesn't work?
+			machine_power_load.add_apparent_load(heating_power / 1000) // This doesn't work?
 /*
 	The receiver idles and receives messages from subspace-compatible radio equipment;
 	primarily headsets. They then just relay this information to all linked devices,

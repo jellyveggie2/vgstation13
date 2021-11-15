@@ -34,9 +34,9 @@
  * So, if real power is 100W, a reactive ratio of 1/2 will result in 50var, and a deformed ratio of 1/5 in 20VAD
  * Returns he real load that was added, for cells and other chargers
  */
-/datum/powernet_load/proc/add_apparent_load(apparent_load, reactive_ratio, deformed_ratio)
+/datum/powernet_load/proc/add_apparent_load(apparent_load, reactive_ratio=0, deformed_ratio=0)
 	deformed_ratio = max(deformed_ratio, 0)
-	var/real_load = abs(apparent_load) / sqrt(1 + reactive_ratio ** 2 + deformed_ratio ** 2)
+	var/real_load = apparent_load / sqrt(1 + reactive_ratio ** 2 + deformed_ratio ** 2)
 	add_loads(real_load, real_load * reactive_ratio, real_load * deformed_ratio)
 	return real_load
 
@@ -46,3 +46,9 @@
 
 /datum/powernet_load/proc/power_factor()
 	return real_load / apparent_load()
+
+/datum/powernet_load/proc/reactive_ratio()
+	return real_load ? reactive_load / real_load : 0
+
+/datum/powernet_load/proc/deformed_ratio()
+	return real_load ? deformed_load / real_load : 0

@@ -75,7 +75,7 @@ list("category" = "machinery", "name" = "MSGS", "path" = /obj/machinery/atmosphe
 	if(avail()>consumption)
 		charged_last_tick = 1
 		charge += consumption
-		add_load(consumption)
+		add_load(new /datum/powernet(consumption, 0, 0))
 		nanomanager.update_uis(src)
 
 /obj/machinery/power/antiquesynth/attack_ai(mob/user)

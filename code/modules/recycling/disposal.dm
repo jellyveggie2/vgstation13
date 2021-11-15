@@ -358,13 +358,13 @@
 	if(stat & NOPOWER)			// won't charge if no power
 		return
 
-	use_power(100)		// base power usage
+	machine_power_load.add_apparent_load(100)		// base power usage
 
 	if(mode != 1)		// if off or ready, no need to charge
 		return
 
 	// otherwise charge
-	use_power(500)		// charging power usage
+	machine_power_load.add_apparent_load(500)		// charging power usage
 
 	var/atom/L = loc						// recharging from loc turf
 

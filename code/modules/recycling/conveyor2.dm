@@ -239,7 +239,7 @@
 		return
 	if(!operating)
 		return
-	use_power(100)
+	machine_power_load.add_apparent_load(100)
 
 	affecting = loc.contents - src		// moved items will be all in loc
 	spawn(1)	// slight delay to prevent infinite propagation due to map order	//TODO: please no spawn() in process(). It's a very bad idea

@@ -65,9 +65,9 @@
 			else
 				overlays += image('icons/obj/power.dmi', "bp-d")
 
-/obj/machinery/power/battery_port/add_load(var/amount)
+/obj/machinery/power/battery_port/add_load(var/datum/powernet_load/load)
 	if(terminal && terminal.get_powernet())
-		terminal.powernet.load += amount
+		terminal.powernet.load.add_load(load)
 		return 1
 	return 0
 

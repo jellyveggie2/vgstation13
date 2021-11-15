@@ -112,7 +112,7 @@ var/global/list/battery_online =	list(
 		if((chargemode == BATTERY_MANUAL_CHARGE && excess >= chargelevel)||(chargemode == BATTERY_AUTO_CHARGE && excess > 0)) // If there's power available, try to charge
 			loadcharge = min((capacity - charge) / SMESRATE, excess, chargelevel) // Charge at set rate, limited to spare capacity
 			charge += loadcharge * SMESRATE // Increase the charge
-			add_load(loadcharge) // Add the load to the terminal side network
+			add_load(new /datum/powernet_load(loadcharge, 0, 0)) // Add the load to the terminal side network
 
 		else
 			charging = FALSE

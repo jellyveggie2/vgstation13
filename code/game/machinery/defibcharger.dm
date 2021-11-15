@@ -70,7 +70,7 @@
 			if(B.charges < initial(B.charges))
 				B.charges++
 				icon_state = "wrecharger1"
-				use_power(150)
+				machine_power_load.add_apparent_load(150)
 			else
 				icon_state = "wrecharger2"
 				if(!has_beeped)

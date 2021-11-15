@@ -42,7 +42,7 @@
 
 	var/area/home = get_area(src)
 	if(home && home.powered(EQUIP))
-		home.use_power(1000, EQUIP)
+		home.use_power(new /datum/powernet_load(1000,0,0), EQUIP)
 
 	if (aiRestorePowerRoutine==2)
 		to_chat(src, "Alert cancelled. Power has been restored without our assistance.")

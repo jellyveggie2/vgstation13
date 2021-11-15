@@ -115,9 +115,9 @@ var/list/smes_list = list()
 		return terminal.surplus()
 	return 0
 
-/obj/machinery/power/battery/smes/add_load(var/amount)
+/obj/machinery/power/battery/smes/add_load(var/datum/powernet_load/load)
 	if(terminal)
-		terminal.add_load(amount)
+		terminal.add_load(load)
 
 /obj/machinery/power/battery/smes/infinite
 	name = "magical power storage unit"

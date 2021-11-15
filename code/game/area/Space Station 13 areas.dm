@@ -59,12 +59,12 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	var/power_environ = 1
 	var/old_power_environ = 1
 	var/music = null
-	var/used_equip = 0
-	var/used_light = 0
-	var/used_environ = 0
-	var/static_equip
-	var/static_light = 0
-	var/static_environ
+	var/datum/powernet_load/used_equip = new()
+	var/datum/powernet_load/used_light = new()
+	var/datum/powernet_load/used_environ = new()
+	var/datum/powernet_load/static_equip = new()
+	var/datum/powernet_load/static_light = new()
+	var/datum/powernet_load/static_environ = new()
 
 	var/forbid_apc = FALSE //never build an APC here?
 	var/construction_zone = FALSE //treat this area like space for blueprints?

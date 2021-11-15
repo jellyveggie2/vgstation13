@@ -69,10 +69,10 @@
 	var/coverlocked = 1
 	var/aidisabled = 0
 	var/tdir = null
-	var/lastused_light = 0
-	var/lastused_equip = 0
-	var/lastused_environ = 0
-	var/lastused_total = 0
+	var/datum/powernet_load/lastused_light = new()
+	var/datum/powernet_load/lastused_equip = new()
+	var/datum/powernet_load/lastused_environ = new()
+	var/datum/powernet_load/lastused_total = new()
 	var/main_status = 0
 	var/wiresexposed = 0
 	powernet = 0		// set so that APCs aren't found as powernet nodes //Hackish, Horrible, was like this before I changed it :(
@@ -747,7 +747,7 @@
 		"powerCellStatus" = cell ? cell.percent() : null,
 		"chargeMode" = chargemode,
 		"chargingStatus" = charging,
-		"totalLoad" = lastused_equip + lastused_light + lastused_environ,
+		"totalLoad" = lastused_equip.apparent_load() + lastused_light.apparent_load() + lastused_environ.apparent_load(),
 		"coverLocked" = coverlocked,
 		"siliconUser" = istype(user, /mob/living/silicon) || isAdminGhost(user) || OMNI_LINK(user,src), // Allow aghosts to fuck with APCs
 		"malfLocked"= malflocked,
@@ -756,7 +756,7 @@
 		"powerChannels" = list(
 			list(
 				"title" = "Equipment",
-				"powerLoad" = lastused_equip,
+				"powerLoad" = lastused_equip.apparent_load(),
 				"status" = equipment,
 				"topicParams" = list(
 					"auto" = list("eqp" = 3),
@@ -766,7 +766,7 @@
 			),
 			list(
 				"title" = "Lighting",
-				"powerLoad" = lastused_light,
+				"powerLoad" = lastused_light.apparent_load(),
 				"status" = lighting,
 				"topicParams" = list(
 					"auto" = list("lgt" = 3),
@@ -776,7 +776,7 @@
 			),
 			list(
 				"title" = "Environment",
-				"powerLoad" = lastused_environ,
+				"powerLoad" = lastused_environ.apparent_load(),
 				"status" = environ,
 				"topicParams" = list(
 					"auto" = list("env" = 3),
@@ -803,7 +803,7 @@
 
 /obj/machinery/power/apc/proc/report()
 	var/area/this_area = get_area(src)
-	return "[this_area.name] : [equipment]/[lighting]/[environ] ([lastused_equip+lastused_light+lastused_environ]) : [cell? cell.percent() : "N/C"] ([charging])"
+	return "[this_area.name] : [equipment]/[lighting]/[environ] ([lastused_equip.apparent_load()+lastused_light.apparent_load()+lastused_environ.apparent_load()]) : [cell? cell.percent() : "N/C"] ([charging])"
 
 /obj/machinery/power/apc/proc/update()
 	var/area/this_area = get_area(src)
@@ -1093,9 +1093,9 @@
 	else
 		return 0
 
-/obj/machinery/power/apc/add_load(var/amount)
+/obj/machinery/power/apc/add_load(var/datum/powernet_load/load)
 	if(terminal && terminal.get_powernet())
-		terminal.powernet.load += amount
+		terminal.powernet.load.add_load(load)
 
 /obj/machinery/power/apc/avail()
 	if(terminal)
@@ -1121,15 +1121,24 @@
 
 	area.calc_lighting() */
 
-	lastused_light = this_area.usage(LIGHT)
-	lastused_light += this_area.usage(STATIC_LIGHT)
-	lastused_equip = this_area.usage(EQUIP)
-	lastused_light += this_area.usage(STATIC_EQUIP)
-	lastused_environ = this_area.usage(ENVIRON)
-	lastused_light += this_area.usage(STATIC_ENVIRON)
+	lastused_light.reset()
+	lastused_light.add_load(this_area.usage(LIGHT))
+	lastused_light.add_load(this_area.usage(STATIC_LIGHT))
+
+	lastused_equip.reset()
+	lastused_equip.add_load(this_area.usage(EQUIP))
+	lastused_equip.add_load(this_area.usage(STATIC_EQUIP))
+
+	lastused_environ.reset()
+	lastused_environ.add_load(this_area.usage(ENVIRON))
+	lastused_environ.add_load(this_area.usage(STATIC_ENVIRON))
+
 	this_area.clear_usage()
 
-	lastused_total = lastused_light + lastused_equip + lastused_environ
+	lastused_total.reset()
+	lastused_total.add_load(lastused_light)
+	lastused_total.add_load(lastused_equip)
+	lastused_total.add_load(lastused_environ)
 
 	//store states to update icon if any change
 	var/last_lt = lighting
@@ -1151,30 +1160,34 @@
 
 	if(cell && !shorted)
 
-		// draw power from cell as before to power the area
-		var/cellused = min(cell.charge, CELLRATE * lastused_total)	// clamp deduction to a max, amount left in cell
-		cell.use(cellused)
+		// Assuming we can cover the cost, draw power from the grid first, APC second. Otherwise empty the APC and leave the grid untouched
 
-		if(excess > lastused_total) // if power excess recharge the cell
-									// by the same amount just used
-			cell.give(cellused)
-			add_load(cellused/CELLRATE)		// add the load used to recharge the cell
+		// If there's enough power on the grid, draw all our power from it
+		if(excess >= lastused_total.apparent_load())
+			add_load(lastused_total)
 
+		else
+			var/diff = lastused_total.apparent_load() - excess // How much power the cell will owe if we try to draw what's left in the grid
 
-		else		// no excess, and not enough per-apc
+			// If the cell can cover for the grid's lack of power, do so
+			if (cell.charge / CELLRATE > diff)
+				cell.charge -= diff * CELLRATE
 
-			if((cell.charge / CELLRATE + excess) >= lastused_total)					// can we draw enough from cell+grid to cover last usage?
-				cell.charge = min(cell.maxcharge, cell.charge + CELLRATE * excess)	//recharge with what we can
-				add_load(excess)		// so draw what we can from the grid
-				charging = 0
+				// And suck up what's left of the grid
+				if (excess)
+					add_load(new /datum/powernet_load(excess, lastused_total.reactive_ratio(), lastused_total.deformed_ratio()))
 
-			else	// not enough power available to run the last tick!
-				charging = 0
+			// If the cell can't cover for the grid's lack of power, empty it out, and leave the grid untouched
+			else
+				cell.charge = 0
 				chargecount = 0
 				// This turns everything off in the case that there is still a charge left on the battery, just not enough to run the room.
 				equipment = autoset(equipment, 0)
 				lighting = autoset(lighting, 0)
 				environ = autoset(environ, 0)
+
+			// By now there's no power on the grid to recharge with, so don't bother recharging this tick
+			charging = 0
 
 
 		// set channels depending on how much charge we have left
@@ -1186,7 +1199,7 @@
 			longtermpower -= 2
 
 
-		if(cell.charge <= 0)					// zero charge, turn all off
+		if(cell.charge <= 0)								// zero charge, turn all off
 			equipment = autoset(equipment, 0)
 			lighting = autoset(lighting, 0)
 			environ = autoset(environ, 0)
@@ -1198,13 +1211,13 @@
 			environ = autoset(environ, 1)
 			if(this_area.poweralm && make_alerts)
 				this_area.poweralert(0, src)
-		else if(cell.percent() < 30 && longtermpower < 0)			// <30%, turn off equipment
+		else if(cell.percent() < 30 && longtermpower < 0)	// <30%, turn off equipment
 			equipment = autoset(equipment, 2)
 			lighting = autoset(lighting, 1)
 			environ = autoset(environ, 1)
 			if(this_area.poweralm && make_alerts)
 				this_area.poweralert(0, src)
-		else									// otherwise all can be on
+		else												// otherwise all can be on
 			equipment = autoset(equipment, 1)
 			lighting = autoset(lighting, 1)
 			environ = autoset(environ, 1)
@@ -1217,7 +1230,7 @@
 			if(excess > 0)		// check to make sure we have enough to charge
 				// Max charge is capped to % per second constant
 				var/ch = min(excess * CELLRATE, cell.maxcharge * CHARGELEVEL)
-				add_load(ch/CELLRATE) // Removes the power we're taking from the grid
+				add_load(new /datum/powernet_load(ch/CELLRATE, 0, POWER_RATIO_D_CELL_CHARGER)) // Removes the power we're taking from the grid
 				cell.give(ch) // actually recharge the cell
 
 			else

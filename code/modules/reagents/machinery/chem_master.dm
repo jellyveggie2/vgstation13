@@ -255,7 +255,7 @@ var/global/list/pillIcon2Name = list("oblong purple-pink", "oblong green-white",
 				to_chat(usr, "<span class='notice'>There wasn't enough [target] to break down!</span>")
 				return
 			var/total_reactions = round(target.volume / unreaction.result_amount)
-			use_power(30*total_reactions)
+			machine_power_load.add_apparent_load(30*total_reactions)
 			var/amount_to_electrolyze = total_reactions*unreaction.result_amount
 			//The reason we have this new var is because the rounding may mean there are less reactions than total volume!
 			container.reagents.remove_reagent(unreaction.result,amount_to_electrolyze) //This moves over the reactive bulk, and leaves behind the amount too small to react

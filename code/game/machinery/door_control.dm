@@ -79,7 +79,7 @@
 		flick("doorctrl-denied",src)
 		return
 
-	use_power(5)
+	machine_power_load.add_apparent_load(5)
 	icon_state = "doorctrl1"
 	add_fingerprint(user)
 
@@ -169,7 +169,7 @@
 		return
 	add_fingerprint(user)
 
-	use_power(5)
+	machine_power_load.add_apparent_load(5)
 
 	launch_sequence()
 

@@ -497,7 +497,7 @@
 			var/datum/powernet/PN = C.get_powernet()
 			if(cell && PN && PN.avail > 0 && cell.percent() < 100)
 				var/drained = min (rand(500,1500), PN.avail )
-				PN.load += drained
+				PN.load.add_apparent_load(drained, 0, 0)
 				cell.give(drained/10)
 			else
 				visible_message("<span class = 'notice'>\The [src] detaches from \the [C]</span>")

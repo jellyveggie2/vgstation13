@@ -199,8 +199,8 @@
 	var/turf/U = get_turf(target)
 	if (!istype(T) || !istype(U))
 		return
-	
-	use_power(reqpower)
+
+	machine_power_load.add_apparent_load(reqpower)
 
 	playsound(src, installed.fire_sound, 75, 1)
 	var/obj/item/projectile/A

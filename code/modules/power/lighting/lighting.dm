@@ -280,10 +280,9 @@ var/global/list/obj/machinery/light/alllights = list()
 		on_gs = on
 		if(on)
 			static_power_used = current_bulb.cost * 20 //20W per unit luminosity
-			addStaticPower(static_power_used, STATIC_LIGHT)
+			addStaticPower(new /datum/powernet_load(static_power_used), STATIC_LIGHT)
 		else
-			removeStaticPower(static_power_used, STATIC_LIGHT)
-
+			removeStaticPower(new /datum/powernet_load(static_power_used), STATIC_LIGHT)
 
 /*
  * Attempt to set the light's on/off status.

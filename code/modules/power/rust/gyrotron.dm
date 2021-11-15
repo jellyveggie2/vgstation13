@@ -57,7 +57,7 @@
 	A.damage = mega_energy * 1500
 
 	playsound(src, 'sound/weapons/emitter.ogg', 25, 1)
-	use_power(100 * mega_energy + 500)
+	machine_power_load.add_apparent_load(100 * mega_energy + 500)
 
 	A.dir = dir
 	A.dumbfire()

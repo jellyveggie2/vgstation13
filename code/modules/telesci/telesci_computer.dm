@@ -109,7 +109,7 @@
 
 	var/used = cell.give(100)
 	if (used)
-		use_power(used * 2) // This used to use CELLRATE, but CELLRATE is fucking awful. feel free to fix this properly!
+		machine_power_load.add_apparent_load(used * 2) // This used to use CELLRATE, but CELLRATE is fucking awful. feel free to fix this properly!
 		nanomanager.update_uis(src)
 
 /obj/machinery/computer/telescience/attackby(obj/item/weapon/W, mob/user)

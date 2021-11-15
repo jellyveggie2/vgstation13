@@ -199,7 +199,7 @@
 				E.power_supply.give(charge_unit)
 				icon_state = "recharger1"
 				if(!self_powered)
-					use_power(charge_unit + 150 * efficiency_modifier * charging_speed_modifier)
+					machine_power_load.add_apparent_load(charge_unit + 150 * efficiency_modifier * charging_speed_modifier)
 				update_icon()
 			else
 				E.power_supply.charge = E.power_supply.maxcharge
@@ -216,7 +216,7 @@
 				M.bullets = min(M.max_bullets,M.bullets+charge_unit)
 				icon_state = "recharger1"
 				if(!self_powered)
-					use_power(150 * charging_speed_modifier + 100 * efficiency_modifier * charging_speed_modifier)
+					machine_power_load.add_apparent_load(150 * charging_speed_modifier + 100 * efficiency_modifier * charging_speed_modifier)
 				update_icon()
 			else
 				M.bullets = M.max_bullets
@@ -229,7 +229,7 @@
 				if(B.bcell.give(175*charging_speed_modifier))
 					icon_state = "recharger1"
 					if(!self_powered)
-						use_power(200*charging_speed_modifier)
+						machine_power_load.add_apparent_load(200*charging_speed_modifier)
 				else
 					icon_state = "recharger2"
 					if(!has_beeped)
@@ -237,14 +237,14 @@
 					has_beeped = TRUE
 			else
 				icon_state = "recharger0"
-		
+
 		else if(istype(charging, /obj/item/clothing/head/helmet/stun))
 			var/obj/item/clothing/head/helmet/stun/B = charging
 			if(B.bcell)
 				if(B.bcell.give(175*charging_speed_modifier))
 					icon_state = "recharger1"
 					if(!self_powered)
-						use_power(200*charging_speed_modifier)
+						machine_power_load.add_apparent_load(200*charging_speed_modifier)
 				else
 					icon_state = "recharger2"
 					if(!has_beeped)
@@ -259,7 +259,7 @@
 				if(rcs.cell.give(175*charging_speed_modifier))
 					icon_state = "recharger1"
 					if(!self_powered)
-						use_power(200*charging_speed_modifier)
+						machine_power_load.add_apparent_load(200*charging_speed_modifier)
 				else
 					icon_state = "recharger2"
 			else
@@ -268,7 +268,7 @@
 /obj/machinery/recharger/proc/try_use_power(var/amount)
 	if(self_powered)
 		return
-	use_power(amount)
+	machine_power_load.add_apparent_load(amount)
 
 /obj/machinery/recharger/emp_act(severity)
 	if(stat & (NOPOWER|BROKEN) || !anchored)
@@ -334,7 +334,7 @@
 				E.power_supply.give(100)
 				icon_state = "wrecharger1"
 				if(!self_powered)
-					use_power(250)
+					machine_power_load.add_apparent_load(250)
 			else
 				icon_state = "wrecharger2"
 			return
@@ -344,7 +344,7 @@
 				if(B.bcell.give(175))
 					icon_state = "wrecharger1"
 					if(!self_powered)
-						use_power(200)
+						machine_power_load.add_apparent_load(200)
 				else
 					icon_state = "wrecharger2"
 			else

@@ -314,7 +314,7 @@
 		spawn()
 			if (H.engaged)
 				H.teleport(src)
-				H.use_power(5000)
+				H.machine_power_load.add_apparent_load(5000)
 				src.Move()
 
 	if(can_move)

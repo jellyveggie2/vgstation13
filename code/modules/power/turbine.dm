@@ -74,7 +74,7 @@
 
 
 	if(starter && !(stat & NOPOWER))
-		use_power(2800)
+		machine_power_load.add_apparent_load(2800)
 		if(rpm<1000)
 			rpmtarget = 1000
 	else

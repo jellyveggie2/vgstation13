@@ -81,13 +81,13 @@
 	if(get_powernet())
 		powernet.newavail += amount
 
-/datum/power_connection/proc/add_load(var/amount)
+/datum/power_connection/proc/add_load(var/datum/powernet_load/load)
 	if(get_powernet())
-		powernet.load += amount
+		powernet.load.add_load(load)
 
 /datum/power_connection/proc/get_surplus()
 	if(get_powernet())
-		return powernet.avail-powernet.load
+		return powernet.get_excess()
 	else
 		return 0
 
@@ -134,7 +134,7 @@
 
 // increment the power usage stats for an area
 // defaults to power_channel
-/datum/power_connection/proc/use_power(amount, chan = channel)
+/datum/power_connection/proc/use_power(var/datum/powernet_load/load, chan = channel)
 	var/area/parent_area = get_area(parent)
 	if(!parent_area)
 		return 0						// if not, then not powered.
@@ -142,7 +142,7 @@
 	if(!powered(chan)) //no point in trying if we don't have power
 		return 0
 
-	parent_area.use_power(amount, chan)
+	parent_area.use_power(load, chan)
 
 // connect the machine to a powernet if a node cable is present on the turf
 /datum/power_connection/proc/connect()
@@ -217,14 +217,17 @@
 // Misc.
 ///////////////////////////////////////////////
 
-/datum/power_connection/proc/addStaticPower(value, powerchannel)
+/datum/power_connection/proc/addStaticPower(var/datum/powernet_load/value, powerchannel)
 	var/area/parent_area = get_area(parent)
 	if(!parent_area)
 		return
 	parent_area.addStaticPower(value, powerchannel)
 
-/datum/power_connection/proc/removeStaticPower(value, powerchannel)
-	addStaticPower(-value, powerchannel)
+/datum/power_connection/proc/removeStaticPower(var/datum/powernet_load/value, powerchannel)
+	value.real_load *= -1
+	value.reactive_load *= -1
+	value.deformed_load *= -1
+	addStaticPower(value, powerchannel)
 
 ///////////////////////////
 // POWER CONSUMERS
@@ -236,6 +239,24 @@
 	var/use=0 // 1=idle, 2=active
 	var/idle_usage=1 // watts
 	var/active_usage=2
+
+	// Base power draw when idle
+	var/idle_power_usage = 0
+	var/idle_reactive_power_usage = 0
+	var/idle_deformed_power_usage = 0
+
+	// Base power draw when active
+	var/active_power_usage = 0          //
+	var/active_reactive_power_usage = 0 //
+	var/active_deformed_power_usage = 0 //
+
+ 	// Effect on power draw when toggling between idle and active
+	var/toggling_power_usage = 0          //
+	var/toggling_reactive_power_usage = 0 //
+	var/toggling_deformed_power_usage = 0 //
+
+	// Total power usage to be applied next update
+	var/datum/powernet_load/component_power_load = new()
 
 /datum/power_connection/consumer/New(var/loc,var/obj/parent)
 	..(loc,parent)
@@ -250,9 +271,12 @@
 
 	switch (use)
 		if (1)
-			use_power(idle_usage, channel)
+			component_power_load.add_loads(idle_power_usage, idle_reactive_power_usage, idle_deformed_power_usage)
+			use_power(component_power_load, channel)
 		if (2)
-			use_power(active_usage, channel)
+			component_power_load.add_loads(active_power_usage, active_reactive_power_usage, active_deformed_power_usage)
+			use_power(component_power_load, channel)
+	component_power_load.reset()
 
 	return 1
 
@@ -263,8 +287,8 @@
 /datum/power_connection/consumer/terminal
 	var/obj/machinery/power/terminal/terminal=null
 
-/datum/power_connection/consumer/terminal/use_power(var/watts, var/_channel_NOT_USED)
-	add_load(watts)
+/datum/power_connection/consumer/terminal/use_power(var/datum/powernet_load/load, var/_channel_NOT_USED)
+	add_load(load)
 
 /datum/power_connection/consumer/terminal/connect()
 	..()
@@ -293,8 +317,8 @@
 /datum/power_connection/consumer/cable
 	var/obj/structure/cable/cable=null
 
-/datum/power_connection/consumer/cable/use_power(var/watts, var/_channel_NOT_USED)
-	add_load(watts)
+/datum/power_connection/consumer/cable/use_power(var/datum/powernet_load/load, var/_channel_NOT_USED)
+	add_load(load)
 
 // connect the machine to a powernet if a node cable is present on the turf
 /datum/power_connection/consumer/cable/connect()

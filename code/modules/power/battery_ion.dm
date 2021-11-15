@@ -54,9 +54,9 @@
 	if(connected_to)
 		connected_to.add_avail(amount)
 
-/obj/machinery/power/battery/portable/add_load(var/amount)
+/obj/machinery/power/battery/portable/add_load(var/datum/powernet_load/load)
 	if(connected_to)
-		connected_to.add_load(amount)
+		connected_to.add_load(load)
 
 /obj/machinery/power/battery/portable/surplus()
 	if(connected_to)
