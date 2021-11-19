@@ -5,7 +5,7 @@
 	density = 1
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 5
+	idle_power_usage = new(5)
 	active_power_usage = 1000
 	var/mob/living/occupant = null
 	var/list/acceptable_upgradeables = list(/obj/item/weapon/cell) // battery for now

@@ -193,8 +193,8 @@ var/global/list/airalarm_presets = list(
 	icon_state = "alarm0"
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 100
-	active_power_usage = 200
+	idle_power_usage = new(100, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(200, 0, POWER_RATIO_D_SIMPLE_CONSOLE) //Firelocks kept in place with servos
 	power_channel = ENVIRON
 	req_one_access = list(access_atmospherics, access_engine_equip)
 	var/frequency = 1439
@@ -1168,8 +1168,8 @@ FIRE ALARM
 	var/lockdownbyai = 0
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 6
+	idle_power_usage = new(2, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(6, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	power_channel = ENVIRON
 	var/last_process = 0
 	var/wiresexposed = 0
@@ -1496,8 +1496,8 @@ var/global/list/firealarms = list() //shrug
 	var/lockdownbyai = 0
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 6
+	idle_power_usage = new(2, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(6, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 
 /obj/machinery/partyalarm/New()
 	..()

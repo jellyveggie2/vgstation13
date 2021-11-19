@@ -60,8 +60,8 @@
 	density = 1
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 50
-	active_power_usage = 300
+	idle_power_usage = new(50)
+	active_power_usage = new(300, POWER_RATIO_Q_MEDICAL_SCANNER, 0)
 	var/locked = 0
 	var/mob/living/carbon/occupant = null
 	var/obj/item/weapon/reagent_containers/glass/beaker = null
@@ -416,8 +416,8 @@
 	density = 1
 
 	anchored = 1
-	idle_power_usage = 200
-	active_power_usage = 400
+	idle_power_usage = new(200, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(400, 0, POWER_RATIO_D_COMPUTER)
 	circuit = "/obj/item/weapon/circuitboard/scan_consolenew"
 
 	var/selected_ui_block = 1.0

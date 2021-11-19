@@ -323,7 +323,7 @@
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 40
+	idle_power_usage = new(40)
 	var/speed_coefficient = 15
 	var/biomass_coefficient = 9
 	var/tmp/processing = 0

@@ -13,7 +13,7 @@
 	level = 1		// underfloor
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 50
+	idle_power_usage = new(50)
 
 	var/freq = 1449		// radio frequency
 	var/electricity_level = 1 // intensity of the magnetic pull
@@ -209,7 +209,7 @@
 	density = 1
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 45
+	idle_power_usage = new(45)
 	var/frequency = 1449
 	var/code = 0
 	var/list/magnets = list()

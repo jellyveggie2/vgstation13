@@ -12,8 +12,11 @@
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK | EJECTNOTDEL
 	pass_flags = PASSTABLE
 	use_power = 1
-	idle_power_usage = 25
-	active_power_usage = 5000
+	var/idle_apparent_load = 25
+	var/active_apparent_load = 5000
+	var/active_reactive_load_ratio = -0.5
+	idle_power_usage = new(idle_apparent_load, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(active_apparent_load, active_reactive_load_ratio, POWER_RATIO_D_SIMPLE_CONSOLE)
 
 	var/max_temperature = TEMPERATURE_LASER
 	var/thermal_energy_transfer = 3000
@@ -44,8 +47,11 @@
 	T = 0
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
 		T += C.rating-1
-	idle_power_usage = initial(idle_power_usage) - (T * 10) //T1: 25w, T2: 15w, T3: 5w
-	active_power_usage = initial(active_power_usage) - (T * 2000) //T1: 5000w, T2: 3000w, T3: 1000w
+
+	idle_apparent_load = max(1, initial(idle_apparent_load) - (T * 10)) //T1: 25w, T2: 15w, T3: 5w
+	active_apparent_load = max(200, initial(active_apparent_load) - (T * 2000)) //T1: 5000w, T2: 3000w, T3: 1000w
+	idle_power_usage = new(idle_apparent_load, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(active_apparent_load, active_reactive_load_ratio, POWER_RATIO_D_SIMPLE_CONSOLE)
 
 	overlays = null
 	overlays += image(icon = icon, icon_state = "t[laser_kind]_laser")
@@ -153,8 +159,12 @@
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK | EJECTNOTDEL
 	pass_flags = PASSTABLE
 	use_power = 1
-	idle_power_usage = 25
-	active_power_usage = 5000
+
+	var/idle_apparent_load = 25
+	var/active_apparent_load = 5000
+	var/active_reactive_load_ratio = -0.5
+	idle_power_usage = new(25, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(5000, -0.5, POWER_RATIO_D_SIMPLE_CONSOLE)
 
 	var/max_temperature = 0 //You can make stuff REALLY cold
 	var/thermal_energy_transfer = -3000
@@ -185,8 +195,11 @@
 	T = 0
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
 		T += C.rating-1
-	idle_power_usage = initial(idle_power_usage) - (T * 10) //T1: 25w, T2: 15w, T3: 5w
-	active_power_usage = initial(active_power_usage) - (T * 2000) //T1: 5000w, T2: 2500w, T3: 1250w
+
+	idle_apparent_load = max(1, initial(idle_apparent_load) - (T * 10)) //T1: 25w, T2: 15w, T3: 5w
+	active_apparent_load = max(250, initial(active_apparent_load) - (T * 2000)) //T1: 5000w, T2: 2500w, T3: 1250w
+	idle_power_usage = new(idle_apparent_load, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(active_apparent_load, active_reactive_load_ratio, POWER_RATIO_D_SIMPLE_CONSOLE)
 
 	overlays = null
 	overlays += image(icon = icon, icon_state = "t[scanner_kind]_scanner")

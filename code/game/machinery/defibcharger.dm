@@ -5,8 +5,8 @@
 	icon_state = "wrecharger0"
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 150
+	idle_power_usage = new(10)
+	active_power_usage = new(150, 0, POWER_RATIO_D_CELL_CHARGER)
 	has_beeped = FALSE
 
 	machine_flags = SCREWTOGGLE | CROWDESTROY //| WRENCHMOVE | FIXED2WORK if we want it to be wrenchable

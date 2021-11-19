@@ -128,16 +128,23 @@ Class Procs:
 		//2 = run auto, use active
 
 	// Base power draw when idle
-	var/idle_power_usage = 0
+	var/datum/powernet_load/idle_power_usage = new()
+
+	// Base power draw when active
+	var/datum/powernet_load/active_power_usage = new()
+
+	// Effect on power draw when toggling between idle and active
+	var/datum/powernet_load/toggling_power_usage = new()
+
+	// Base power draw when idle
 	var/idle_reactive_power_usage = 0
 	var/idle_deformed_power_usage = 0
 
 	// Base power draw when active
-	var/active_power_usage = 0          //
 	var/active_reactive_power_usage = 0 //
 	var/active_deformed_power_usage = 0 //
 
- 	// Effect on power draw when toggling between idle and active
+	// Effect on power draw when toggling between idle and active
 	var/toggling_power_usage = 0          //
 	var/toggling_reactive_power_usage = 0 //
 	var/toggling_deformed_power_usage = 0 //
@@ -274,10 +281,10 @@ Class Procs:
 /obj/machinery/proc/auto_use_power()
 	switch (use_power)
 		if (1)
-			machine_power_load.add_loads(idle_power_usage, idle_reactive_power_usage, idle_deformed_power_usage)
+			machine_power_load.add_load(idle_power_usage)
 			use_power(machine_power_load, power_channel)
 		if (2)
-			machine_power_load.add_loads(active_power_usage, active_reactive_power_usage, active_deformed_power_usage)
+			machine_power_load.add_loads(active_power_usage)
 			use_power(machine_power_load, power_channel)
 	machine_power_load.reset()
 

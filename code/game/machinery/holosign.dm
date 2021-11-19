@@ -101,7 +101,7 @@ var/list/obj/machinery/holosign/holosigns = list()
 	var/image/overlay
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
+	idle_power_usage = new(2)
 	active_power_usage = 4
 
 /obj/machinery/holosign_switch/New(var/turf/loc)

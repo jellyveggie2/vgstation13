@@ -135,7 +135,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 			if(ol.loc == src)
 				ol.icon_state = "holopad1"
 				break
-		
+
 	return 1
 
 /obj/machinery/hologram/holopad/proc/clear_holo()
@@ -236,10 +236,10 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 /obj/machinery/hologram
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 5
-	active_power_usage = 100
-	var/obj/effect/overlay/hologram/holo//The projection itself. If there is one, the instrument is on, off otherwise.
-	var/obj/effect/overlay/holoray/ray//The link between the projection and the projector.
+	idle_power_usage = new(5)
+	active_power_usage = new(100)
+	var/obj/effect/overlay/hologram/holo //The projection itself. If there is one, the instrument is on, off otherwise.
+	var/obj/effect/overlay/holoray/ray //The link between the projection and the projector.
 
 /obj/machinery/hologram/power_change()
 	if (powered())

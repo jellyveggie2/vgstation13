@@ -16,8 +16,8 @@
 	var/cooldown_state = 0 // Just for icons.
 	var/robot_cell_charge = 5000
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 5000
+	idle_power_usage = new(10)
+	active_power_usage = new(5000, POWER_RATIO_Q_MOTOR_BIO_GRINDER, 0)
 
 	// /vg/
 	var/force_borg_module=null
@@ -221,6 +221,6 @@
 /obj/machinery/autoborger/mommi
 	name = "Autimatic Crab Factory 5000"
 	desc = "A large metallic machine with an entrance and an exit. A sign on the side reads 'human goes in, silent crab comes out'. Human must be lying down and alive. Has to cooldown between each use."
-	
+
 /obj/machinery/autoborger/mommi/do_transform(var/mob/living/carbon/human/H, var/deleteItems=FALSE, var/skipnaming=FALSE, var/malfAI=null)
 	return H.MoMMIfy(deleteItems,skipnaming,malfAI)

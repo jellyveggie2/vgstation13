@@ -26,8 +26,8 @@
 
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 4
+	idle_power_usage = new(2)
+	active_power_usage = new(4)
 
 	ghost_read=0
 	ghost_write=0

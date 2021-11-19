@@ -6,8 +6,8 @@
 	icon_state_open = "ccharger_open"
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 10 //Power is already drained to charge batteries
+	idle_power_usage = new(10, 0, POWER_RATIO_D_CELL_CHARGER)
+	active_power_usage = new(10, 0, POWER_RATIO_D_CELL_CHARGER) //Power is already drained to charge batteries
 	power_channel = EQUIP
 	var/obj/item/weapon/cell/charging = null
 	var/transfer_rate = 1500 //How much power do we output every process tick ?

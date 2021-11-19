@@ -11,7 +11,7 @@
 	var/const/metalPerTick = 1
 	var/mommi_type = /mob/living/silicon/robot/mommi/soviet
 	use_power = 1
-	idle_power_usage = 20
+	idle_power_usage = new(20)
 	active_power_usage = 5000
 	var/recharge_time = 60 SECONDS
 	var/locked_to_zlevel = TRUE // Whether to lock the spawned MoMMIs to the z-level

@@ -31,7 +31,7 @@ It also must be positive. Technically it can be 0 without breaking physics, but 
 
 	var/process_margin = 0.99 //Doesn't process when the current temperature difference is within 1% of MTD for performance reasons
 
-	active_power_usage = 3000
+	active_power_usage = new(3000, POWER_RATIO_Q_MOTOR_PUMP, 0)
 	power_channel = EQUIP
 
 	ghost_read = FALSE

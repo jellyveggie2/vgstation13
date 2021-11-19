@@ -5,8 +5,8 @@
 	icon_state = "recharger0"
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 4
-	active_power_usage = 250
+	idle_power_usage = new(4)
+	active_power_usage = new(250)
 	var/has_beeped = FALSE
 
 
@@ -35,7 +35,7 @@
 	RefreshParts()
 	if(self_powered)
 		use_power = 0
-		idle_power_usage = 0
+		idle_power_usage = new()
 		active_power_usage = 0
 
 /obj/machinery/recharger/RefreshParts()
