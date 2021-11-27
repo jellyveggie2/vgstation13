@@ -1,0 +1,145 @@
+/**
+=== Brief Intro to AC Power and Power Factor===
+
+AC Power is represented as a vector with three components:
+	- Real Power (P): Power that is actually doing some work, measured in W.
+
+	- Reactive Power (Q): Measured in VAR. Losses due to current either leading or lagging behind voltage, causing useless power that is released
+		and reabsorbed each cycle. As inductors cause lag, and capacitors lead, it'll be positive or negative depending on whether you've got too
+		many inductors or capacitors.
+
+	- Distorted Power (D): Measured in VAD. Losses caused by distortions in the sinewave, usually caused by non-linear loads, eg: a computer's
+		PSU, and most other DC-to-AC converters.
+
+The vector's norm gives us the Apparent Power (S): Measured in VA. How much power actually has to travel through the grid to meet demand.
+
+There are some properties of this vector that are of interest, in order of popularity:
+	- Power Factor (PF):
+			PF = P / S = DPF * DF
+		A measure of how efficiently power is being transferred. Industry tends to consider PF 0.8 as good enough. (see below for DPF and DF)
+
+	- Displacement Power Factor (DPF):
+			DPF = P / (P^2 + Q^2)
+		Power factor if ignoring D. Also known as "cosphi" due to being equivalent to the cosine of the angle between P and Q. IEEE convention has
+		 DPF caused by inductors marked with a minus sign, and DPF caused by capacitors marked with a plus sign. See https://www.se.com/ww/en/faqs/FA212521/
+
+	- Total Harmonic Distortion (THD), or Distortion Ratio:
+			THD = D / P
+		How much VAD per W you're getting. Usually expressed as a percentage, though it can go past 100%. Calculated measuring
+		 the sine wave's odd harmonics, hence the name, but that formula won't be relevant here.
+
+	- Distortion Factor (DF):
+			DF = P / (P^2 + D^2)
+		Power factor if ignoring Q. The D equivalent of DPF
+
+	- Reactive Ratio (QR):
+			QR = Q / P
+		How much VAR per W you're getting. Reactive equivalent to THD.
+
+** TL;DR: For maximum efficiency, keep a balance of capacitors and inductors to keep DPF close to 1, and correct any distortions
+ to the sinewave to keep THD close to 0. **
+*/
+
+
+/datum/power_vector
+
+	var/P = 0	// Real power, measured in W
+	var/Q = 0	// Reactive power, measured in VAR (+inductors, -capacitors)
+	var/D = 0	// Distorted power, measured in VAD
+	//  S = |v|	// Apparent power, measured in VA
+
+
+/*
+ * 'ratios' set to TRUE changes the meaning of 'power' from real to apparent power, and the meaning of 'reactive' and 'distorted' from power to ratios
+ * eg: power: 2.24, reactive: 0.5, ratios: TRUE  -> 2.24 VA, 2.00 W, 1.00 VAR
+ *     power: 2.24, reactive: 0.5, ratios: FALSE -> 2.29 VA, 2.24 W, 0.50 VAR
+*/
+/datum/power_vector/New(var/power=0, var/reactive=0, var/distorted=0, var/ratios=TRUE)
+	if (ratios)
+		P = abs(power) / sqrt(1 + reactive**2 + distorted**2)
+		Q = P * reactive
+		D = P * distorted
+	else
+		P = power
+		Q = reactive
+		D = distorted
+
+/datum/power_vector/proc/duplicate()
+	return new /datum/power_vector(P, Q, D, FALSE)
+
+/datum/power_vector/proc/toString()
+	return "[format_units(P)]W, [format_units(Q)]VAR, [format_units(D)]VAD"
+
+/datum/power_vector/proc/toString2()
+	var/q_sign = Q != 0 ? Q / abs(Q) : 0
+	q_sign = q_sign == 0 ? "" : q_sign > 0 : "-" : "+" //Positive VAR -> negative DPF, negative VAR -> positive DPF. IEEE sez so. ...Or so Schneider Electrics claims: https://www.se.com/ww/en/faqs/FA212521/
+	return "[format_units(norm())]VA, [round(power_factor(), 0.01)] PF, [q_sign][round(reactive_factor(), 0.01)] DPF, [round(distortion_ratio() * 100, 0.01)]% THD "
+
+// -- Vector Operations --
+// Addition
+/datum/power_vector/proc/operator+(var/datum/power_vector/v)
+	return new /datum/power_vector(P + v.P, Q + v.Q, D + v.D, FALSE)
+
+/datum/power_vector/proc/operator-(var/datum/power_vector/v)
+	return new /datum/power_vector(P - v.P, Q - v.Q, D - v.D, FALSE)
+
+// Product
+/datum/power_vector/proc/dot_product(var/datum/power_vector/v)
+	return P * v.P + Q * v.Q + D * v.D
+
+/datum/power_vector/proc/operator*(var/x)
+	if(istype(x, /datum/power_vector))
+		return dot_product(x)
+	return new /datum/power_vector(P * x, Q * x, D * x, FALSE)
+
+/datum/power_vector/proc/operator/(var/k)
+	return new /datum/power_vector(P / k, Q / k, D / k, FALSE)
+
+// Cross Product
+/datum/power_vector/proc/cross(var/datum/power_vector/v)
+	return new /datum/power_vector(Q * v.D - D * v.Q, D * v.P - P * v.D, P * v.Q - Q * v.P, FALSE)
+
+// Norm
+/datum/power_vector/proc/norm() //aka "Apparent power", or "S"
+	return sqrt(P**2 + Q**2 + D**2)
+
+/datum/power_vector/proc/normalized()
+	return src / norm()
+
+// Equals
+/datum/power_vector/proc/equals(var/datum/power_vector/v)
+	return (P == v.P && Q == v.Q && D == v.D)
+
+
+// --- Power operations ---
+// General
+/datum/power_vector/proc/power_factor()
+	return P / norm()
+
+// Reactive
+/datum/power_vector/proc/reactive_ratio()
+	return P ? Q / P : 0
+
+/datum/power_vector/proc/reactive_factor() // aka. cosphi, or Displacement Power Factor (DPF)
+	return P || Q ? P / sqrt(P**2 + Q**2) : 0
+
+/datum/power_vector/proc/phi()
+	return P ? Q / P : 0
+
+// Distorted
+/datum/power_vector/proc/distortion_ratio() // aka. Total Harmonic Distortion (THD)
+	return P ? D / P : 0
+
+/datum/power_vector/proc/distortion_factor()
+	return P || D ? P / sqrt(P**2 + D**2) : 0
+
+//Excess
+/datum/power_vector/proc/excess_calculator(var/available, var/datum/power_vector/load, var/qr, var/dr)
+	/* Solve P for:
+	 * 	A^2 = (L.P + P)^2 + (L.Q + P * QR)^2 + (L.D + P * DR)^2
+	 * Where:
+	 * 	A: Power available
+	 * 	L: Existing load
+	 * 	P, QR, DR: Real Power, Reactive Ratio and Distortion Ratio of a load which, if added to L, builds an Apparent Power equal to A */
+	var/P = SolveQuadratic(1 + qr**2 + dr**2, load.P + qr * load.Q + dr * load.D, load.norm()**2 - available**2)[1]
+	return new /datum/power_vector(P, P * qr, P * dr)
