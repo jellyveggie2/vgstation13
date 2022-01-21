@@ -15,8 +15,8 @@
 	anchored = TRUE
 
 	power_channel = LIGHT
-	idle_power_usage = new(5, POWER_RATIO_Q_LIGHTBULB_LED, POWER_RATIO_D_LIGHTBULB_LED)
-	active_power_usage = new(10, POWER_RATIO_Q_LIGHTBULB_LED, POWER_RATIO_D_LIGHTBULB_LED)
+	idle_power_usage = 5
+	active_power_usage = 10
 
 	use_auto_lights = TRUE
 	light_range_on = 2

@@ -14,8 +14,8 @@
 	start_end_anims = 1
 
 	use_power = 1
-	idle_power_usage = new(50)
-	active_power_usage = new(500, POWER_RATIO_Q_MOTOR_LATHE, 0)
+	idle_power_usage = 50
+	active_power_usage = 500
 
 	build_time = AUTOLATHE_BUILD_TIME
 

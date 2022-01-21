@@ -5,8 +5,8 @@
 	icon_state = "duplicator0"
 	anchored = 1
 	use_power = 1
-	idle_power_usage = new(4, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
-	active_power_usage = new(10, 0.4, POWER_RATIO_D_SIMPLE_CONSOLE)
+	idle_power_usage = 4
+	active_power_usage = 10
 
 	ghost_read = 0 // Deactivate ghost touching.
 	ghost_write = 0
@@ -34,8 +34,7 @@
 
 /obj/machinery/disk_duplicator/RefreshParts()
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
-		var/apparent_load = max(idle_power_usage, round(20 / max(1,C.rating)))// Better capacitor improves power factor, reducing power consumption
-		active_power_usage = new(apparent_load, 0.4, POWER_RATIO_D_SIMPLE_CONSOLE)
+		active_power_usage = max(idle_power_usage, round(20 / max(1,C.rating))) // Better capacitor reduces power consumption while active
 		break
 	var/T1 = 1
 	var/T2 = 1

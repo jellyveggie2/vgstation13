@@ -5,7 +5,7 @@
 	density = 1
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = new(5)
+	idle_power_usage = 5
 	active_power_usage = 1000
 	var/mob/living/occupant = null
 	var/list/acceptable_upgradeables = list(/obj/item/weapon/cell) // battery for now
@@ -221,7 +221,7 @@
 		return
 	if (capacitor_stored > 0)
 		capacitor_stored -= C.give(capacitor_stored)
-	machine_power_load += new /datum/power_vector(200*transfer_rate_coeff)
+	machine_power_load.add_apparent_load(200*transfer_rate_coeff)
 	C.give(200 * transfer_rate_coeff + (isMoMMI(occupant) ? 100 * transfer_rate_coeff : 0))
 
 /obj/machinery/recharge_station/proc/process_capacitors()

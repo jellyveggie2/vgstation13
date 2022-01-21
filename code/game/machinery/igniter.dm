@@ -8,7 +8,7 @@ var/global/list/igniters = list()
 	var/obj/item/device/assembly_holder/assembly=null
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = new(2)
+	idle_power_usage = 2
 	active_power_usage = 4
 
 	ghost_read = 0 // Deactivate ghost touching.
@@ -28,7 +28,7 @@ var/global/list/igniters = list()
 		return
 	add_fingerprint(user)
 
-	machine_power_load += new /datum/power_vector(50)
+	machine_power_load.add_apparent_load(50)
 	src.on = !( src.on )
 	src.icon_state = text("igniter[]", src.on)
 	return
@@ -41,7 +41,7 @@ var/global/list/igniters = list()
 	return 1
 
 /obj/machinery/igniter/proc/toggle_state()
-	machine_power_load += new /datum/power_vector(50)
+	machine_power_load.add_apparent_load(50)
 	src.on = !( src.on )
 	src.icon_state = text("igniter[]", src.on)
 	return
@@ -144,7 +144,7 @@ var/global/list/igniters = list()
 	flick("[base_state]-spark", src)
 	spark(src, 2)
 	src.last_spark = world.time
-	machine_power_load += new /datum/power_vector(1000)
+	machine_power_load.add_apparent_load(1000)
 	var/turf/location = src.loc
 	if (isturf(location))
 		location.hotspot_expose(1000,500,1,surfaces=1)
@@ -174,7 +174,7 @@ var/global/list/igniters = list()
 	if(active)
 		return
 
-	machine_power_load += new /datum/power_vector(5)
+	machine_power_load.add_apparent_load(5)
 
 	active = 1
 	icon_state = "launcheract"
@@ -186,7 +186,7 @@ var/global/list/igniters = list()
 
 	for(var/obj/machinery/igniter/M in igniters)
 		if(M.id_tag == src.id_tag)
-			machine_power_load += new /datum/power_vector(50)
+			machine_power_load.add_apparent_load(50)
 			M.on = !( M.on )
 			M.icon_state = text("igniter[]", M.on)
 

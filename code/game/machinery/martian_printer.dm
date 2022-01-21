@@ -6,7 +6,7 @@
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = new(20)
+	idle_power_usage = 20
 	active_power_usage = 5000
 	var/building = 0
 	var/cooldown_duration = 10 MINUTES

@@ -127,10 +127,10 @@ Class Procs:
 		//1 = run auto, use idle
 		//2 = run auto, use active
 
-	// Base power draw when idle
+	// Power draw when idle
 	var/datum/power_vector/idle_power_usage = new()
 
-	// Base power draw when active
+	// Power draw when active
 	var/datum/power_vector/active_power_usage = new()
 
 	// Total power usage to be applied next auto_use_power() update. Add loads to it during process() or whatever interactions you have

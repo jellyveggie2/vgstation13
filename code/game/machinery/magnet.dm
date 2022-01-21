@@ -13,7 +13,7 @@
 	level = 1		// underfloor
 	anchored = 1
 	use_power = 1
-	idle_power_usage = new(50)
+	idle_power_usage = 50
 
 	var/freq = 1449		// radio frequency
 	var/electricity_level = 1 // intensity of the magnetic pull
@@ -194,7 +194,7 @@
 					continue
 				step_towards(S, center)
 
-		machine_power_load += new /datum/power_vector(electricity_level * 5)
+		machine_power_load.add_apparent_load(electricity_level * 5)
 		sleep(13 - electricity_level)
 
 	pulling = 0
@@ -209,7 +209,7 @@
 	density = 1
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = new(45)
+	idle_power_usage = 45
 	var/frequency = 1449
 	var/code = 0
 	var/list/magnets = list()

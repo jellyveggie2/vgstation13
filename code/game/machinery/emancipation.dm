@@ -6,8 +6,8 @@
 	density = FALSE
 	anchored = TRUE
 	use_power = 1
-	idle_power_usage = new(75)
-	active_power_usage = new(750)
+	idle_power_usage = 75
+	active_power_usage = 750
 	flow_flags = IMPASSABLE
 	var/list/obj_whitelist = list() //Things that are okay to go through. Frazzle everything else.
 	var/list/obj_blacklist = list() //Things that aren't okay to go through. Don't frazzle everything else.
@@ -31,7 +31,7 @@
 		return
 	if(stat & (BROKEN|NOPOWER))
 		return
-	machine_power_load += new /datum/power_vector(active_power_usage, power_channel)
+	machine_power_load.add_apparent_load(active_power_usage, power_channel)
 	var/delete = FALSE
 
 	if(isobserver(victim)) //Fucking ghosts.

@@ -9,14 +9,14 @@
 	density = 1
 
 	machine_flags = WRENCHMOVE | FIXED2WORK
-	idle_power_usage = new(1000, 1.5, 0) //This thing's serious
+	idle_power_usage = 1000					//This thing's serious
 
 	var/internal_volume = 10000
 	var/max_pressure = 10000
 
-	var/target_pressure = 4500 //Output pressure.
+	var/target_pressure = 4500	//Output pressure.
 
-	var/datum/gas_mixture/air //Internal tank.
+	var/datum/gas_mixture/air				//Internal tank.
 
 	var/tmp/update_flags
 	var/tmp/last_pressure

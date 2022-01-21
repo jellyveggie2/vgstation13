@@ -10,7 +10,7 @@
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = new(50)
+	idle_power_usage = 50
 
 	light_color = LIGHT_COLOR_CYAN
 	light_range_on = 3

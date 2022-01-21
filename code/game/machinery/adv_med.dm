@@ -4,8 +4,8 @@
 	icon_state = "body_scanner_0"
 	density = 1
 	anchored = 1
-	idle_power_usage = new(125, 0, POWER_RATIO_D_COMPUTER)
-	active_power_usage = new(250, POWER_RATIO_Q_MEDICAL_SCANNER, POWER_RATIO_D_COMPUTER)
+	idle_power_usage = 125
+	active_power_usage = 250
 	var/scanning = 1
 	machine_flags = SCREWTOGGLE | CROWDESTROY | EJECTNOTDEL | WRENCHMOVE | FIXED2WORK | EMAGGABLE
 	component_parts = newlist(
