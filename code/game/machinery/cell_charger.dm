@@ -141,7 +141,7 @@
 		return
 
 	if(charging.give(transfer_rate*transfer_rate_coeff * (transfer_efficiency+transfer_efficiency_bonus) * (emagged ? 0.25 : 1)))//Inefficiency (Joule effect + other shenanigans)  //Lose most of it if emagged
-		machine_power_load.add_apparent_load(transfer_rate * transfer_rate_coeff * (emagged ? 10 : 1))  //Drain all the power if emagged
+		machine_power_load += new /datum/power_vector(transfer_rate * transfer_rate_coeff * (emagged ? 10 : 1))  //Drain all the power if emagged
 		if(has_beeped) //It's charging again
 			has_beeped = FALSE
 	if(round(charging.percent() >= 100)&&!has_beeped)

@@ -180,7 +180,6 @@
 // Digital pressure valves
 //-------------------------
 // Radio enabled, aka: can be multitooled and connected to consoles
-// TODO !JLVG Radio stuff
 /obj/machinery/atmospherics/trinary/pressure_valve/digital
 	icon_state = "pvalve_d"
 	icon_state_overlay_enabled = "pvalve_d_enabled"

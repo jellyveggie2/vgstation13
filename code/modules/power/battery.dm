@@ -104,7 +104,7 @@ var/global/list/battery_online =	list(
 	var/_chargedisplay = chargedisplay()
 
 	// Input
-	var/excess = surplus()
+	var/excess = surplus()//FIXME !J r
 
 	if (charging)
 		// Manual charge mode is the 'old' mode, when batteries only charge when available power is higher than set charge level
@@ -112,7 +112,7 @@ var/global/list/battery_online =	list(
 		if((chargemode == BATTERY_MANUAL_CHARGE && excess >= chargelevel)||(chargemode == BATTERY_AUTO_CHARGE && excess > 0)) // If there's power available, try to charge
 			loadcharge = min((capacity - charge) / SMESRATE, excess, chargelevel) // Charge at set rate, limited to spare capacity
 			charge += loadcharge * SMESRATE // Increase the charge
-			add_load(new /datum/powernet_load(loadcharge, 0, 0)) // Add the load to the terminal side network
+			add_load(new /datum/power_vector(loadcharge)) // Add the load to the terminal side network
 
 		else
 			charging = FALSE

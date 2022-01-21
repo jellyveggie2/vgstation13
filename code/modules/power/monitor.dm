@@ -71,7 +71,7 @@
 		data["areas"] += list(list(
 			"name" = get_area(apc).name,
 			"charge" = apc.cell?.percent() || 0,
-			"load" = format_watts(apc.lastused_total.apparent_load()),
+			"load" = format_watts(apc.lastused_total.apparent_power()),
 			"charging" = apc.charging,
 			"eqp" = apc.equipment,
 			"lgt" = apc.lighting,

@@ -58,7 +58,7 @@
 	if(!A.powered(EQUIP))
 		return
 	if(is_locking(/datum/locking_category/buckle, subtypes=TRUE))
-		A.use_power(new /datum/powernet_load(5000,0,0), EQUIP)
+		A.use_power(new /datum/power_vector(5000,0,0), EQUIP)
 		var/light = A.power_light
 		A.updateicon()
 		flick("echair1", src)

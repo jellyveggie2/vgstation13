@@ -64,7 +64,7 @@ var/list/gateways = list() //List containing the gateways on away missions
 		return
 
 	if(active)
-		machine_power_load.add_apparent_load(5000)
+		machine_power_load += new /datum/power_vector(5000)
 
 
 /obj/machinery/gateway/centerstation/proc/detect()
@@ -152,7 +152,7 @@ var/list/gateways = list() //List containing the gateways on away missions
 		var/obj/effect/landmark/L_dest = pick(good_landmarks)
 		M.forceMove(get_turf(L_dest))
 		M.dir = SOUTH
-		machine_power_load.add_apparent_load(5000)
+		machine_power_load += new /datum/power_vector(5000)
 
 
 /obj/machinery/gateway/centerstation/attackby(obj/item/device/W as obj, mob/user as mob)

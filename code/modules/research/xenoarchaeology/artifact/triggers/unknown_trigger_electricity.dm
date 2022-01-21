@@ -25,8 +25,8 @@
 			Triggered(0, "NOTENOUGHELECTRICITY", 0)
 		return
 	else if(!my_effect.activated)
-		PN.load.add_apparent_load(power_load, 0, 0)
+		PN.load += new /datum/power_vector(power_load, 0, 0)
 		Triggered(0, "ELECTRICITY", 0)
 		return
 	else //makes sure the powernet stays under load if the artifact is moving
-		PN.load.add_apparent_load(power_load, 0, 0)
+		PN.load += new /datum/power_vector(power_load, 0, 0)

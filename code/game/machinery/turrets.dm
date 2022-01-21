@@ -51,7 +51,7 @@
 	if(stat & BROKEN)
 		icon_state = "grey_target_prism"
 	else
-		if( powered() )	
+		if( powered() )
 			if (src.enabled)
 				if(istype(installed,/obj/item/weapon/gun/energy/gun))
 					var/obj/item/weapon/gun/energy/gun/EG = installed
@@ -200,7 +200,7 @@
 	if (!istype(T) || !istype(U))
 		return
 
-	machine_power_load.add_apparent_load(reqpower)
+	machine_power_load += new /datum/power_vector(reqpower)
 
 	playsound(src, installed.fire_sound, 75, 1)
 	var/obj/item/projectile/A

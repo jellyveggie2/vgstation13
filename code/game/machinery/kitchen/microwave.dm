@@ -456,7 +456,7 @@
 	for (var/i=1 to seconds)
 		if (stat & (NOPOWER|BROKEN))
 			return 0
-		machine_power_load.add_apparent_load(500)
+		machine_power_load += new /datum/power_vector(500)
 		sleep(10/speed_multiplier)
 	return 1
 

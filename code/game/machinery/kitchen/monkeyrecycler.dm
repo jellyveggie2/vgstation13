@@ -54,7 +54,7 @@
 		else
 			qdel(target)
 			playsound(src, 'sound/machines/juicer.ogg', 50, 1)
-			machine_power_load.add_apparent_load(500)
+			machine_power_load += new /datum/power_vector(500)
 			src.grinded++
 			visible_message("<span class='notice'>The machine now has [grinded] monkeys worth of material stored.</span>")
 			return TRUE
@@ -78,7 +78,7 @@
 				target = null
 				to_chat(user, "<span class='notice'>You stuff the monkey in the machine.")
 				playsound(src, 'sound/machines/juicer.ogg', 50, 1)
-				machine_power_load.add_apparent_load(500)
+				machine_power_load += new /datum/power_vector(500)
 				src.grinded++
 				to_chat(user, "<span class='notice'>The machine now has [grinded] monkeys worth of material stored.</span>")
 		else
@@ -95,7 +95,7 @@
 			qdel(target)
 			to_chat(user, "<span class='notice'>You stuff the monkey in the machine.</span>")
 			playsound(src, 'sound/machines/juicer.ogg', 50, 1)
-			machine_power_load.add_apparent_load(500)
+			machine_power_load += new /datum/power_vector(500)
 			src.grinded++
 			to_chat(user, "<span class='notice'>The machine now has [grinded] monkeys worth of material stored.</span>")
 

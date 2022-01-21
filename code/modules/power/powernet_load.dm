@@ -1,3 +1,4 @@
+/*
 /datum/powernet_load
 	var/real_load = 0			// the current useful load on the powernet, increased by each machine at processing
 	var/reactive_load = 0		// the reactive load on the powernet, increased by inductive machines, decreased by capacitive machines. Can be negative.
@@ -52,3 +53,4 @@
 
 /datum/powernet_load/proc/deformed_ratio()
 	return real_load ? deformed_load / real_load : 0
+*/

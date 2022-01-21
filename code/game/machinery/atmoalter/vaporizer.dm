@@ -67,7 +67,7 @@
 		handle_tanks(target_value*mixratio,OXYGEN)
 		handle_tanks(target_value*(100-mixratio),NITROGEN)
 		nanomanager.update_uis(src)
-	machine_power_load.add_apparent_load(power_use_this_tick)
+	machine_power_load += new /datum/power_vector(power_use_this_tick)
 
 /obj/machinery/vaporizer/proc/force_reaction()
 	mixing_chamber.flags &= ~NOREACT

@@ -128,29 +128,13 @@ Class Procs:
 		//2 = run auto, use active
 
 	// Base power draw when idle
-	var/datum/powernet_load/idle_power_usage = new()
+	var/datum/power_vector/idle_power_usage = new()
 
 	// Base power draw when active
-	var/datum/powernet_load/active_power_usage = new()
-
-	// Effect on power draw when toggling between idle and active
-	var/datum/powernet_load/toggling_power_usage = new()
-
-	// Base power draw when idle
-	var/idle_reactive_power_usage = 0
-	var/idle_deformed_power_usage = 0
-
-	// Base power draw when active
-	var/active_reactive_power_usage = 0 //
-	var/active_deformed_power_usage = 0 //
-
-	// Effect on power draw when toggling between idle and active
-	var/toggling_power_usage = 0          //
-	var/toggling_reactive_power_usage = 0 //
-	var/toggling_deformed_power_usage = 0 //
+	var/datum/power_vector/active_power_usage = new()
 
 	// Total power usage to be applied next auto_use_power() update. Add loads to it during process() or whatever interactions you have
-	var/datum/powernet_load/machine_power_load = new()
+	var/datum/power_vector/machine_power_load = new()
 
 	var/power_channel = EQUIP // EQUIP, ENVIRON or LIGHT.
 	var/list/component_parts // List of all the parts used to build it, if made from certain kinds of frames.
@@ -239,7 +223,7 @@ Class Procs:
 
 /obj/machinery/emp_act(severity)
 	if(use_power && stat == 0)
-		use_power(new /datum/powernet_load(7500/severity))
+		use_power(new /datum/power_vector(7500/severity))
 
 		var/obj/effect/overlay/pulse2 = new/obj/effect/overlay ( src.loc )
 		pulse2.icon = 'icons/effects/effects.dmi'
@@ -281,10 +265,10 @@ Class Procs:
 /obj/machinery/proc/auto_use_power()
 	switch (use_power)
 		if (1)
-			machine_power_load.add_load(idle_power_usage)
+			machine_power_load += idle_power_usage
 			use_power(machine_power_load, power_channel)
 		if (2)
-			machine_power_load.add_loads(active_power_usage)
+			machine_power_load += active_power_usage
 			use_power(machine_power_load, power_channel)
 	machine_power_load.reset()
 

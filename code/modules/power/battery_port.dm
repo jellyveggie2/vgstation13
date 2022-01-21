@@ -65,15 +65,15 @@
 			else
 				overlays += image('icons/obj/power.dmi', "bp-d")
 
-/obj/machinery/power/battery_port/add_load(var/datum/powernet_load/load)
+/obj/machinery/power/battery_port/add_load(var/datum/power_vector/load)
 	if(terminal && terminal.get_powernet())
-		terminal.powernet.load.add_load(load)
+		terminal.powernet.load += load
 		return 1
 	return 0
 
-/obj/machinery/power/battery_port/surplus()
+/obj/machinery/power/battery_port/surplus(qr=0, dr=0)
 	if(terminal)
-		return terminal.surplus()
+		return terminal.surplus(qr, dr)
 	return 0
 
 /obj/machinery/power/battery_port/crowbarDestroy(mob/user, obj/item/tool/crowbar/I)

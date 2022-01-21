@@ -47,7 +47,7 @@
 		icon_state = "meter0"
 		return 0
 
-	machine_power_load.add_apparent_load(5)
+	machine_power_load += new /datum/power_vector(5)
 
 	var/datum/gas_mixture/environment = target.return_air()
 	if(!environment)

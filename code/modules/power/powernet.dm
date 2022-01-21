@@ -3,7 +3,7 @@
 	var/list/obj/structure/cable/cables = list()	// all cables & junctions
 	var/list/obj/machinery/power/nodes = list()		// all connected machines
 	var/list/datum/power_connection/components = list()		// all connected components
-	var/datum/powernet_load/load = new()			// the current load on the powernet, increased by each machine at processing
+	var/datum/power_vector/load = new()			// the current load on the powernet, increased by each machine at processing
 	var/newavail = 0			// what available power was gathered last tick, then becomes...
 	var/avail = 0				// ...the current available power in the powernet
 	var/viewload = 0			// the load as it appears on the power console (gradually updated)
@@ -91,16 +91,15 @@
 	C.powernet = src
 	components += C
 
-/datum/powernet/proc/get_excess()
-	return avail - (load ? load.apparent_load() : 0)
-
+/datum/powernet/proc/get_excess(qr=0, dr=0)
+	return power_vector_excess_calculator(avail, load, qr, dr)
 
 // handles the power changes in the powernet
 // called every ticks by the powernet controller
 // all powernets will have been rebuilt by the time this is called
 /datum/powernet/proc/reset()
 	// see if there's a surplus of power remaining in the powernet and stores unused power in the SMES
-	netexcess = get_excess()
+	netexcess = avail - load.apparent_power()
 
 	if(netexcess > 100 && nodes && nodes.len) // if there was excess power last cycle
 		for(var/obj/machinery/power/battery/B in nodes) // find the SMESes in the network
@@ -113,7 +112,7 @@
 			C.excess(netexcess)
 
 	// updates the viewed load (as seen on power computers)
-	viewload = 0.8 * viewload + 0.2 * load.apparent_load()
+	viewload = 0.8 * viewload + 0.2 * load.apparent_power()
 	viewload = round(viewload)
 
 	// reset the powernet
@@ -355,11 +354,11 @@ var/global/powernets_broke = 0
 	var/drained_hp = M.electrocute_act(shock_damage, source, siemens_coeff)	//zzzzzzap!
 	var/drained_energy = drained_hp * 20
 
-	var/datum/powernet_load/zap_load = new(drained_energy / CELLRATE, 0, 0)// convert from "joules" to "watts"
+	var/datum/power_vector/zap_load = new /datum/power_vector(drained_energy / CELLRATE)// convert from "joules" to "watts"
 	if(source_area)
 		source_area.use_power(zap_load)
 	else if(istype(power_source, /datum/powernet))
-		PN.load.add_load(zap_load)
+		PN.load += zap_load
 	else if(istype(power_source, /obj/item/weapon/cell))
 		cell.use(drained_energy)
 

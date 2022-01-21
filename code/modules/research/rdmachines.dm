@@ -217,7 +217,7 @@ var/global/list/rnd_machines = list()
 					overlays -= image(icon = icon, icon_state = "autolathe_[stack.name]")
 
 		icon_state = "[base_state]"
-		machine_power_load.add_apparent_load(max(1000, (3750*amount/10)))
+		machine_power_load += new /datum/power_vector(max(1000, (3750*amount/10)))
 		stack.use(amount)
 		to_chat(user, "<span class='notice'>You add [amount] sheet[amount > 1 ? "s":""] to the [src].</span>")
 		icon_state = "[base_state]"

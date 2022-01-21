@@ -755,7 +755,7 @@
 	if(suit && istype(suit, /obj/item/clothing/suit/space/rig))
 		var/obj/item/clothing/suit/space/rig/R = suit
 		if(R.cell && R.cell.charge < R.cell.maxcharge)
-			machine_power_load.add_apparent_load(100)
+			machine_power_load += new /datum/power_vector(100)
 			R.cell.give(30)
 
 //////////////////////////////REMINDER: Make it lock once you place some fucker inside.

@@ -399,10 +399,10 @@ var/area/space_area
 		if (ENVIRON)
 			return used_environ
 		if (TOTAL)
-			var/datum/powernet_load/load = new()
-			load.add_load(used_light)
-			load.add_load(used_equip)
-			load.add_load(used_environ)
+			var/datum/power_vector/load = new()
+			load += used_light
+			load += used_equip
+			load += used_environ
 			return load
 		if(STATIC_EQUIP)
 			return static_equip
@@ -412,28 +412,28 @@ var/area/space_area
 			return static_environ
 	return 0
 
-/area/proc/addStaticPower(var/datum/powernet_load/value, powerchannel)
+/area/proc/addStaticPower(var/datum/power_vector/value, powerchannel)
 	switch(powerchannel)
 		if(STATIC_EQUIP)
-			static_equip.add_load(value)
+			static_equip += value
 		if(STATIC_LIGHT)
-			static_light.add_load(value)
+			static_light += value
 		if(STATIC_ENVIRON)
-			static_environ.add_load(value)
+			static_environ += value
 
 /area/proc/clear_usage()
 	used_equip.reset()
 	used_light.reset()
 	used_environ.reset()
 
-/area/proc/use_power(var/datum/powernet_load/load, const/chan)
+/area/proc/use_power(var/datum/power_vector/load, const/chan)
 	switch (chan)
 		if(EQUIP)
-			used_equip.add_load(load)
+			used_equip += load
 		if(LIGHT)
-			used_light.add_load(load)
+			used_light += load
 		if(ENVIRON)
-			used_environ.add_load(load)
+			used_environ += load
 
 /area/Entered(atom/movable/Obj, atom/OldLoc)
 	var/area/oldArea = get_area(OldLoc)

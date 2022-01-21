@@ -15,8 +15,8 @@
 	var/idle_apparent_load = 25
 	var/active_apparent_load = 5000
 	var/active_reactive_load_ratio = -0.5
-	idle_power_usage = new(idle_apparent_load, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
-	active_power_usage = new(active_apparent_load, active_reactive_load_ratio, POWER_RATIO_D_SIMPLE_CONSOLE)
+	idle_power_usage = new(25, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(5000, -0.5, POWER_RATIO_D_SIMPLE_CONSOLE)
 
 	var/max_temperature = TEMPERATURE_LASER
 	var/thermal_energy_transfer = 3000

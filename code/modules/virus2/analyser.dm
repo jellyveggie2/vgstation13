@@ -141,7 +141,7 @@
 		I.layer = ABOVE_LIGHTING_LAYER
 		overlays += I
 
-	machine_power_load.add_apparent_load(1000)
+	machine_power_load += new /datum/power_vector(1000)
 	set_light(2,2)
 	playsound(loc, "sound/machines/heps.ogg", 50, 1)
 

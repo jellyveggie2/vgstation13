@@ -1340,7 +1340,7 @@ About the new airlock wires panel:
 	for(var/obj/O in loc) //A redundant check that exists in the parent
 		if (O.blocks_doors()) //But it exists in the parent because it also affects firelocks.
 			return 0
-	machine_power_load.add_apparent_load(50)
+	machine_power_load += new /datum/power_vector(50)
 	playsound(src, soundeffect, pitch, 1)
 	if(src.closeOther != null && istype(src.closeOther, /obj/machinery/door/airlock/) && !src.closeOther.density)
 		src.closeOther.close()
@@ -1373,7 +1373,7 @@ About the new airlock wires panel:
 		if( !arePowerSystemsOn() || (stat & NOPOWER) || isWireCut(AIRLOCK_WIRE_DOOR_BOLTS) )
 			return
 
-	machine_power_load.add_apparent_load(50)
+	machine_power_load += new /datum/power_vector(50)
 
 	if (safe)
 		for (var/turf/T in locs)

@@ -31,7 +31,7 @@
 		return
 	if(stat & (BROKEN|NOPOWER))
 		return
-	machine_power_load.add_apparent_load(active_power_usage, power_channel)
+	machine_power_load += new /datum/power_vector(active_power_usage, power_channel)
 	var/delete = FALSE
 
 	if(isobserver(victim)) //Fucking ghosts.

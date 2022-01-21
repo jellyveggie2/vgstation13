@@ -229,7 +229,7 @@
 
 	if(((last_shot + fire_delay) <= world.time) && (active == 1)) //It's currently activated and it hasn't processed in a bit
 		if(!active_power_usage || avail(active_power_usage)) //Doesn't require power or powernet has enough supply
-			add_load(new /datum/powernet_load(active_power_usage, 0, 0)) //Drain it then bitch
+			add_load(new /datum/power_vector(active_power_usage, 0, 0)) //Drain it then bitch
 			if(!powered) //Yay its powered
 				powered = 1
 				update_icon()
