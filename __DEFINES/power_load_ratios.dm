@@ -48,6 +48,7 @@
 // Made up values
 #define POWER_RATIO_Q_SMES 1.1
 #define POWER_RATIO_D_CELL_CHARGER 0.03
+#define POWER_RATIO_D_CAPACITOR_CHARGER 0.03
 
 // --- Faults ---
 // Fried assistants are bad for your grid's health
@@ -75,11 +76,11 @@
 #define POWER_RATIO_D_MOTOR_TINY 0.06
 
 // --- Medical ---
-// Figures are all made up,. couldn't find any info
+// Figures are all made up, couldn't find any info
 #define POWER_RATIO_Q_MEDICAL_SCANNER 1.17 // 0.65 PF, thinking of MRI scans here
 
 // --- Lighting ---
-// Good 'ol resistive lightbulbs, PF 1, THD 0
+// Good 'ol resistive lightbulbs, 1 PF, 0% THD
 #define POWER_RATIO_Q_LIGHTBULB 0
 #define POWER_RATIO_D_LIGHTBULB 0
 

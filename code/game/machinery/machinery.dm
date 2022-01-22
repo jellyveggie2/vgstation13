@@ -136,6 +136,10 @@ Class Procs:
 	// Total power usage to be applied next auto_use_power() update. Add loads to it during process() or whatever interactions you have
 	var/datum/power_vector/machine_power_load = new()
 
+	// Initial power draw values, filled in automatically on New(). Useful for stock part upgrades that change the actual power draw.
+	var/datum/power_vector/initial_idle_power = new()
+	var/datum/power_vector/initial_active_power = new()
+
 	var/power_channel = EQUIP // EQUIP, ENVIRON or LIGHT.
 	var/list/component_parts // List of all the parts used to build it, if made from certain kinds of frames.
 	var/uid
@@ -182,6 +186,8 @@ Class Procs:
 /obj/machinery/New()
 	all_machines += src // Machines are only removed from this upon destruction
 	machines += src
+	initial_idle_power = idle_power_usage.duplicate()
+	active_idle_power = active_power_usage.duplicate()
 	//if(ticker) initialize()
 	return ..()
 

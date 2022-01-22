@@ -221,17 +221,13 @@
 		return
 	if (capacitor_stored > 0)
 		capacitor_stored -= C.give(capacitor_stored)
-	machine_power_load += new /datum/power_vector(200*transfer_rate_coeff)
+	machine_power_load += new /datum/power_vector(200*transfer_rate_coeff, 0, POWER_RATIO_D_CAPACITOR_CHARGER)
 	C.give(200 * transfer_rate_coeff + (isMoMMI(occupant) ? 100 * transfer_rate_coeff : 0))
 
 /obj/machinery/recharge_station/proc/process_capacitors()
-	if (capacitor_stored >= capacitor_max)
-		if (idle_power_usage != initial(idle_power_usage)) //probably better to not re-assign the variable each process()?
-			idle_power_usage = initial(idle_power_usage)
-		return 0
-	idle_power_usage = initial(idle_power_usage) + (100 * transfer_rate_coeff)
-	capacitor_stored = min(capacitor_stored + (20 * transfer_rate_coeff), capacitor_max)
-	return 1
+	var/charge_rate = min(20 * transfer_rate_coeff, capacitor_max - capacitor_stored)
+	machine_power_load += new /datum/power_vector(100 * charge_rate/20, 0, POWER_RATIO_D_CAPACITOR_CHARGER)
+	capacitor_stored += charge_rate
 
 /obj/machinery/recharge_station/proc/go_out()
 	if(!( src.occupant ))

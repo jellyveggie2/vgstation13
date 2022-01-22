@@ -285,7 +285,7 @@
 	T = 0//reusing T here because muh RAM
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
 		T += C.rating - 1
-	idle_power_usage = initial(idle_power_usage) - (T * (initial(idle_power_usage) / 4))//25% power usage reduction for an advanced capacitor, 50% for a super one.
+	idle_power_usage = initial_idle_power - (T * (initial_idle_power / 4))//25% power usage reduction for an advanced capacitor, 50% for a super one.
 
 /obj/machinery/sorting_machine/process()
 	if(stat & (BROKEN | NOPOWER))

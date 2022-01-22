@@ -307,7 +307,7 @@ var/global/ingredientLimit = 10
 	cookSound = 'sound/machines/juicer.ogg'
 	machine_flags = WRENCHMOVE | FIXED2WORK | SCREWTOGGLE | CROWDESTROY
 
-/obj/machinery/cooking/candy/RefreshParts()						
+/obj/machinery/cooking/candy/RefreshParts()
 	var/T = 0
 	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
 		T += M.rating-1
@@ -359,7 +359,7 @@ var/global/ingredientLimit = 10
 	icon_state_on = "cereal_on"
 	foodChoices = null
 	machine_flags = WRENCHMOVE | FIXED2WORK | SCREWTOGGLE | CROWDESTROY
-	
+
 /obj/machinery/cooking/cerealmaker/RefreshParts()
 	var/T = 0
 	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
@@ -376,7 +376,7 @@ var/global/ingredientLimit = 10
 /obj/machinery/cooking/cerealmaker/makeFood()
 	makeCereal()
 
-/obj/machinery/cooking/proc/makeCereal()	
+/obj/machinery/cooking/proc/makeCereal()
 	var/obj/item/weapon/reagent_containers/food/snacks/cereal/C = new(src.loc)
 	for(var/obj/item/embedded in src.ingredient.contents)
 		embedded.forceMove(src.loc)
@@ -746,7 +746,7 @@ var/global/ingredientLimit = 10
 	var/T = 1
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
 		T += C.rating-1
-	active_power_usage = initial(active_power_usage)/T
+	active_power_usage = initial_active_power/T
 	T = 1
 	for(var/obj/item/weapon/stock_parts/micro_laser/M in component_parts)
 		T += M.rating-1

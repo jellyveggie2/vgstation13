@@ -44,8 +44,8 @@
 	T = 0
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
 		T += C.rating-1
-	idle_power_usage = initial(idle_power_usage) - (T * 10) //T1: 25w, T2: 15w, T3: 5w
-	active_power_usage = initial(active_power_usage) - (T * 2000) //T1: 5000w, T2: 3000w, T3: 1000w
+	idle_power_usage = initial_idle_power - (T * 10 * initial_idle_power/initial_idle_power.P) //T1: 25w, T2: 15w, T3: 5w
+	active_power_usage = initial_active_power - (T * 2000 * initial_active_power/initial_active_power.P) //T1: 5000w, T2: 3000w, T3: 1000w
 
 	overlays = null
 	overlays += image(icon = icon, icon_state = "t[laser_kind]_laser")
@@ -185,8 +185,8 @@
 	T = 0
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
 		T += C.rating-1
-	idle_power_usage = initial(idle_power_usage) - (T * 10) //T1: 25w, T2: 15w, T3: 5w
-	active_power_usage = initial(active_power_usage) - (T * 2000) //T1: 5000w, T2: 2500w, T3: 1250w
+	idle_power_usage = initial_idle_power - (T * 10 * initial_idle_power/initial_idle_power.P) //T1: 25w, T2: 15w, T3: 5w
+	active_power_usage = initial_active_power - (T * 2000 * initial_active_power/initial_active_power.P) //T1: 5000w, T2: 2500w, T3: 1250w
 
 	overlays = null
 	overlays += image(icon = icon, icon_state = "t[scanner_kind]_scanner")
