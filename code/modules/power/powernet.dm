@@ -8,7 +8,7 @@
 	var/avail = 0				// ...the current available power in the powernet
 	var/viewload = 0			// the load as it appears on the power console (gradually updated)
 	var/number = 0
-	var/netexcess = 0			// excess power on the powernet (typically avail-load)
+	var/netexcess = 0			// excess power on the powernet (typically avail-load.apparent_power()), for power storage purposes
 
 ////////////////////////////////////////////
 // POWERNET DATUM PROCS
@@ -92,7 +92,7 @@
 	components += C
 
 /datum/powernet/proc/get_excess(qr=0, dr=0)
-	return power_vector_excess_calculator(avail, load, qr, dr)
+	return power_excess_calculator(avail, load, qr, dr)
 
 // handles the power changes in the powernet
 // called every ticks by the powernet controller

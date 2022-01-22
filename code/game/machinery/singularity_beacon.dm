@@ -130,13 +130,13 @@
 	var/datum/powernet/PN = attached.get_powernet()
 	if(!PN) //Powernet is dead
 		return 0
-	if(PN.avail < power_load) //Cannot drain enough power, needs 1500 per tick, move to battery
+	if(power_excess_calculator(PN.avail) < power_load) //Cannot drain enough power, needs 1500 per tick, move to battery
 		return 0
 	else
-		PN.load += new /datum/power_vector(power_load, 0, 0)
+		PN.load += new /datum/power_vector(power_load)
 		if(cell && cell.charge < cell.maxcharge && cell.charge > 0 && PN.netexcess)
 			power_draw = min(cell.maxcharge - cell.charge, PN.netexcess) //Draw power directly from excess power
-			PN.load += new /datum/power_vector(power_draw, 0, 0)
+			PN.load += new /datum/power_vector(power_draw)
 			cell.give(power_draw) //We drew power from the grid, charge the cell
 		return 1
 

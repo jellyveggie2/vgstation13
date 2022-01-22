@@ -1110,7 +1110,7 @@
 			if(pow_chan)
 				var/delta = min(12, ER.chassis.cell.maxcharge-cur_charge)
 				ER.chassis.give_power(delta)
-				A.use_power(new /datum/power_vector(delta*ER.coeff,0,0), pow_chan)
+				A.use_power(new /datum/power_vector(delta*ER.coeff), pow_chan)
 	return
 
 

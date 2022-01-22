@@ -1167,17 +1167,16 @@
 			add_load(lastused_total)
 
 		else
-			var/diff = lastused_total.P - excess // How much power would we still owe to the area after trying to draw what's left in the grid
-			charging = 0
+			// Figure how much power we'd still need if we were to drain what's left on the grid
+			var/datum/power_vector/diff = new /datum/power_vector(lastused_total.P - excess, lastused_total.reactive_ratio(), lastused_total.distortion_ratio())
 
-			// There's enough power with the cell and grid combined: draw from cell and drain what's left on the grid (if anything)
-			if (cell.charge / CELLRATE > diff)
-				cell.charge -= diff * CELLRATE
-
+			// The cell can cover the remaining cost: draw from cell, and do actually drain what's left on the grid (if anything)
+			if (cell.charge / CELLRATE > diff.apparent_power())
+				cell.charge -= diff.apparent_power() * CELLRATE
 				if (excess)
 					add_load(new /datum/power_vector(excess, lastused_total.reactive_ratio(), lastused_total.distortion_ratio()))
 
-			// There's not enough power, not even on the cell: Drain the cell and shut down, but leave the grid untouched
+			// There's not enough power on the cell to cover the remaining cost: Drain the cell and shut down, but leave the grid untouched
 			else
 				cell.charge = 0
 				chargecount = 0
@@ -1185,6 +1184,8 @@
 				equipment = autoset(equipment, 0)
 				lighting = autoset(lighting, 0)
 				environ = autoset(environ, 0)
+
+			charging = 0 // We've either drained the grid or shut down, so don't bother charging later
 
 		// set channels depending on how much charge we have left
 
@@ -1221,10 +1222,12 @@
 
 		// now trickle-charge the cell
 
+		var/charge_excess = surplus(0, POWER_RATIO_D_CELL_CHARGER) // How much power can be draw, for recharging purposes?
+
 		if(chargemode && charging == 1 && operating)
-			if(excess > 0)		// check to make sure we have enough to charge
+			if(charge_excess > 0) // check to make sure we have enough to charge
 				// Max charge is capped to % per second constant
-				var/ch = min(excess * CELLRATE, cell.maxcharge * CHARGELEVEL)
+				var/ch = min(charge_excess * CELLRATE, cell.maxcharge * CHARGELEVEL)
 				add_load(new /datum/power_vector(ch/CELLRATE, 0, POWER_RATIO_D_CELL_CHARGER)) // Removes the power we're taking from the grid
 				cell.give(ch) // actually recharge the cell
 
@@ -1239,14 +1242,13 @@
 
 		if(chargemode)
 			if(!charging)
-				if(excess > cell.maxcharge*CHARGELEVEL)
+				// Resume charging only if there's been enough excess available for the last 10 consecutive ticks
+				if(charge_excess > cell.maxcharge * CHARGELEVEL)
 					chargecount++
 				else
 					chargecount = 0
 					charging = 0
-
 				if(chargecount == 10)
-
 					chargecount = 0
 					charging = 1
 

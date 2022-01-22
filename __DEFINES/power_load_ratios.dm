@@ -1,5 +1,5 @@
 /* Capacitors on a machine could be used to determine reactive load, but the cheapest capacitor goes up to 30MW,
- * and that's WAY much VAR too use it as is. Multiply by this to get something sane. As of writing, results would be
+ * and that's WAY too much VAR to use it as is. Multiply by this to get something sane. As of writing, results would be
  *
  *  T1:  -0.3 kVAR
  *  T2:  -2.0 kVAR
@@ -8,7 +8,6 @@
  * Consider that many machines use multiple capacitors
 */
 #define CAPACITOR_STOCK_PART_Q_MULTIPLIER -0.00001
-
 
 /* ==== Reactive load ratios ====
  * Defined as Q/P (reactive load per real load)

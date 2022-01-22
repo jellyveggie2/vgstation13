@@ -16,6 +16,8 @@
 	melt_temperature = MELTPOINT_STEEL
 	origin_tech = Tc_POWERSTORAGE + "=3;" + Tc_SYNDICATE + "=5"
 	var/drain_rate = 600000		// amount of power to drain per tick
+	var/reactive_ratio = 0		// FIXME !J r
+	var/distortion_ratio = 0	// FIXME !J r
 	var/power_drained = 0 		// has drained this much power
 	var/max_power = 1e8		// maximum power that can be drained before exploding
 	var/mode = 0		// 0 = off, 1=clamped (off), 2=operating
@@ -113,9 +115,8 @@
 			set_light(12)
 
 			// found a powernet, so drain up to max power from it
-
-			var/drained = min ( drain_rate, PN.avail )
-			PN.load += new /datum/power_vector(drained, 0, 0)
+			var/drained = min ( drain_rate, power_excess_calculator(PN.avail, qr=reactive_ratio, dr=distortion_ratio) )
+			PN.load += new /datum/power_vector(drained, reactive_ratio, distortion_ratio)
 			power_drained += drained
 
 			// if tried to drain more than available on powernet

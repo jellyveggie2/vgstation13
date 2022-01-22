@@ -50,53 +50,51 @@ There are some properties of this vector that are of interest, in order of popul
 
 
 /*
- * 'ratios' set to TRUE changes the meaning of 'power' from real to apparent power, and the meaning of 'reactive' and 'distorted' from power to ratios
- * eg: power: 2.24, reactive: 0.5, ratios: TRUE  -> 2.24 VA, 2.00 W, 1.00 VAR
- *     power: 2.24, reactive: 0.5, ratios: FALSE -> 2.29 VA, 2.24 W, 0.50 VAR
+ * 'ratios' set to TRUE switches the meaning of 'reactive' and 'distorted' from power to ratios
+ * eg: power: 2.0, reactive: 0.5, ratios: TRUE  -> 2.0 W, 1.0 VAR
+ *     power: 2.0, reactive: 0.5, ratios: FALSE -> 2.0 W, 0.5 VAR
 */
-/datum/power_vector/New(var/power=0, var/reactive=0, var/distorted=0, var/ratios=TRUE)
+/datum/power_vector/New(power=0, reactive=0, distorted=0, ratios=TRUE)
+	P = power
 	if (ratios)
-		P = abs(power) / sqrt(1 + reactive**2 + distorted**2)
 		Q = P * reactive
 		D = P * distorted
 	else
-		P = power
 		Q = reactive
 		D = distorted
 
 /datum/power_vector/proc/duplicate()
 	return new /datum/power_vector(P, Q, D, FALSE)
 
-/datum/power_vector/proc/toString(var/ratios=FALSE)
+/datum/power_vector/proc/toString(ratios=FALSE)
 	if (ratios)
-		var/q_sign = (Q != 0 ? Q / abs(Q) : 0)
-		q_sign = (q_sign == 0 ? "" : (q_sign > 0 ? "-" : "+")) //Positive VAR -> negative DPF, negative VAR -> positive DPF. IEEE sez so. ...Or so Schneider Electrics claims: https://www.se.com/ww/en/faqs/FA212521/
+		var/q_sign = (reactive_factor() > 0 ? "+" : "")
 		return "[format_units(norm())]VA, [round(power_factor(), 0.01)] PF, [q_sign][round(reactive_factor(), 0.01)] DPF, [round(distortion_ratio() * 100, 0.01)]% THD "
 	else
 		return "[format_units(P)]W, [format_units(Q)]VAR, [format_units(D)]VAD"
 
 // -- Vector Operations --
 // Addition
-/datum/power_vector/proc/operator+(var/datum/power_vector/v)
+/datum/power_vector/proc/operator+(datum/power_vector/v)
 	return new /datum/power_vector(P + v.P, Q + v.Q, D + v.D, FALSE)
 
-/datum/power_vector/proc/operator-(var/datum/power_vector/v)
+/datum/power_vector/proc/operator-(datum/power_vector/v)
 	return new /datum/power_vector(P - v.P, Q - v.Q, D - v.D, FALSE)
 
 // Product
-/datum/power_vector/proc/dot_product(var/datum/power_vector/v)
+/datum/power_vector/proc/dot_product(datum/power_vector/v)
 	return P * v.P + Q * v.Q + D * v.D
 
-/datum/power_vector/proc/operator*(var/x)
+/datum/power_vector/proc/operator*(x)
 	if(istype(x, /datum/power_vector))
 		return dot_product(x)
 	return new /datum/power_vector(P * x, Q * x, D * x, FALSE)
 
-/datum/power_vector/proc/operator/(var/k)
+/datum/power_vector/proc/operator/(k)
 	return new /datum/power_vector(P / k, Q / k, D / k, FALSE)
 
 // Cross Product
-/datum/power_vector/proc/cross(var/datum/power_vector/v)
+/datum/power_vector/proc/cross(/datum/power_vector/v)
 	return new /datum/power_vector(Q * v.D - D * v.Q, D * v.P - P * v.D, P * v.Q - Q * v.P, FALSE)
 
 // Norm
@@ -107,7 +105,7 @@ There are some properties of this vector that are of interest, in order of popul
 	return src / norm()
 
 // Equals
-/datum/power_vector/proc/equals(var/datum/power_vector/v)
+/datum/power_vector/proc/equals(/datum/power_vector/v)
 	return (P == v.P && Q == v.Q && D == v.D)
 
 
@@ -125,15 +123,29 @@ There are some properties of this vector that are of interest, in order of popul
 /datum/power_vector/proc/reactive_ratio()
 	return P ? Q / P : 0
 
+/datum/power_vector/proc/set_reactive_ratio(qr)
+	Q = P * qr
+
 /datum/power_vector/proc/reactive_factor() // aka. cosphi, or Displacement Power Factor (DPF)
-	return P || Q ? P / sqrt(P**2 + Q**2) : 0
+	var/sign = Q > 0 ? -1 : 1 //Positive VAR -> negative DPF, negative VAR -> positive DPF. IEEE sez so. ...Or so Schneider Electrics claims: https://www.se.com/ww/en/faqs/FA212521/
+	return P ? sign * (P / sqrt(P**2 + Q**2)) : 0
+
+/datum/power_vector/proc/set_reactive_factor(qf)
+	var/sign = qf >= 0 ? -1 : 1
+	Q = sign * sqrt((P/qf)**2 - P**2)
 
 // Distorted
 /datum/power_vector/proc/distortion_ratio() // aka. Total Harmonic Distortion (THD)
 	return P ? D / P : 0
 
+/datum/power_vector/proc/set_distortion_ratio(dr)
+	D = P * dr
+
 /datum/power_vector/proc/distortion_factor()
-	return P || D ? P / sqrt(P**2 + D**2) : 0
+	return P ? P / sqrt(P**2 + D**2) : 0
+
+/datum/power_vector/proc/set_distortion_factor(df)
+	D = sqrt((P/df)**2 - P**2)
 
 // Apparent
 /datum/power_vector/proc/apparent_power()
@@ -147,7 +159,7 @@ There are some properties of this vector that are of interest, in order of popul
  *
  * This function calculates that.
  */
-/proc/power_vector_excess_calculator(available, datum/power_vector/load, qr=0, dr=0)
+/proc/power_excess_calculator(available, /datum/power_vector/load = new(), qr=0, dr=0)
 	/* We have to solve P for:
 	* 	A^2 = (L.P + P)^2 + (L.Q + P * QR)^2 + (L.D + P * DR)^2
 	* Where:

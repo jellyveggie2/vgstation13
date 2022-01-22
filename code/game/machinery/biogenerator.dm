@@ -579,7 +579,7 @@
 		update_icon()
 		updateUsrDialog()
 		playsound(src, 'sound/machines/blender.ogg', 50, 1)
-		machine_power_load.add_apparent_load(S*30)
+		machine_power_load += new /datum/power_vector(S*30)
 		sleep(speed_coefficient*(S+15))
 		processing = 0
 		update_icon()
