@@ -85,17 +85,19 @@
 	if(get_powernet())
 		powernet.load += load
 
-/datum/power_connection/proc/get_surplus(qr=0, dr=0)
+/datum/power_connection/proc/get_surplus(var/datum/power_vector/load_unit)
 	if(get_powernet())
-		return powernet.get_excess(qr, dr)
+		return powernet.get_excess(load_unit)
 	else
 		return 0
 
-/datum/power_connection/proc/get_avail()
+/datum/power_connection/proc/get_avail(var/datum/power_vector/load_unit)
+	var/available = 0
 	if(get_powernet())
-		return powernet.avail
-	else
-		return 0
+		available = powernet.avail
+		if(load_unit)
+			available = power_excess_calculator(available, qr=load_unit.qr(), dr=load_unit.dr())
+	return available
 
 /datum/power_connection/proc/get_powernet()
 	check_rebuild()

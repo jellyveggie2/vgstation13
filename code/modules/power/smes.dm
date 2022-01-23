@@ -110,9 +110,9 @@ var/list/smes_list = list()
 /obj/machinery/power/battery/smes/can_attach_terminal(mob/user)
 	return ..(user) && panel_open
 
-/obj/machinery/power/battery/smes/surplus(qr=0, dr=0)
+/obj/machinery/power/battery/smes/surplus(var/datum/power_vector/load_unit)
 	if(terminal)
-		return terminal.surplus(qr, dr)
+		return terminal.surplus(load_unit)
 	return 0
 
 /obj/machinery/power/battery/smes/add_load(var/datum/power_vector/load)

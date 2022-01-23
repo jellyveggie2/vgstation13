@@ -122,6 +122,8 @@ There are some properties of this vector that are of interest, in order of popul
 // Reactive
 /datum/power_vector/proc/reactive_ratio()
 	return P ? Q / P : 0
+/datum/power_vector/proc/qr()
+	return reactive_ratio()
 
 /datum/power_vector/proc/set_reactive_ratio(qr)
 	Q = P * qr
@@ -137,6 +139,8 @@ There are some properties of this vector that are of interest, in order of popul
 // Distorted
 /datum/power_vector/proc/distortion_ratio() // aka. Total Harmonic Distortion (THD)
 	return P ? D / P : 0
+/datum/power_vector/proc/dr()
+	return distortion_ratio()
 
 /datum/power_vector/proc/set_distortion_ratio(dr)
 	D = P * dr

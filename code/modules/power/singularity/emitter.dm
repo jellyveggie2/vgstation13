@@ -35,7 +35,7 @@
 	icon_state = "emitter"
 
 /obj/machinery/power/emitter/antique/update_icon()
-	if(powered && get_powernet() && avail(active_power_usage) && active)
+	if(powered && get_powernet() && surplus(active_power_usage) >= active_power_usage.P && active)
 		icon_state = "emitter_+a"
 	else
 		icon_state = "emitter"
@@ -146,7 +146,7 @@
 		flick("emitterflick-[previous_state][state]",src)
 		previous_state = state
 
-	if(powered && get_powernet() && avail(active_power_usage) && active)
+	if(powered && get_powernet() && surplus(active_power_usage) >= active_power_usage.P && active)
 		var/image/emitterbeam = image(icon,"emitter-beam")
 		emitterbeam.plane = ABOVE_LIGHTING_PLANE
 		emitterbeam.layer = ABOVE_LIGHTING_LAYER
@@ -228,8 +228,8 @@
 		return
 
 	if(((last_shot + fire_delay) <= world.time) && (active == 1)) //It's currently activated and it hasn't processed in a bit
-		if(!active_power_usage || avail(active_power_usage)) //Doesn't require power or powernet has enough supply
-			add_load(new /datum/power_vector(active_power_usage)) //Drain it then bitch
+		if(!active_power_usage || surplus(active_power_usage) >= active_power_usage.P) //Doesn't require power or powernet has enough supply
+			add_load(active_power_usage) //Drain it then bitch
 			if(!powered) //Yay its powered
 				powered = 1
 				update_icon()
@@ -373,7 +373,7 @@
 	icon_state = "emitter"
 
 /obj/machinery/power/emitter/antique/update_icon()
-	if(powered && get_powernet() && avail(active_power_usage) && active)
+	if(powered && get_powernet() && surplus(active_power_usage) >= active_power_usage.P && active)
 		icon_state = "emitter_+a"
 	else
 		icon_state = "emitter"

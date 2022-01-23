@@ -187,7 +187,7 @@ Class Procs:
 	all_machines += src // Machines are only removed from this upon destruction
 	machines += src
 	initial_idle_power = idle_power_usage.duplicate()
-	active_idle_power = active_power_usage.duplicate()
+	initial_active_power = active_power_usage.duplicate()
 	//if(ticker) initialize()
 	return ..()
 

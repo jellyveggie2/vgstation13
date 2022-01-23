@@ -31,18 +31,18 @@
     pass_flags = PASSDOOR                                           //Stops the message spam
 
     //VARS
-    var/charge = 1000                                               //Charge stored
-    var/maxcharge = 1000                                            //Max charge storable
-    var/health_drain_rate = 5                                       //Health drained per tick when not on power source
-    var/health_regen_rate = 5                                       //Health regenerated per tick when on power source
-    var/amount_per_regen = 100                                      //Amount of power used to regenerate health
-    var/charge_absorb_amount = 1000                                 //Amount of power sucked per tick
-    var/max_can_absorb = 10000                                      //Maximum amount that max charge can increase to
-    var/takeover_time = 30                                          //Time spent taking over electronics
-    var/show_desc = FALSE                                           //For the ability menu
-    var/can_leave_cable = FALSE                                     //For the ability that lets you
-    var/draining = TRUE                                             //For draining power or not
-    var/move_divide = 4                                             //For slowing down of above
+    var/charge = 1000                                                          //Charge stored
+    var/maxcharge = 1000                                                       //Max charge storable
+    var/health_drain_rate = 5                                                  //Health drained per tick when not on power source
+    var/health_regen_rate = 5                                                  //Health regenerated per tick when on power source
+    var/datum/power_vector/amount_per_regen = new /datum/power_vector(100)     //Amount of power used to regenerate health, taken from machines or the powernet
+    var/charge_absorb_amount = 1000                                            //Amount of power sucked per tick from cells (eg: APCs)
+    var/max_can_absorb = 10000                                                 //Maximum amount that max charge can increase to
+    var/takeover_time = 30                                                     //Time spent taking over electronics
+    var/show_desc = FALSE                                                      //For the ability menu
+    var/can_leave_cable = FALSE                                                //For the ability that lets you
+    var/draining = TRUE                                                        //For draining power or not
+    var/move_divide = 4                                                        //For slowing down of above
 
     //TYPES
     var/area/controlling_area                                       // Area controlled from an APC
@@ -120,7 +120,7 @@
     // Add the regen rate unless it puts us over max health, then just cap it off
     var/health_to_add = maxHealth - health < health_regen_rate ? maxHealth - health : health_regen_rate
     if(current_cable)
-        if(current_cable.avail() < amount_per_regen) // Drain our health if powernet is dead, otherwise drain powernet
+        if(current_cable.avail(amount_per_regen) < amount_per_regen.P) // Drain our health if powernet is dead, otherwise drain powernet
             health -= health_drain_rate
         else if(health < maxHealth && draining)
             current_cable.add_load(amount_per_regen)
@@ -132,7 +132,7 @@
         else if(istype(current_power,/obj/machinery/power/apc) && draining)
             var/obj/machinery/power/apc/current_apc = current_power
             drainAPC(current_apc)
-        if(current_power.avail() < amount_per_regen) // Drain our health if powernet is dead, otherwise drain powernet
+        if(current_power.avail(amount_per_regen) < amount_per_regen.P) // Drain our health if powernet is dead, otherwise drain powernet
             health -= health_drain_rate
         else if(health < maxHealth && draining)
             current_cable.add_load(amount_per_regen)
@@ -240,7 +240,7 @@
         log_say("[key_name(src)] (@[T.x],[T.y],[T.z]) made [current_robot]([key_name(current_robot)]) say: [speech.message]")
         log_admin("[key_name(src)] made [key_name(current_robot)] say: [speech.message]")
         message_admins("<span class='notice'>[key_name(src)] made [key_name(current_robot)] say: [speech.message]</span>")
-    
+
     else if(current_bot && istype(current_bot,/obj/machinery/bot/buttbot))
         if (!speech.message)
             return

@@ -707,7 +707,7 @@
 		return
 	var/powered = 1
 
-	if(surplus() < active_power_usage) //FIXME !J r s
+	if(surplus(active_power_usage) < active_power_usage.P)
 		powered = 0
 
 	if(powered && stat & NOPOWER)

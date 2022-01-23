@@ -74,17 +74,19 @@
 	if(get_powernet())
 		powernet.load += load
 
-/obj/machinery/power/proc/surplus(qr=0, dr=0)
+/obj/machinery/power/proc/surplus(var/datum/power_vector/load_unit)
 	if(get_powernet())
-		return powernet.get_excess(qr, dr)
+		return powernet.get_excess(load_unit)
 	else
 		return 0
 
-/obj/machinery/power/proc/avail()
+/obj/machinery/power/proc/avail(var/datum/power_vector/load_unit)
+	var/available = 0
 	if(get_powernet())
-		return powernet.avail
-	else
-		return 0
+		available = powernet.avail
+		if(load_unit)
+			available = power_excess_calculator(available, qr=load_unit.qr(), dr=load_unit.dr())
+	return available
 
 /obj/machinery/power/proc/load()
 	if(get_powernet())

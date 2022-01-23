@@ -314,6 +314,7 @@
 		flags = FPRINT
 		siemens_coefficient = 1
 		use_power = 0
+		active_power_usage = new /datum/power_vector(1, POWER_RATIO_Q_SHIELD_GENERATOR, 0)
 
 		machine_flags = WRENCHMOVE | FIXED2WORK
 
@@ -337,7 +338,7 @@
 		power = 0
 		return 0
 
-	var/surplus = max(PN.get_excess(), 0) //FIXME !J ratios
+	var/surplus = max(PN.get_excess(active_power_usage), 0)
 	var/shieldload = min(rand(50,200), surplus)
 	if(shieldload==0 && storedpower <= 0)		// no cable or no power, and no power stored
 		power = 0
@@ -346,7 +347,7 @@
 		power = 1	// IVE GOT THE POWER!
 		if(PN) //runtime errors fixer. They were caused by PN.newload trying to access missing network in case of working on stored power.
 			storedpower += shieldload
-			PN.load += new /datum/power_vector(shieldload) //uses powernet power.
+			PN.load += active_power_usage * shieldload //uses powernet power.
 //		message_admins("[PN.load]", 1)
 //		use_power(250) //uses APC power
 

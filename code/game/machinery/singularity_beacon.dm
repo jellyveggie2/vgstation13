@@ -15,7 +15,7 @@
 	light_power_on = 2
 
 	var/obj/item/weapon/cell/cell
-	var/power_load = 1000 //A bit ugly. How much power this machine needs per tick. Equivalent to one minute on 30k W battery, two second ticks
+	var/datum/power_vector/power_load = new /datum/power_vector(1000, POWER_RATIO_Q_SINGULARITY_BEACON, 0) //A bit ugly. How much power this machine needs per tick. Equivalent to one minute on 30k W battery, two second ticks
 	var/power_draw = 0 //If there's spare power on the grid, cannibalize it to charge the beacon's battery
 	var/active = 0 //It doesn't use APCs, so use_power wouldn't really suit it
 	var/icontype = "beacon"
@@ -130,10 +130,10 @@
 	var/datum/powernet/PN = attached.get_powernet()
 	if(!PN) //Powernet is dead
 		return 0
-	if(power_excess_calculator(PN.avail) < power_load) //Cannot drain enough power, needs 1500 per tick, move to battery
+	if(PN.get_excess(power_load) < power_load.P) //Cannot drain enough power, needs 1500 per tick, move to battery
 		return 0
 	else
-		PN.load += new /datum/power_vector(power_load)
+		PN.load += power_load
 		if(cell && cell.charge < cell.maxcharge && cell.charge > 0 && PN.netexcess)
 			power_draw = min(cell.maxcharge - cell.charge, PN.netexcess) //Draw power directly from excess power
 			PN.load += new /datum/power_vector(power_draw)
@@ -143,8 +143,8 @@
 //Use up the battery if powernet check fails
 /obj/machinery/singularity_beacon/proc/check_battery_power()
 
-	if(cell && cell.charge > power_load)
-		cell.use(power_load)
+	if(cell && cell.charge > power_load.P)
+		cell.use(power_load.P)
 		return 1
 	else //Nothing here either
 		return 0

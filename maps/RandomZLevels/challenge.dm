@@ -32,7 +32,7 @@
 	state = 2
 
 /obj/machinery/power/emitter/energycannon/update_icon()
-	if(powered && get_powernet() && avail(active_power_usage) && active)
+	if(powered && get_powernet() && surplus(active_power_usage) >= active_power_usage.P && active)
 		icon_state = "emitter_+a"
 	else
 		icon_state = "emitter"

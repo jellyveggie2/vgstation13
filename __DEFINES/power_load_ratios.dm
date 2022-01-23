@@ -94,5 +94,10 @@
 
 // --- Miscellaneous ---
 #define POWER_RATIO_Q_SINGULARITY_BEACON 0.9 // How do you attract a singularity? MAGNETS
-#define POWER_RATIO_Q_SHIELD_GENERATOR 0.8 // Anything that forms some sort of shield or barrier
-#define POWER_RATIO_D_POWER_SINK 0.1
+
+#define POWER_RATIO_Q_SHIELD_GENERATOR 0.8 // Anything that forms some sort of shield or barrier probably has some kinda magnet thing going on
+
+#define POWER_RATIO_D_POWER_SINK 0.1 // I doubt the syndicate cares much about the health of NT's powernet
+
+#define POWER_RATIO_Q_ANTIQUE_SYNTH 0.7
+#define POWER_RATIO_D_ANTIQUE_SYNTH 0.1 // It's an antique, it's not likely to be up to regulations

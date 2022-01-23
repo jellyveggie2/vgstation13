@@ -12,7 +12,7 @@
 
 	var/obj/item/weapon/fuel_assembly/cur_assembly
 	var/fuel_usage = 0.0001			//percentage of available fuel to use per cycle
-	 
+
 	var/injecting = FALSE
 
 	use_power = 1
@@ -71,7 +71,7 @@
 		else
 			inject()
 
-	cached_power_avail = avail()
+	cached_power_avail = surplus(active_power_usage)
 
 /obj/machinery/power/rust_fuel_injector/wrenchAnchor(var/mob/user, var/obj/item/I)
 	if(injecting)
@@ -148,9 +148,9 @@
 	data["has_assembly"] = !!cur_assembly
 	data["emergency_insert_ready"] = emergency_insert_ready
 	data["power_status_class"] = "good"
-	if(cached_power_avail < active_power_usage)
+	if(cached_power_avail < active_power_usage.P)
 		data["power_status_class"] = "bad"
-	else if(cached_power_avail < active_power_usage * 2)
+	else if(cached_power_avail < active_power_usage.P * 2)
 		data["power_status_class"] = "average"
 	data["active_power_usage"] = round(active_power_usage)
 	data["cached_power_avail"] = round(cached_power_avail)

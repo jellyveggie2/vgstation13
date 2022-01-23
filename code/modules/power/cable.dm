@@ -326,17 +326,20 @@ By design, d1 is the smallest direction and d2 is the highest
 	if(get_powernet())
 		powernet.load += load
 
-/obj/structure/cable/proc/surplus(qr=0, dr=0)
+/obj/structure/cable/proc/surplus(var/datum/power_vector/load_unit)
 	if(get_powernet())
-		return powernet.get_excess(qr, dr)
+		return powernet.get_excess(load_unit)
 	else
 		return 0
 
-/obj/structure/cable/proc/avail()
+/obj/structure/cable/proc/avail(var/datum/power_vector/load_unit)
+	var/available = 0
 	if(get_powernet())
-		return powernet.avail
-	else
-		return 0
+		available = powernet.avail
+		if(load_unit)
+			available = power_excess_calculator(available, qr=load_unit.qr(), dr=load_unit.dr())
+	return available
+
 
 /obj/structure/cable/proc/check_rebuild()
 	if(!build_status)

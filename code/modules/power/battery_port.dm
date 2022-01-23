@@ -71,9 +71,9 @@
 		return 1
 	return 0
 
-/obj/machinery/power/battery_port/surplus(qr=0, dr=0)
+/obj/machinery/power/battery_port/surplus(var/datum/power_vector/load_unit)
 	if(terminal)
-		return terminal.surplus(qr, dr)
+		return terminal.surplus(load_unit)
 	return 0
 
 /obj/machinery/power/battery_port/crowbarDestroy(mob/user, obj/item/tool/crowbar/I)

@@ -73,6 +73,7 @@
 	var/datum/power_vector/lastused_equip = new()
 	var/datum/power_vector/lastused_environ = new()
 	var/datum/power_vector/lastused_total = new()
+	var/datum/power_vector/recharge_load_unit = new(1, 0, POWER_RATIO_D_CELL_CHARGER)
 	var/main_status = 0
 	var/wiresexposed = 0
 	powernet = 0		// set so that APCs aren't found as powernet nodes //Hackish, Horrible, was like this before I changed it :(
@@ -1087,9 +1088,9 @@
 /obj/machinery/power/apc/can_attach_terminal(mob/user)
 	return user.loc == src.loc && has_electronics != 2 && !terminal
 
-/obj/machinery/power/apc/surplus(qr=0, dr=0)
+/obj/machinery/power/apc/surplus(var/datum/power_vector/load_unit)
 	if(terminal)
-		return terminal.surplus(qr, dr)
+		return terminal.surplus(load_unit)
 	else
 		return 0
 
@@ -1097,11 +1098,12 @@
 	if(terminal && terminal.get_powernet())
 		terminal.powernet.load += load
 
-/obj/machinery/power/apc/avail()
+/obj/machinery/power/apc/avail(var/datum/power_vector/load_unit)
+	var/available = 0
 	if(terminal)
-		return terminal.avail()
-	else
-		return 0
+		available = terminal.avail(load_unit)
+	return available
+
 
 /obj/machinery/power/apc/process()
 
@@ -1146,7 +1148,7 @@
 	var/last_en = environ
 	var/last_ch = charging
 
-	var/excess = surplus(lastused_total.reactive_ratio(), lastused_total.distortion_ratio())
+	var/excess = surplus(lastused_total)
 
 	if(!src.avail())
 		main_status = 0
@@ -1222,7 +1224,7 @@
 
 		// now trickle-charge the cell
 
-		var/charge_excess = surplus(0, POWER_RATIO_D_CELL_CHARGER) // How much power can be draw, for recharging purposes?
+		var/charge_excess = surplus(recharge_load_unit) // How much power can we draw, for recharging purposes?
 
 		if(chargemode && charging == 1 && operating)
 			if(charge_excess > 0) // check to make sure we have enough to charge

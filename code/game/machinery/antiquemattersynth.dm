@@ -44,6 +44,8 @@ list("category" = "machinery", "name" = "MSGS", "path" = /obj/machinery/atmosphe
 	machine_flags = WRENCHMOVE | FIXED2WORK | EMAGGABLE
 	req_access = list(access_engine)
 
+	var/datum/power_vector/consumption_unit = new /datum/power_vector(1, POWER_RATIO_Q_ANTIQUE_SYNTH, POWER_RATIO_D_ANTIQUE_SYNTH)
+
 	var/consumption = 0 //How much are we set to draw off the net? Clamped between 0 and 2 GIGAWATT (2,000,000,000 Watts)
 	var/on = 0
 	var/charge = 0 //How much we've stored. Also capped at 2 GIGAWATT.
@@ -72,10 +74,10 @@ list("category" = "machinery", "name" = "MSGS", "path" = /obj/machinery/atmosphe
 	if(charge >= 2*GIGAWATT)
 		charge = min(charge, 2*GIGAWATT)
 		return //We can't get more charged than this!
-	if(avail()>consumption)
+	if(surplus(consumption_unit) >= consumption)
 		charged_last_tick = 1
 		charge += consumption
-		add_load(new /datum/powernet(consumption, 0, 0))
+		add_load(consumption_unit * consumption)
 		nanomanager.update_uis(src)
 
 /obj/machinery/power/antiquesynth/attack_ai(mob/user)

@@ -1,7 +1,7 @@
 /datum/artifact_trigger/electricity
 	triggertype = TRIGGER_ELECTRIC
 	scanned_trigger = SCAN_CONSTANT_ENERGETIC
-	var/power_load = 7500
+	var/datum/power_vector/power_load = new /datum/power_vector(7500)
 
 /datum/artifact_trigger/electricity/New()
 	..()
@@ -20,13 +20,13 @@
 		if(my_effect.activated)
 			Triggered(0, "NOPOWERNET", 0)
 		return
-	else if(power_excess_calculator(PN.avail) < power_load) //Cannot drain enough power //FIXME !J r
+	else if(PN.get_excess(power_load) < power_load.P) //Cannot drain enough power
 		if(my_effect.activated)
 			Triggered(0, "NOTENOUGHELECTRICITY", 0)
 		return
 	else if(!my_effect.activated)
-		PN.load += new /datum/power_vector(power_load)
+		PN.load += power_load
 		Triggered(0, "ELECTRICITY", 0)
 		return
 	else //makes sure the powernet stays under load if the artifact is moving
-		PN.load += new /datum/power_vector(power_load)
+		PN.load += power_load

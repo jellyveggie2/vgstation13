@@ -438,6 +438,9 @@
 	environment_smash_flags = 0
 
 	search_objects = 1
+
+	var/datum/power_vector/power_drain_unit = new /datum/power_vector(1, 0, POWER_RATIO_D_POWER_SINK)
+
 	var/obj/item/weapon/cell/cell = null
 	var/latched = 0
 
@@ -496,8 +499,8 @@
 		if(latched && locked_to && locked_to == C)
 			var/datum/powernet/PN = C.get_powernet()
 			if(cell && PN && PN.avail > 0 && cell.percent() < 100)
-				var/drained = min (rand(500,1500), power_excess_calculator(PN.avail, qr=0, dr=0)) //FIXME !J r
-				PN.load += new /datum/power_vector(drained) //FIXME !J r
+				var/drained = min (rand(500,1500), power_excess_calculator(PN.avail, qr=power_drain_unit.qr(), dr=power_drain_unit.dr()))
+				PN.load += power_drain_unit * drained
 				cell.give(drained/10)
 			else
 				visible_message("<span class = 'notice'>\The [src] detaches from \the [C]</span>")

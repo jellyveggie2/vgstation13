@@ -91,8 +91,8 @@
 	C.powernet = src
 	components += C
 
-/datum/powernet/proc/get_excess(qr=0, dr=0)
-	return power_excess_calculator(avail, load, qr, dr)
+/datum/powernet/proc/get_excess(var/datum/power_vector/load_unit=new())
+	return power_excess_calculator(avail, load, load_unit.qr(), load_unit.dr())
 
 // handles the power changes in the powernet
 // called every ticks by the powernet controller
