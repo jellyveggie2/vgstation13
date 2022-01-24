@@ -100,7 +100,7 @@ USE THIS CHEMISTRY DISPENSER FOR MAPS SO THEY START AT 100 ENERGY
 	var/oldenergy = energy
 	energy = min(energy + rechargerate, max_energy)
 	if(energy != oldenergy)
-		machine_power_load += active_power_usage // This thing uses up alot of power (this is still low as shit for creating reagents from thin air)
+		machine_power_usage += active_power_usage // This thing uses up alot of power (this is still low as shit for creating reagents from thin air)
 		nanomanager.update_uis(src) // update all UIs attached to src
 
 /obj/machinery/chem_dispenser/power_change()

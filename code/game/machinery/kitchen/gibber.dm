@@ -205,7 +205,7 @@
 		visible_message("<span class='warning'>You hear a loud metallic grinding sound.</span>", \
 			drugged_message = "<span class='warning'>You faintly hear a guitar solo.</span>")
 		return
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 	visible_message("<span class='warning'>You hear a loud squelchy grinding sound.</span>", \
 		drugged_message = "<span class='warning'>You hear a band performance.</span>")
 	src.operating = 1
@@ -304,7 +304,7 @@
 /obj/machinery/gibber/autogibber/Bumped(var/atom/A)
 	if(stat & (BROKEN | NOPOWER))
 		return
-	machine_power_load += active_power_usage / 10
+	machine_power_usage += active_power_usage / 10
 	if(isliving(A))
 		var/mob/living/M = A
 		M.visible_message("<span class='warning'>[M] is forcefully sucked into \the [src]!</span>", \
@@ -317,7 +317,7 @@
 		visible_message("<span class='warning'>You hear a loud metallic grinding sound.</span>", \
 			drugged_message = "<span class='warning'>You faintly hear a guitar solo.</span>")
 		return
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 	visible_message("<span class='warning'>You hear a loud squelchy grinding sound.</span>", \
 		drugged_message = "<span class='warning'>You hear a band performance.</span>")
 	var/sourcenutriment = victim.nutrition / 15

@@ -222,12 +222,12 @@
 		return
 	if (capacitor_stored > 0)
 		capacitor_stored -= C.give(capacitor_stored)
-	machine_power_load += capacitor_charge_power * transfer_rate_coeff * 2
+	machine_power_usage += capacitor_charge_power * transfer_rate_coeff * 2
 	C.give(2 * capacitor_charge_power.P * transfer_rate_coeff + (isMoMMI(occupant) ? capacitor_charge_power.P * transfer_rate_coeff : 0))
 
 /obj/machinery/recharge_station/proc/process_capacitors()
 	var/charge_rate = min(20 * transfer_rate_coeff, capacitor_max - capacitor_stored)
-	machine_power_load += capacitor_charge_power * charge_rate/20
+	machine_power_usage += capacitor_charge_power * charge_rate/20
 	capacitor_stored += charge_rate
 
 /obj/machinery/recharge_station/proc/go_out()

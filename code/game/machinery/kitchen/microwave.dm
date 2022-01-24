@@ -456,7 +456,7 @@
 	for (var/i=1 to seconds)
 		if (stat & (NOPOWER|BROKEN))
 			return 0
-		machine_power_load += active_power_usage
+		machine_power_usage += active_power_usage
 		sleep(10/speed_multiplier)
 	return 1
 

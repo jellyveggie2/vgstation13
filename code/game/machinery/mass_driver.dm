@@ -63,7 +63,7 @@ var/list/mass_drivers = list()
 /obj/machinery/mass_driver/proc/drive(amount)
 	if(stat & (BROKEN|NOPOWER))
 		return
-	machine_power_load += active_power_usage * power
+	machine_power_usage += active_power_usage * power
 	var/O_limit = 0
 	var/atom/target = get_edge_target_turf(src, dir)
 	for(var/atom/movable/O in loc)
@@ -74,7 +74,7 @@ var/list/mass_drivers = list()
 				M.crashing = null
 			if(O_limit >= 20)//so no more than 20 items are sent at a time, probably for counter-lag purposes
 				break
-			machine_power_load += active_power_usage
+			machine_power_usage += active_power_usage
 			spawn()
 				var/coef = 1
 				if(emagged)

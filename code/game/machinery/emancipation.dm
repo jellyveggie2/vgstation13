@@ -31,7 +31,7 @@
 		return
 	if(stat & (BROKEN|NOPOWER))
 		return
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 	var/delete = FALSE
 
 	if(isobserver(victim)) //Fucking ghosts.

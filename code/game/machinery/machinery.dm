@@ -22,18 +22,19 @@ Overview:
 
 Class Variables:
    use_power (num)
-      current state of auto power use.
       Possible Values:
-         0 -- no auto power use
+         0 -- machine power use is nonexistent, circumstantial, or calculated internally
          1 -- machine is using power at its idle power level
          2 -- machine is using power at its active power level
 
-
    active_power_usage (/datum/power_vector)
-      Value for the amount of power to use when in active power mode
+      Value for the amount of power to use when in active power mode or when performing it's main activity.
 
    idle_power_usage (/datum/power_vector)
       Value for the amount of power to use when in idle power mode
+
+	machine_power_usage (/datum/power_vector)
+	  Value for the amount of power to use, regardless of mode. Resets every 'process_use_power()', starting from 0.
 
    power_channel (num)
       What channel to draw from when drawing power for power mode
@@ -68,17 +69,25 @@ Class Procs:
 
    Destroy()                     'game/machinery/machine.dm'
 
-   auto_use_power()            'game/machinery/machine.dm'
-      This proc determines how power mode power is deducted by the machine.
-      'auto_use_power()' is called by the 'master_controller' game_controller every
-      tick.
+   process_use_power()            'game/machinery/machine.dm'
+      This proc handles the machine's power consumption.
+      'process_use_power()' is called by the 'master_controller' game_controller every
+      tick, after 'process()' has been handled.
+
+      Total raw power usage is to be calculated by adding up the power accumulated in 'machine_power_usage'
+	   before this step with 'idle_power_usage' or 'active_power_usage' if applicable according to 'use_power'.
+
+      Total raw power is to receive any bonuses or maluses, and is to be used through 'use_power()' using the
+	  machine's 'power_channel'.
+
+	  The value of 'machine_power_usage' is to be reset once processed.
 
       Return Value:
          return:1 -- if object is powered
          return:0 -- if object is not powered.
 
       Default definition uses 'use_power', 'power_channel', 'active_power_usage',
-      'idle_power_usage', 'powered()', and 'use_power()' implement behavior.
+      'idle_power_usage', 'machine_power_usage', 'powered()', and 'use_power()' implement behavior.
 
    powered(chan = EQUIP)         'modules/power/power.dm'
       Checks to see if area that contains the object has power available for power
@@ -123,9 +132,9 @@ Class Procs:
 	var/stat = 0
 	var/emagged = 0
 	var/use_power = 1
-		//0 = dont run the auto
-		//1 = run auto, use idle
-		//2 = run auto, use active
+		//0 = manage machine power manually
+		//1 = add idle power every process_use_power()
+		//2 = add active power every process_use_power()
 
 	// Power draw when idle
 	var/datum/power_vector/idle_power_usage = new()
@@ -133,8 +142,8 @@ Class Procs:
 	// Power draw when active
 	var/datum/power_vector/active_power_usage = new()
 
-	// Total power usage to be applied next auto_use_power() update. Add loads to it during process() or whatever interactions you have
-	var/datum/power_vector/machine_power_load = new()
+	// Total power usage to be applied next auto_use_power() update, resets after every process_use_power(). Set it during process() or any interactions, call use_power() directly to bypass process_use_power()
+	var/datum/power_vector/machine_power_usage = new()
 
 	// Initial power draw values, filled in automatically on New(). Useful for stock part upgrades that change the actual power draw.
 	var/datum/power_vector/initial_idle_power = new()
@@ -268,14 +277,14 @@ Class Procs:
 	if(prob(50))
 		qdel(src)
 
-/obj/machinery/proc/auto_use_power()
+/obj/machinery/proc/process_use_power() // Called after all machines' process() has run
 	switch (use_power)
 		if (1)
-			machine_power_load += idle_power_usage
+			machine_power_usage += idle_power_usage
 		if (2)
-			machine_power_load += active_power_usage
-	use_power(machine_power_load, power_channel)
-	machine_power_load = new()
+			machine_power_usage += active_power_usage
+	use_power(machine_power_usage, power_channel)
+	machine_power_usage = new()
 	return 1
 
 /obj/machinery/proc/multitool_topic(var/mob/user,var/list/href_list,var/obj/O)

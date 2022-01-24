@@ -316,7 +316,7 @@
 			//Also heal some oxyloss ourselves because inaprovaline is so bad at preventing it!!
 			occupant.adjustOxyLoss(-4)
 
-			machine_power_load += active_power_usage
+			machine_power_usage += active_power_usage
 			return
 
 		else if((occupant.health >= heal_level) && (!eject_wait))
@@ -331,7 +331,7 @@
 			locked = FALSE
 		if (!mess)
 			icon_state = "pod_0"
-		machine_power_load += idle_power_usage
+		machine_power_usage += idle_power_usage
 		return
 
 	return

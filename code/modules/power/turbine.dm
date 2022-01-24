@@ -75,7 +75,7 @@
 
 
 	if(starter && !(stat & NOPOWER))
-		machine_power_load += active_power_usage
+		machine_power_usage += active_power_usage
 		if(rpm<1000)
 			rpmtarget = 1000
 	else

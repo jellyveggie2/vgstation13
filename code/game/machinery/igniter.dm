@@ -28,7 +28,7 @@ var/global/list/igniters = list()
 		return
 	add_fingerprint(user)
 
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 	src.on = !( src.on )
 	src.icon_state = text("igniter[]", src.on)
 	return
@@ -41,7 +41,7 @@ var/global/list/igniters = list()
 	return 1
 
 /obj/machinery/igniter/proc/toggle_state()
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 	src.on = !( src.on )
 	src.icon_state = text("igniter[]", src.on)
 	return
@@ -146,7 +146,7 @@ var/global/list/igniters = list()
 	flick("[base_state]-spark", src)
 	spark(src, 2)
 	src.last_spark = world.time
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 	var/turf/location = src.loc
 	if (isturf(location))
 		location.hotspot_expose(1000,500,1,surfaces=1)
@@ -176,7 +176,7 @@ var/global/list/igniters = list()
 	if(active)
 		return
 
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 
 	active = 1
 	icon_state = "launcheract"
@@ -188,7 +188,7 @@ var/global/list/igniters = list()
 
 	for(var/obj/machinery/igniter/M in igniters)
 		if(M.id_tag == src.id_tag)
-			M.machine_power_load += M.active_power_usage
+			M.machine_power_usage += M.active_power_usage
 			M.on = !( M.on )
 			M.icon_state = text("igniter[]", M.on)
 

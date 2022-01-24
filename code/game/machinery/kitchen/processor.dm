@@ -290,7 +290,7 @@
 			continue
 		src.processing = 1
 		playsound(src, 'sound/machines/blender.ogg', 50, 1)
-		machine_power_load += active_power_usage
+		machine_power_usage += active_power_usage
 		sleep(P.time*time_coeff)
 		P.process(src.loc, O)
 		src.processing = 0

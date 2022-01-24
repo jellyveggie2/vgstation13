@@ -75,7 +75,7 @@ var/list/obj/machinery/flasher/flashers = list()
 
 	playsound(src, 'sound/weapons/flash.ogg', 100, 1)
 	src.last_flash = world.time
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 	if(harm_labeled >= min_harm_label)
 		return //Still "flashes," so power is used and the noise is made, etc., but it doesn't actually flash anyone.
 	flick("[base_state]_flash", src)
@@ -155,7 +155,7 @@ var/list/obj/machinery/flasher/flashers = list()
 	if(active)
 		return
 
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 
 	active = 1
 	icon_state = "launcheract"

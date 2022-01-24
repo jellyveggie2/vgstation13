@@ -203,20 +203,20 @@
 				sndstr = "sound/machines/alert.ogg"
 				maxthreat = 2
 			src.last_read = world.time
-			machine_power_load += active_power_usage
+			machine_power_usage += active_power_usage
 			threat_carbons += dudesname
 		else if(dudesthreat && senset)
 			if(maxthreat < 1)
 				sndstr = "sound/machines/domore.ogg"
 				maxthreat = 1
 			src.last_read = world.time
-			machine_power_load += active_power_usage
+			machine_power_usage += active_power_usage
 			mildly_threatening_carbons += dudesname
 		else
 			if(maxthreat == 0)
 				sndstr = "sound/machines/info.ogg"
 			src.last_read = world.time
-			machine_power_load += active_power_usage
+			machine_power_usage += active_power_usage
 			clear_carbons += dudesname
 
 	if(threat_carbons.len)

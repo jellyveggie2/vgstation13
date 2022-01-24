@@ -57,8 +57,7 @@ var/list/pipenet_processing_objects = list()
 		if (atmosmachinery.process() && MC_TICK_CHECK)
 			return
 
-		if (atmosmachinery.use_power)
-			atmosmachinery.auto_use_power()
+		atmosmachinery.process_use_power()
 
 	while (currentrun_pipenets.len)
 		var/datum/pipe_network/pipeNetwork = currentrun_pipenets[currentrun_pipenets.len]

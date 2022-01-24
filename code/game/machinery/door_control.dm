@@ -79,7 +79,7 @@
 		flick("doorctrl-denied",src)
 		return
 
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 	icon_state = "doorctrl1"
 	add_fingerprint(user)
 
@@ -169,7 +169,7 @@
 		return
 	add_fingerprint(user)
 
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 
 	launch_sequence()
 

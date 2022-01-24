@@ -200,7 +200,7 @@
 	if (!istype(T) || !istype(U))
 		return
 
-	machine_power_load += reqpower
+	machine_power_usage += reqpower
 
 	playsound(src, installed.fire_sound, 75, 1)
 	var/obj/item/projectile/A

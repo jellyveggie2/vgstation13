@@ -1082,7 +1082,7 @@ var/global/num_vending_terminals = 1
 			speak(vend_reply, user)
 			last_reply = world.time
 
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 	if (src.icon_vend) //Show the vending animation if needed
 		flick(src.icon_vend,src)
 	R.amount--

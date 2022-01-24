@@ -40,8 +40,7 @@ var/datum/subsystem/bots/SSBots
 			bots_list.Remove(M)
 			continue
 
-		if (M.use_power)
-			M.auto_use_power()
+		M.process_use_power()
 
 		if (MC_TICK_CHECK)
 			return

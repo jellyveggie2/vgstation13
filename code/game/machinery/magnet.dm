@@ -196,7 +196,7 @@
 					continue
 				step_towards(S, center)
 
-		machine_power_load += pull_power_usage * electricity_level
+		machine_power_usage += pull_power_usage * electricity_level
 		sleep(13 - electricity_level)
 
 	pulling = 0

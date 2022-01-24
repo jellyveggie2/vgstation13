@@ -36,7 +36,7 @@
 		capacitor_stored = 0
 	else if(capacitor_stored<capacitor_max && recharge_port && !recharging_mecha)
 		var/delta = min(recharge_port.pr_recharger.max_charge,capacitor_max-capacitor_stored)
-		machine_power_load += active_power_usage * delta
+		machine_power_usage += active_power_usage * delta
 		capacitor_stored += delta
 
 /obj/machinery/mech_bay_recharge_floor/Crossed(var/atom/A)
@@ -178,7 +178,7 @@
 		var/delta = min(max_charge, C.maxcharge - C.charge)
 		if(delta>0)
 			C.give(delta)
-			port.machine_power_load += port.active_power_usage * delta
+			port.machine_power_usage += port.active_power_usage * delta
 		else
 			to_mech(O,"<span class='notice'><b>Fully charged.</b></span>")
 			port.stop_charge()

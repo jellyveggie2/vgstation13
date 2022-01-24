@@ -87,7 +87,7 @@
 			//else if(loaded_dna)
 				//visible_message("<span class='notice'>The printer would be using the DNA sample if it was coded.</span>")
 				//TODO: Copy DNA hash or donor reference over to new organ.
-		machine_power_load += active_power_usage
+		machine_power_usage += active_power_usage
 		visible_message("<span class='notice'>\The [src] spits out a brand new organ.</span>")
 	else
 		visible_message("<span class='warning'>\The [src]'s error light flickers. It can't make new organs out of thin air, fill it up first.</span>")

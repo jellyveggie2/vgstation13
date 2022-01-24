@@ -374,7 +374,7 @@
 
 
 /**
- * Formats unites with their suffixes
+ * Formats units with their suffixes
  * Should be good for J, W, and stuff
  */
 var/list/unit_suffixes = list("", "k", "M", "G", "T", "P", "E", "Z", "Y")

@@ -177,7 +177,7 @@
 	var/turf/U = get_turf(target)
 	if (!T || !U)
 		return
-	machine_power_load += shoot_power
+	machine_power_usage += shoot_power
 	var/obj/item/projectile/missile/A = new(T)
 	A.tracking = tracking_missiles
 	fired_missiles.Add(A)

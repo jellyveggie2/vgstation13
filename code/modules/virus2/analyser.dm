@@ -142,7 +142,7 @@
 		I.layer = ABOVE_LIGHTING_LAYER
 		overlays += I
 
-	machine_power_load += analysis_power
+	machine_power_usage += analysis_power
 	set_light(2,2)
 	playsound(loc, "sound/machines/heps.ogg", 50, 1)
 

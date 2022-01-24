@@ -66,10 +66,15 @@ There are some properties of this vector that are of interest, in order of popul
 /datum/power_vector/proc/duplicate()
 	return new /datum/power_vector(P, Q, D, FALSE)
 
+/datum/power_vector/proc/reset()
+	P = 0
+	Q = 0
+	D = 0
+
 /datum/power_vector/proc/toString(ratios=FALSE)
 	if (ratios)
 		var/q_sign = (reactive_factor() > 0 ? "+" : "")
-		return "[format_units(norm())]VA, [round(power_factor(), 0.01)] PF, [q_sign][round(reactive_factor(), 0.01)] DPF, [round(distortion_ratio() * 100, 0.01)]% THD "
+		return "[format_units(norm())]VA ([round(power_factor(), 0.01)]PF, [q_sign][round(reactive_factor(), 0.01)]DPF, [round(distortion_ratio() * 100, 0.1)]% THD) "
 	else
 		return "[format_units(P)]W, [format_units(Q)]VAR, [format_units(D)]VAD"
 
@@ -77,9 +82,17 @@ There are some properties of this vector that are of interest, in order of popul
 // Addition
 /datum/power_vector/proc/operator+(datum/power_vector/v)
 	return new /datum/power_vector(P + v.P, Q + v.Q, D + v.D, FALSE)
+/datum/power_vector/proc/operator+=(datum/power_vector/v)
+	P += v.P
+	Q += v.Q
+	D += v.D
 
 /datum/power_vector/proc/operator-(datum/power_vector/v)
 	return new /datum/power_vector(P - v.P, Q - v.Q, D - v.D, FALSE)
+/datum/power_vector/proc/operator-=(datum/power_vector/v)
+	P -= v.P
+	Q -= v.Q
+	D -= v.D
 
 // Product
 /datum/power_vector/proc/dot_product(datum/power_vector/v)
@@ -87,9 +100,17 @@ There are some properties of this vector that are of interest, in order of popul
 
 /datum/power_vector/proc/operator*(x)
 	return new /datum/power_vector(P * x, Q * x, D * x, FALSE)
+/datum/power_vector/proc/operator*=(x)
+	P *= x
+	Q *= x
+	D *= x
 
 /datum/power_vector/proc/operator/(k)
 	return new /datum/power_vector(P / k, Q / k, D / k, FALSE)
+/datum/power_vector/proc/operator/=(k)
+	P /= k
+	Q /= k
+	D /= k
 
 // Cross Product
 /datum/power_vector/proc/cross(datum/power_vector/v)
@@ -170,9 +191,8 @@ There are some properties of this vector that are of interest, in order of popul
 	* And return the highest positive result
 	*/
 	var/p = 0
-	if (load)
-		for (var/result in SolveQuadratic(1 + qr**2 + dr**2, 2*(load.P + qr * load.Q + dr * load.D), load.norm()**2 - available**2)[1])
+	if (available)
+		for (var/result in SolveQuadratic(1 + qr**2 + dr**2, 2*(load.P + qr * load.Q + dr * load.D), load.norm()**2 - available**2))
 			if (result > p)
 				p = result
-
 	return p

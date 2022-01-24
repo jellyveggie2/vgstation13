@@ -133,7 +133,7 @@ var/list/obj/machinery/holosign/holosigns = list()
 		return
 	add_fingerprint(user)
 
-	machine_power_load += active_power_usage
+	machine_power_usage += active_power_usage
 
 	active = !active
 

@@ -77,8 +77,7 @@ var/list/cable_list = list() //Index for all cables, so that powernets don't hav
 				power_machines.Remove(M)
 				continue
 
-			if (M.use_power)
-				M.auto_use_power()
+			M.process_use_power()
 
 		else if (istype(X, /datum/power_connection))
 			var/datum/power_connection/C = X

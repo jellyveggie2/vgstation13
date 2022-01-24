@@ -580,7 +580,7 @@
 		update_icon()
 		updateUsrDialog()
 		playsound(src, 'sound/machines/blender.ogg', 50, 1)
-		machine_power_load += active_power_usage * S
+		machine_power_usage += active_power_usage * S
 		sleep(speed_coefficient*(S+15))
 		processing = 0
 		update_icon()
