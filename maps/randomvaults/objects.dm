@@ -695,7 +695,7 @@
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "blackbox"
 
-	active_power_usage = 500
+	active_power_usage = new(500, 0, POWER_RATIO_D_MOTOR_TINY)
 	density = 1
 
 /obj/machinery/power/magtape_deck/New()

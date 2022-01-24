@@ -18,8 +18,8 @@
 	anchored = 1
 	density = 1
 	use_power = 1
-	idle_power_usage = 200
-	active_power_usage = 1000
+	idle_power_usage = new(200, 0, 0)
+	active_power_usage = new(1000, POWER_RATIO_Q_FIELD_GENERATOR, 0)
 	var/on = 1
 	var/list/localareas = list()
 	var/effectiverange = 25

@@ -12,8 +12,8 @@
 	anchored = 1.0
 	var/datum/powernet/powernet = null
 	use_power = 0
-	idle_power_usage = 0
-	active_power_usage = 0
+	idle_power_usage = new()
+	active_power_usage = new()
 
 	//For powernet rebuilding
 	var/build_status = 0 //1 means it needs rebuilding during the next tick or on usage

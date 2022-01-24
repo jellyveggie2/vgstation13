@@ -238,9 +238,8 @@
 	icon_state = "tele0"
 	//var/accurate = 0
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 2000
-	var/teleport_power_usage = 5000
+	idle_power_usage = new(10, 0, 0)
+	active_power_usage = new(5000, POWER_RATIO_Q_FIELD_GENERATOR, 0) // Additional power used when something goes through
 	component_parts = newlist(
 		/obj/item/weapon/circuitboard/telehub,
 		/obj/item/weapon/stock_parts/scanning_module/adv/phasic,
@@ -266,7 +265,7 @@
 	var/T = 1
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
 		T += C.rating-3
-	teleport_power_usage = initial(teleport_power_usage)/T
+	active_power_usage = initial_active_power/T
 
 
 /obj/machinery/teleport/hub/power_change()
@@ -292,7 +291,7 @@
 		return
 	spawn()
 		if (src.engaged && teleport(AM))
-			machine_power_load += new /datum/power_vector(teleport_power_usage)
+			machine_power_load += active_power_usage
 
 
 /obj/machinery/teleport/hub/Cross(atom/movable/mover, turf/target, height=1.5, air_group = 0)
@@ -348,9 +347,8 @@
 	desc = "This co-ordinates nearby teleporter horizon generators."
 	icon_state = "controller"
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 2000
-	var/teleport_power_usage = 5000
+	idle_power_usage = new(10, 0, 0)
+	active_power_usage = new(5000, 0, POWER_RATIO_D_COMPUTER) // Additional power used when something goes through
 	component_parts = newlist(
 		/obj/item/weapon/circuitboard/telestation,
 		/obj/item/weapon/stock_parts/scanning_module/adv/phasic,
@@ -369,7 +367,7 @@
 	var/T = 1
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
 		T += C.rating-3
-	teleport_power_usage = initial(teleport_power_usage)/T
+	active_power_usage = initial_active_power/T
 
 /obj/machinery/teleport/station/power_change()
 	..()
@@ -411,7 +409,7 @@
 		count++
 		hub.engaged = 1
 		hub.update_icon()
-		machine_power_load += new /datum/power_vector(teleport_power_usage)
+		machine_power_load += active_power_usage
 	visible_message("<span class='notice'>[count] teleporter[count>1?"s":""] engaged!</span>", range = 2)
 	src.add_fingerprint(usr)
 	src.engaged = 1

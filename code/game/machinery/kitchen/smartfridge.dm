@@ -10,8 +10,8 @@
 	opacity = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 5
-	active_power_usage = 100
+	idle_power_usage = new(5, POWER_RATIO_Q_MOTOR_PUMP, 0)
+	active_power_usage = new(100, POWER_RATIO_Q_MOTOR_PUMP, 0) // Unused, apparently
 	flags = NOREACT
 	source_temperature = T0C + 4
 	var/icon_on = "smartfridge"
@@ -394,7 +394,7 @@
 			insert_item(G)
 			objects_loaded++
 		if(objects_loaded)
-			return TRUE			
+			return TRUE
 	return FALSE
 
 /obj/machinery/smartfridge/attackby(var/obj/item/O as obj, var/mob/user as mob, params)

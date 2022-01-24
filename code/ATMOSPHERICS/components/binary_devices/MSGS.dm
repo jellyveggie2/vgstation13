@@ -9,7 +9,7 @@
 	density = 1
 
 	machine_flags = WRENCHMOVE | FIXED2WORK
-	idle_power_usage = 1000					//This thing's serious
+	idle_power_usage = new(1000, POWER_RATIO_Q_SMES, 0)	//This thing's serious
 
 	var/internal_volume = 10000
 	var/max_pressure = 10000

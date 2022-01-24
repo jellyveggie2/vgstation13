@@ -21,6 +21,9 @@ var/global/num_vending_terminals = 1
 	density = 1
 	layer = OPEN_DOOR_LAYER //This is below BELOW_OBJ_LAYER because vendors can contain crates/closets
 	pass_flags_self = PASSMACHINE
+
+	active_power_usage = new(5, 0, POWER_RATIO_D_MOTOR_TINY)
+
 	var/health = 100
 	var/maxhealth = 100 //Kicking feature
 	var/active = 1		//No sales pitches if off!
@@ -1079,7 +1082,7 @@ var/global/num_vending_terminals = 1
 			speak(vend_reply, user)
 			last_reply = world.time
 
-	machine_power_load += new /datum/power_vector(5)
+	machine_power_load += active_power_usage
 	if (src.icon_vend) //Show the vending animation if needed
 		flick(src.icon_vend,src)
 	R.amount--

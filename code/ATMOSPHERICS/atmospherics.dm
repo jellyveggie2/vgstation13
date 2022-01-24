@@ -19,8 +19,8 @@ Pipelines + Other Objects -> Pipe network
 
 /obj/machinery/atmospherics
 	anchored = 1
-	idle_power_usage = 0
-	active_power_usage = 0
+	idle_power_usage = new()
+	active_power_usage = new()
 	power_channel = ENVIRON
 	var/nodealert = 0
 	var/update_icon_ready = 0 // don't update icons before they're ready or if they don't want to be

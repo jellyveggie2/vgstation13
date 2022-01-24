@@ -193,8 +193,9 @@ var/global/list/airalarm_presets = list(
 	icon_state = "alarm0"
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 100
-	active_power_usage = 200
+	idle_power_usage = new(100, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(200, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	var/datum/power_vector/heat_pump_power = new(200, POWER_RATIO_Q_MOTOR_PUMP, 0)
 	power_channel = ENVIRON
 	req_one_access = list(access_atmospherics, access_engine_equip)
 	var/frequency = 1439
@@ -370,12 +371,12 @@ var/global/list/airalarm_presets = list(
 			// We need to cool ourselves, but only if the gas isn't already colder than what we can do.
 			if (environment.temperature > actual_target_temperature && gas.temperature >= MIN_TEMPERATURE)
 				gas.temperature -= energy_used / heat_capacity
-				machine_power_load += new /datum/power_vector(energy_used/3) //these are heat pumps, so they can have a >100% efficiency, typically about 300%
+				machine_power_load += heat_pump_power * energy_used/3 //these are heat pumps, so they can have a >100% efficiency, typically about 300%
 				cooled = 1
 			// We need to warm ourselves, but only if the gas isn't already hotter than what we can do.
 			else if (environment.temperature < actual_target_temperature && gas.temperature <= MAX_TEMPERATURE)
 				gas.temperature += energy_used / heat_capacity
-				machine_power_load += new /datum/power_vector(energy_used/3)
+				machine_power_load += heat_pump_power * energy_used/3
 
 			environment.merge(gas)
 
@@ -1168,8 +1169,8 @@ FIRE ALARM
 	var/lockdownbyai = 0
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 6
+	idle_power_usage = new(2, 0, 0)
+	active_power_usage = new(6, 0, 0)
 	power_channel = ENVIRON
 	var/last_process = 0
 	var/wiresexposed = 0
@@ -1496,8 +1497,8 @@ var/global/list/firealarms = list() //shrug
 	var/lockdownbyai = 0
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 6
+	idle_power_usage = new(2, 0, 0)
+	active_power_usage = new(6, 0, 0)
 
 /obj/machinery/partyalarm/New()
 	..()

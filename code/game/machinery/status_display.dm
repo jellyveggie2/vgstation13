@@ -26,7 +26,7 @@ var/global/list/status_displays = list() //This list contains both normal status
 	anchored = 1
 	density = 0
 	use_power = 1
-	idle_power_usage = 10
+	idle_power_usage = new(10, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	var/mode = 1	// 0 = Blank
 					// 1 = Shuttle timer
 					// 2 = Arbitrary message(s)

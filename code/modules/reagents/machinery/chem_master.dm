@@ -12,7 +12,8 @@ var/global/list/pillIcon2Name = list("oblong purple-pink", "oblong green-white",
 	icon = 'icons/obj/chemical.dmi'
 	icon_state = "mixer"
 	use_power = 1
-	idle_power_usage = 20
+	idle_power_usage = new(20, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(30, 0, POWER_RATIO_D_COMPUTER) // Additional power used when electrolizying, multiplied by how much is being electrolyzed
 	var/obj/item/weapon/reagent_containers/container = null
 	var/list/accepted_containers = list(/obj/item/weapon/reagent_containers/glass, /obj/item/weapon/reagent_containers/food/drinks)
 	var/obj/item/weapon/storage/pill_bottle/loaded_pill_bottle = null
@@ -255,7 +256,7 @@ var/global/list/pillIcon2Name = list("oblong purple-pink", "oblong green-white",
 				to_chat(usr, "<span class='notice'>There wasn't enough [target] to break down!</span>")
 				return
 			var/total_reactions = round(target.volume / unreaction.result_amount)
-			machine_power_load += new /datum/power_vector(30*total_reactions)
+			machine_power_load += active_power_usage * total_reactions
 			var/amount_to_electrolyze = total_reactions*unreaction.result_amount
 			//The reason we have this new var is because the rounding may mean there are less reactions than total volume!
 			container.reagents.remove_reagent(unreaction.result,amount_to_electrolyze) //This moves over the reactive bulk, and leaves behind the amount too small to react

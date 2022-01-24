@@ -255,7 +255,7 @@
 
 	machine_flags = SCREWTOGGLE | CROWDESTROY | MULTITOOL_MENU
 
-	idle_power_usage = 100 //No active power usage because this thing passively uses 100, always. Don't ask me why N3X15 coded it like this.
+	idle_power_usage =  new(100, POWER_RATIO_Q_MOTOR_MINING, 0) //No active power usage because this thing passively uses 100, always. Don't ask me why N3X15 coded it like this.
 
 	var/atom/movable/mover //Virtual atom used to check passing ability on the out turf.
 

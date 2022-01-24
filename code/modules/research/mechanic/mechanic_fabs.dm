@@ -19,8 +19,8 @@
 
 	build_time = GEN_FAB_BASETIME
 
-	idle_power_usage = 20
-	active_power_usage = 5000
+	idle_power_usage = new(20, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(5000, POWER_RATIO_Q_MOTOR_LATHE, POWER_RATIO_D_SIMPLE_CONSOLE)
 
 	research_flags = NANOTOUCH | TAKESMATIN | HASOUTPUT | IGNORE_CHEMS //we don't need chems to make boards
 

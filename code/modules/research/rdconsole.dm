@@ -271,7 +271,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				linked_destroy.icon_state = "d_analyzer_l"
 			else
 				linked_destroy.icon_state = "d_analyzer"
-			machine_power_load += new /datum/power_vector(250)
+			machine_power_load += linked_destroy.active_power_usage
 			screen = 1.0
 			updateUsrDialog()
 			linked_destroy.busy = 0
@@ -449,7 +449,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 					n = text2num(href_list["n"])
 				n = clamp(n, 0, RESEARCH_MAX_Q_LEN - linked_lathe.queue.len)
 				for(var/i=1;i<=n;i++)
-					machine_power_load += new /datum/power_vector(power)
+					linked_lathe.machine_power_load += linked_lathe.active_power_usage.unit() * power
 					linked_lathe.queue += being_built
 				if(href_list["now"]=="1")
 					linked_lathe.start_processing_queue()
@@ -483,7 +483,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				n = clamp(n, 0, RESEARCH_MAX_Q_LEN - linked_imprinter.queue.len)
 				for(var/i=1;i<=n;i++)
 					linked_imprinter.queue += being_built
-					machine_power_load += new /datum/power_vector(power)
+					linked_imprinter.machine_power_load += power * linked_imprinter.active_power_usage.unit()
 				if(href_list["now"]=="1")
 					linked_imprinter.start_processing_queue()
 

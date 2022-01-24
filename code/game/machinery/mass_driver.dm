@@ -6,8 +6,8 @@ var/list/mass_drivers = list()
 	icon_state = "mass_driver"
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 50
+	idle_power_usage = new(2, 0, 0)
+	active_power_usage = new(500, POWER_RATIO_Q_FIELD_GENERATOR, 0) // Additional power used when throwing things. Multiplied by sum of thrown power and number of items
 	machine_flags = EMAGGABLE | MULTITOOL_MENU
 	layer = BELOW_TABLE_LAYER
 
@@ -63,7 +63,7 @@ var/list/mass_drivers = list()
 /obj/machinery/mass_driver/proc/drive(amount)
 	if(stat & (BROKEN|NOPOWER))
 		return
-	machine_power_load += new /datum/power_vector(500*power)
+	machine_power_load += active_power_usage * power
 	var/O_limit = 0
 	var/atom/target = get_edge_target_turf(src, dir)
 	for(var/atom/movable/O in loc)
@@ -74,7 +74,7 @@ var/list/mass_drivers = list()
 				M.crashing = null
 			if(O_limit >= 20)//so no more than 20 items are sent at a time, probably for counter-lag purposes
 				break
-			machine_power_load += new /datum/power_vector(500)
+			machine_power_load += active_power_usage
 			spawn()
 				var/coef = 1
 				if(emagged)

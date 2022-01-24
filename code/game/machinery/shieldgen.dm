@@ -314,7 +314,7 @@
 		flags = FPRINT
 		siemens_coefficient = 1
 		use_power = 0
-		active_power_usage = new /datum/power_vector(1, POWER_RATIO_Q_SHIELD_GENERATOR, 0)
+		active_power_usage = new(1, POWER_RATIO_Q_SHIELD_GENERATOR, 0)
 
 		machine_flags = WRENCHMOVE | FIXED2WORK
 

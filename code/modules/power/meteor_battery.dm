@@ -61,8 +61,9 @@
 	var/lastfired = 0
 	var/shot_delay = 50
 	use_power = 1
-	idle_power_usage = 50
-	active_power_usage = 300
+	idle_power_usage = new(50, 0, 0)
+	active_power_usage = new(300, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	var/datum/power_vector/shoot_power = new(500, POWER_RATIO_Q_LASER, POWER_RATIO_D_LASER)
 	var/atom/movable/cur_target
 	var/targeting_active = 0
 	var/protect_range = 30
@@ -176,7 +177,7 @@
 	var/turf/U = get_turf(target)
 	if (!T || !U)
 		return
-	use_power(500)
+	machine_power_load += shoot_power
 	var/obj/item/projectile/missile/A = new(T)
 	A.tracking = tracking_missiles
 	fired_missiles.Add(A)

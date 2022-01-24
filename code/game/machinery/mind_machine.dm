@@ -4,8 +4,8 @@
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 50
-	active_power_usage = 2000
+	idle_power_usage = new(50, 0, 0)
+	active_power_usage = new(2000, POWER_RATIO_Q_MEDICAL_SCANNER, POWER_RATIO_D_COMPUTER)
 	light_power_on = 1
 	machine_flags = SCREWTOGGLE | CROWDESTROY | EMAGGABLE | FIXED2WORK | WRENCHMOVE
 

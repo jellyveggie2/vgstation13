@@ -1,7 +1,7 @@
 /datum/artifact_trigger/electricity
 	triggertype = TRIGGER_ELECTRIC
 	scanned_trigger = SCAN_CONSTANT_ENERGETIC
-	var/datum/power_vector/power_load = new /datum/power_vector(7500)
+	var/datum/power_vector/power_load = new(7500)
 
 /datum/artifact_trigger/electricity/New()
 	..()

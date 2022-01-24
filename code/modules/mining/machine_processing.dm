@@ -268,8 +268,8 @@
 	icon_state = "furnace_o"
 	density = 1
 	anchored = 1
-	idle_power_usage = 50
-	active_power_usage = 500 //This shit's able to compress tiny little diamonds into really big diamonds, of course this uses a lot of power.
+	idle_power_usage = new(50, 0, 0)
+	active_power_usage = new(500, POWER_RATIO_Q_MOTOR_MINING, 0) //This shit's able to compress tiny little diamonds into really big diamonds, of course this uses a lot of power.
 	machine_flags = SCREWTOGGLE | CROWDESTROY | MULTITOOL_MENU
 	light_power_on = 2
 	light_range_on = 3

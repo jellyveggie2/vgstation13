@@ -26,8 +26,8 @@
 
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 4
+	idle_power_usage = new(2, 0, 0)
+	active_power_usage = new(5, 0, 0)
 
 	ghost_read=0
 	ghost_write=0
@@ -79,7 +79,7 @@
 		flick("doorctrl-denied",src)
 		return
 
-	machine_power_load += new /datum/power_vector(5)
+	machine_power_load += active_power_usage
 	icon_state = "doorctrl1"
 	add_fingerprint(user)
 
@@ -169,7 +169,7 @@
 		return
 	add_fingerprint(user)
 
-	machine_power_load += new /datum/power_vector(5)
+	machine_power_load += active_power_usage
 
 	launch_sequence()
 

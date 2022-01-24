@@ -8,8 +8,8 @@
 	anchored = 0
 	density = 1
 	use_power = 1
-	idle_power_usage = 100
-	active_power_usage = 1000
+	idle_power_usage = new(100, 0, 0)
+	active_power_usage = new(1000, POWER_RATIO_Q_FIELD_GENERATOR, 0) //There's like, magnets keeping the antimatter in place I guess
 
 	var/list/obj/machinery/am_shielding/linked_shielding
 	var/list/obj/machinery/am_shielding/linked_cores

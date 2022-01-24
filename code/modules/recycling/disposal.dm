@@ -25,6 +25,9 @@
 	var/template_path = "disposalsbin.tmpl"
 	var/deconstructable = TRUE	//Set to FALSE for disposal machinery that can be used for transporting players or things, but not tinkered with by players.
 
+	idle_power_usage = new(100, 0, 0)
+	active_power_usage = new(500, POWER_RATIO_Q_MOTOR_PUMP, 0)
+
 /obj/machinery/disposal/supports_holomap()
 	return TRUE
 
@@ -358,13 +361,13 @@
 	if(stat & NOPOWER)			// won't charge if no power
 		return
 
-	machine_power_load += new /datum/power_vector(100)		// base power usage
+	machine_power_load += idle_power_usage		// base power usage
 
 	if(mode != 1)		// if off or ready, no need to charge
 		return
 
 	// otherwise charge
-	machine_power_load += new /datum/power_vector(500)		// charging power usage
+	machine_power_load += active_power_usage	// charging power usage
 
 	var/atom/L = loc						// recharging from loc turf
 

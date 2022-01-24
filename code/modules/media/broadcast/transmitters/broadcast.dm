@@ -8,8 +8,8 @@
 	use_power = 0 // We use power_connection for this.
 	density = 1
 	anchored = 1 // May need map updates idfk
-	idle_power_usage = 50
-	active_power_usage = 1000
+	idle_power_usage = new(50, 0, 0)
+	active_power_usage = new(1000, POWER_RATIO_Q_RADIO_TRANSMITTER, 0)
 
 	var/on=0
 	var/integrity=100

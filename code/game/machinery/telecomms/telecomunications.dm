@@ -265,7 +265,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 		if(istype(L))
 			var/datum/gas_mixture/env = L.return_air()
 			env.add_thermal_energy(heating_power)
-			machine_power_load += new /datum/power_vector(heating_power / 1000) // This doesn't work?
+			machine_power_load += new(heating_power / 1000, 0, 0) // This doesn't work?
 /*
 	The receiver idles and receives messages from subspace-compatible radio equipment;
 	primarily headsets. They then just relay this information to all linked devices,
@@ -282,7 +282,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 30
+	idle_power_usage = new(30, POWER_RATIO_Q_RADIO_TRANSMITTER, 0)
 	machinetype = 1
 
 /obj/machinery/telecomms/receiver/New()
@@ -371,7 +371,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 80
+	idle_power_usage = new(80, 0, POWER_RATIO_D_COMPUTER)
 	machinetype = 7
 	long_range_link = 1
 	netspeed = 40
@@ -423,7 +423,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 30
+	idle_power_usage = new(30, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	machinetype = 8
 	heating_power = 0
 	netspeed = 5
@@ -489,7 +489,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 50
+	idle_power_usage = new(50, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	machinetype = 2
 	netspeed = 40
 	var/change_frequency = 0
@@ -558,7 +558,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 30
+	idle_power_usage =  new(30, POWER_RATIO_Q_RADIO_FILTER, POWER_RATIO_D_SIMPLE_CONSOLE)
 	machinetype = 3
 	delay = 5
 	var/process_mode = 1 // 1 = Uncompress Signals, 0 = Compress Signals
@@ -615,7 +615,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 15
+	idle_power_usage = new(15, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	machinetype = 4
 	var/list/log_entries = list()
 	var/list/stored_names = list()

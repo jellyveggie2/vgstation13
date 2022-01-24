@@ -16,8 +16,8 @@
 	light_range = 2
 	light_power = 1
 
-	idle_power_usage = 100
-	active_power_usage = 200
+	idle_power_usage = new(100, 0, 0)
+	active_power_usage = new(200, POWER_RATIO_Q_PARTICLE, POWER_RATIO_D_PARTICLE)
 
 	// Contains instances of /dish_incubator_dish.
 	var/list/dish_data = list(null, null, null)

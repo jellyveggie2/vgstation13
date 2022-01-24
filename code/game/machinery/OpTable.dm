@@ -6,8 +6,8 @@
 	density = 1
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 1
-	active_power_usage = 5
+	idle_power_usage = new(1, 0, 0)
+	active_power_usage = new(5, 0, 0)
 	var/mob/living/carbon/human/victim = null
 	var/strapped = 0.0
 	throwpass = 1 //so Adjacent passes.

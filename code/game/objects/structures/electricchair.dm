@@ -5,6 +5,7 @@
 	var/on = 1
 	var/obj/item/assembly/shock_kit/part = null
 	var/last_time = 1.0
+	var/datum/power_vector/power_usage = new(5000, 0, POWER_RATIO_D_MOB_ELECTROCUTION)
 
 /obj/structure/bed/chair/e_chair/New()
 	..()
@@ -58,7 +59,7 @@
 	if(!A.powered(EQUIP))
 		return
 	if(is_locking(/datum/locking_category/buckle, subtypes=TRUE))
-		A.use_power(new /datum/power_vector(5000), EQUIP)
+		A.use_power(power_usage, EQUIP)
 		var/light = A.power_light
 		A.updateicon()
 		flick("echair1", src)

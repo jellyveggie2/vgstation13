@@ -6,8 +6,8 @@
 	density = FALSE
 	anchored = TRUE
 	use_power = 1
-	idle_power_usage = 75
-	active_power_usage = 750
+	idle_power_usage = new(75, 0, 0)
+	active_power_usage = new(750, POWER_RATIO_Q_FIELD_GENERATOR, 0) // Additional power used when frazzling something
 	flow_flags = IMPASSABLE
 	var/list/obj_whitelist = list() //Things that are okay to go through. Frazzle everything else.
 	var/list/obj_blacklist = list() //Things that aren't okay to go through. Don't frazzle everything else.
@@ -31,7 +31,7 @@
 		return
 	if(stat & (BROKEN|NOPOWER))
 		return
-	machine_power_load += new /datum/power_vector(active_power_usage, power_channel)
+	machine_power_load += active_power_usage
 	var/delete = FALSE
 
 	if(isobserver(victim)) //Fucking ghosts.

@@ -24,8 +24,8 @@
 	density = 1
 
 	use_power = 0
-	idle_power_usage = 0
-	active_power_usage = 0
+	idle_power_usage = new()
+	active_power_usage = new()
 
 	active = 1
 	locked = 1

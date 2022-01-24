@@ -986,6 +986,7 @@
 	equip_cooldown = 10
 	energy_drain = 0
 	range = 0
+	var/datum/power_vector/relay_charge_load = new (1, POWER_RATIO_Q_RADIO_TRANSMITTER, POWER_RATIO_D_POWER_SINK)
 	var/datum/global_iterator/pr_energy_relay
 	var/coeff = 100
 	var/list/use_channels = list(EQUIP,ENVIRON,LIGHT)
@@ -1110,7 +1111,7 @@
 			if(pow_chan)
 				var/delta = min(12, ER.chassis.cell.maxcharge-cur_charge)
 				ER.chassis.give_power(delta)
-				A.use_power(new /datum/power_vector(delta*ER.coeff), pow_chan)
+				A.use_power((ER.relay_charge_load.unit() * delta * ER.coeff), pow_chan)
 	return
 
 

@@ -439,7 +439,7 @@
 
 	search_objects = 1
 
-	var/datum/power_vector/power_drain_unit = new /datum/power_vector(1, 0, POWER_RATIO_D_POWER_SINK)
+	var/datum/power_vector/power_drain_unit = new(1, 0, POWER_RATIO_D_POWER_SINK)
 
 	var/obj/item/weapon/cell/cell = null
 	var/latched = 0

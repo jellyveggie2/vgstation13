@@ -12,8 +12,8 @@
 	var/mob/living/occupant // Mob who has been put inside
 	var/opened = 0.0
 	use_power = 1
-	idle_power_usage = 20
-	active_power_usage = 500
+	idle_power_usage = new(20, 0, 0)
+	active_power_usage = new(1000, POWER_RATIO_Q_MOTOR_BIO_GRINDER, 0)
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK
 
 	var/list/allowed_victims = list(
@@ -205,7 +205,7 @@
 		visible_message("<span class='warning'>You hear a loud metallic grinding sound.</span>", \
 			drugged_message = "<span class='warning'>You faintly hear a guitar solo.</span>")
 		return
-	machine_power_load += new /datum/power_vector(1000)
+	machine_power_load += active_power_usage
 	visible_message("<span class='warning'>You hear a loud squelchy grinding sound.</span>", \
 		drugged_message = "<span class='warning'>You hear a band performance.</span>")
 	src.operating = 1
@@ -304,7 +304,7 @@
 /obj/machinery/gibber/autogibber/Bumped(var/atom/A)
 	if(stat & (BROKEN | NOPOWER))
 		return
-	machine_power_load += new /datum/power_vector(100)
+	machine_power_load += active_power_usage / 10
 	if(isliving(A))
 		var/mob/living/M = A
 		M.visible_message("<span class='warning'>[M] is forcefully sucked into \the [src]!</span>", \
@@ -317,7 +317,7 @@
 		visible_message("<span class='warning'>You hear a loud metallic grinding sound.</span>", \
 			drugged_message = "<span class='warning'>You faintly hear a guitar solo.</span>")
 		return
-	machine_power_load += new /datum/power_vector(1000)
+	machine_power_load += active_power_usage
 	visible_message("<span class='warning'>You hear a loud squelchy grinding sound.</span>", \
 		drugged_message = "<span class='warning'>You hear a band performance.</span>")
 	var/sourcenutriment = victim.nutrition / 15

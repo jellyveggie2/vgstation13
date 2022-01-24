@@ -6,8 +6,8 @@
 	icon_state = "harvester"
 	anchored = 1
 	density = 1
-	idle_power_usage = 50
-	active_power_usage = 750
+	idle_power_usage = new(50, 0, 0)
+	active_power_usage = new(750, POWER_RATIO_Q_FIELD_GENERATOR, 0)
 	use_power = 1
 	var/harvesting = 0
 	var/obj/item/weapon/anobattery/inserted_battery

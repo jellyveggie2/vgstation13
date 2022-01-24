@@ -44,7 +44,7 @@ list("category" = "machinery", "name" = "MSGS", "path" = /obj/machinery/atmosphe
 	machine_flags = WRENCHMOVE | FIXED2WORK | EMAGGABLE
 	req_access = list(access_engine)
 
-	var/datum/power_vector/consumption_unit = new /datum/power_vector(1, POWER_RATIO_Q_ANTIQUE_SYNTH, POWER_RATIO_D_ANTIQUE_SYNTH)
+	var/datum/power_vector/consumption_unit = new(1, POWER_RATIO_Q_ANTIQUE_SYNTH, POWER_RATIO_D_ANTIQUE_SYNTH)
 
 	var/consumption = 0 //How much are we set to draw off the net? Clamped between 0 and 2 GIGAWATT (2,000,000,000 Watts)
 	var/on = 0

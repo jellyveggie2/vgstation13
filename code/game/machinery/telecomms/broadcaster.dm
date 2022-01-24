@@ -18,7 +18,7 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 25
+	idle_power_usage = new(25, POWER_RATIO_Q_RADIO_TRANSMITTER, 0)
 	machinetype = 5
 	delay = 7
 
@@ -137,7 +137,7 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 	density = 1
 	anchored = 1
 	use_power = 0
-	idle_power_usage = 0
+	idle_power_usage = new()
 	machinetype = 6
 	heating_power = 0
 	var/intercept = 0 // if nonzero, broadcasts all messages to syndicate channel
@@ -335,7 +335,7 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 	for (var/atom/movable/listener in listeners)
 		if (listener)
 			listener.Hear(speech, rendered)
-	
+
 	// Note that a mob can hear both fine and fucked up version of the same message - this is intentional
 	for (var/J in gibberish_listeners)
 		var/datum/jammed_mob_dst/dst = gibberish_listeners[J]
@@ -344,7 +344,7 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 			var/datum/speech/nu_speech = speech.clone()
 			nu_speech.message = Gibberish(nu_speech.message, dst.severity)
 			dst.attached.Hear(nu_speech, virt.render_speech(nu_speech))
-	
+
 	if (length(gibberish_listeners))
 		gibberish_listeners = null
 

@@ -10,8 +10,7 @@
 	var/frequency = 1439
 
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 4
+	idle_power_usage = new(7, 0, 0)
 	machine_flags = MULTITOOL_MENU
 
 /obj/machinery/meter/New(newloc, new_target)
@@ -46,8 +45,6 @@
 	if(stat & (BROKEN|NOPOWER))
 		icon_state = "meter0"
 		return 0
-
-	machine_power_load += new /datum/power_vector(5)
 
 	var/datum/gas_mixture/environment = target.return_air()
 	if(!environment)

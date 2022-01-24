@@ -94,7 +94,7 @@ There are some properties of this vector that are of interest, in order of popul
 	return new /datum/power_vector(P / k, Q / k, D / k, FALSE)
 
 // Cross Product
-/datum/power_vector/proc/cross(/datum/power_vector/v)
+/datum/power_vector/proc/cross(datum/power_vector/v)
 	return new /datum/power_vector(Q * v.D - D * v.Q, D * v.P - P * v.D, P * v.Q - Q * v.P, FALSE)
 
 // Norm
@@ -104,8 +104,11 @@ There are some properties of this vector that are of interest, in order of popul
 /datum/power_vector/proc/normalized()
 	return src / norm()
 
+/datum/power_vector/proc/unit()
+	return src / P
+
 // Equals
-/datum/power_vector/proc/equals(/datum/power_vector/v)
+/datum/power_vector/proc/equals(datum/power_vector/v)
 	return (P == v.P && Q == v.Q && D == v.D)
 
 
@@ -163,7 +166,7 @@ There are some properties of this vector that are of interest, in order of popul
  *
  * This function calculates that.
  */
-/proc/power_excess_calculator(available, /datum/power_vector/load = new(), qr=0, dr=0)
+/proc/power_excess_calculator(available, datum/power_vector/load = new(), qr=0, dr=0)
 	/* We have to solve P for:
 	* 	A^2 = (L.P + P)^2 + (L.Q + P * QR)^2 + (L.D + P * DR)^2
 	* Where:

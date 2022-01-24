@@ -9,8 +9,8 @@ var/list/camera_names=list()
 	icon = 'icons/obj/monitors.dmi'
 	icon_state = "camera"
 	use_power = 2
-	idle_power_usage = 5
-	active_power_usage = 10
+	idle_power_usage = new(5, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(10, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	plane = ABOVE_HUMAN_PLANE
 	flags = FPRINT
 
@@ -469,8 +469,8 @@ var/list/camera_messages = list()
 	desc = "A camera anchored to the floor, designed to survive hits and explosions of any size. What's it made of anyway?"
 	icon_state = "camerarena"
 	use_power = 0
-	idle_power_usage = 0
-	active_power_usage = 0
+	idle_power_usage = new()
+	active_power_usage = new()
 	layer = DECAL_LAYER
 	plane = ABOVE_TURF_PLANE
 

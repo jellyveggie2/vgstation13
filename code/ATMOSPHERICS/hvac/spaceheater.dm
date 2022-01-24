@@ -38,7 +38,7 @@
 	return !(stat & NOPOWER)
 
 /obj/machinery/space_heater/vesta/drain_powersource(var/amount = heating_power)
-	machine_power_load += new /datum/power_vector(amount/40000) //uses 10x the power but 2x as efficient (5x consumption)
+	machine_power_load += new(amount/40000) //uses 10x the power but 2x as efficient (5x consumption)
 
 /obj/machinery/space_heater/vesta/afterheat(var/datum/gas_mixture/G)
 	if(G.temperature >= set_temperature + T0C)

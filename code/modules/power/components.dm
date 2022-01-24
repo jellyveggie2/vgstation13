@@ -240,25 +240,23 @@
 	var/active_usage=2
 
 	// Base power draw when idle
-	var/idle_power_usage = 0
-	var/idle_reactive_power_usage = 0
-	var/idle_deformed_power_usage = 0
+	var/datum/power_vector/idle_power_usage = new()
 
 	// Base power draw when active
-	var/active_power_usage = 0          //
-	var/active_reactive_power_usage = 0 //
-	var/active_deformed_power_usage = 0 //
+	var/datum/power_vector/active_power_usage = new()
 
- 	// Effect on power draw when toggling between idle and active
-	var/toggling_power_usage = 0          //
-	var/toggling_reactive_power_usage = 0 //
-	var/toggling_deformed_power_usage = 0 //
+	// Initial power draw values, filled in automatically on New(), in case you need an inital() equivalent for some reason
+	var/datum/power_vector/initial_idle_power = new()
+	var/datum/power_vector/initial_active_power = new()
 
 	// Total power usage to be applied next update
 	var/datum/power_vector/component_power_load = new()
 
 /datum/power_connection/consumer/New(var/loc,var/obj/parent)
 	..(loc,parent)
+	initial_idle_power = idle_power_usage.duplicate()
+	initial_active_power = active_power_usage.duplicate()
+
 
 /datum/power_connection/consumer/process()
 	if(use)
@@ -270,10 +268,10 @@
 
 	switch (use)
 		if (1)
-			component_power_load += new /datum/power_vector(idle_power_usage, idle_reactive_power_usage, idle_deformed_power_usage, FALSE)
+			component_power_load += idle_power_usage
 			use_power(component_power_load, channel)
 		if (2)
-			component_power_load += new /datum/power_vector(active_power_usage, active_reactive_power_usage, active_deformed_power_usage, FALSE)
+			component_power_load += active_power_usage
 			use_power(component_power_load, channel)
 	component_power_load.reset()
 

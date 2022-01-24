@@ -101,8 +101,8 @@ var/list/obj/machinery/holosign/holosigns = list()
 	var/image/overlay
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 4
+	idle_power_usage = new(2, 0, 0)
+	active_power_usage = new(5, 0, 0)
 
 /obj/machinery/holosign_switch/New(var/turf/loc)
 	..()
@@ -133,7 +133,7 @@ var/list/obj/machinery/holosign/holosigns = list()
 		return
 	add_fingerprint(user)
 
-	machine_power_load += new /datum/power_vector(5)
+	machine_power_load += active_power_usage
 
 	active = !active
 

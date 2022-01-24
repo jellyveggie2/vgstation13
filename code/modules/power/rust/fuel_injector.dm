@@ -16,8 +16,8 @@
 	var/injecting = FALSE
 
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 500
+	idle_power_usage = new(10, 0, 0)
+	active_power_usage = new(500, POWER_RATIO_Q_PARTICLE, POWER_RATIO_D_PARTICLE)
 	var/remote_access_enabled = TRUE
 	var/cached_power_avail = 0
 	var/emergency_insert_ready = FALSE
@@ -152,7 +152,7 @@
 		data["power_status_class"] = "bad"
 	else if(cached_power_avail < active_power_usage.P * 2)
 		data["power_status_class"] = "average"
-	data["active_power_usage"] = round(active_power_usage)
+	data["active_power_usage"] = round(active_power_usage.P)
 	data["cached_power_avail"] = round(cached_power_avail)
 	data["remote_access_enabled"] = remote_access_enabled
 
@@ -207,7 +207,7 @@
 		new_usage = max(new_usage, 0.01)
 		new_usage = min(new_usage, 100)
 		fuel_usage = new_usage / 100
-		active_power_usage = 500 + 1000 * fuel_usage
+		active_power_usage = (500 + 1000 * fuel_usage) * active_power_usage.unit()
 		return 1
 
 	if(href_list["update_extern"])
@@ -225,14 +225,14 @@
 /obj/machinery/power/rust_fuel_injector/proc/begin_injecting()
 	if(!injecting && cur_assembly)
 		injecting = TRUE
-		use_power = 1
+		use_power = 2
 		update_icon()
 
 /obj/machinery/power/rust_fuel_injector/proc/stop_injecting()
 	if(injecting)
 		injecting = FALSE
 		icon_state = "injector0"
-		use_power = 0
+		use_power = 1
 		update_icon()
 
 /obj/machinery/power/rust_fuel_injector/proc/inject()

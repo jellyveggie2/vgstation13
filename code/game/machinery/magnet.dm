@@ -13,7 +13,9 @@
 	level = 1		// underfloor
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 50
+	idle_power_usage = new(50)
+	active_power_usage = new(15, POWER_RATIO_Q_FIELD_GENERATOR, 0) // Will be multiplied by electricity_level
+	var/datum/power_vector/pull_power_usage = new(5, POWER_RATIO_Q_FIELD_GENERATOR, 0) // Power used if an object is pulled. Will be multiplied by electricity_level
 
 	var/freq = 1449		// radio frequency
 	var/electricity_level = 1 // intensity of the magnetic pull
@@ -159,7 +161,7 @@
 	// Update power usage:
 	if(on)
 		use_power = 2
-		active_power_usage = electricity_level*15
+		active_power_usage = initial_active_power * electricity_level
 	else
 		use_power = 0
 
@@ -194,7 +196,7 @@
 					continue
 				step_towards(S, center)
 
-		machine_power_load += new /datum/power_vector(electricity_level * 5)
+		machine_power_load += pull_power_usage * electricity_level
 		sleep(13 - electricity_level)
 
 	pulling = 0
@@ -209,7 +211,7 @@
 	density = 1
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 45
+	idle_power_usage = new(45, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	var/frequency = 1449
 	var/code = 0
 	var/list/magnets = list()

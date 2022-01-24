@@ -12,6 +12,7 @@ var/list/obj/machinery/flasher/flashers = list()
 	var/last_flash = 0 //Don't want it getting spammed like regular flashes
 	var/strength = 10 //How knocked down targets are when flashed.
 	var/base_state = "mflash"
+	active_power_usage = new(1000, 0, 0)
 	anchored = 1
 	ghost_read=0
 	ghost_write=0
@@ -74,7 +75,7 @@ var/list/obj/machinery/flasher/flashers = list()
 
 	playsound(src, 'sound/weapons/flash.ogg', 100, 1)
 	src.last_flash = world.time
-	machine_power_load += new /datum/power_vector(1000)
+	machine_power_load += active_power_usage
 	if(harm_labeled >= min_harm_label)
 		return //Still "flashes," so power is used and the noise is made, etc., but it doesn't actually flash anyone.
 	flick("[base_state]_flash", src)
@@ -154,7 +155,7 @@ var/list/obj/machinery/flasher/flashers = list()
 	if(active)
 		return
 
-	machine_power_load += new /datum/power_vector(5)
+	machine_power_load += active_power_usage
 
 	active = 1
 	icon_state = "launcheract"

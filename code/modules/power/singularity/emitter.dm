@@ -9,9 +9,9 @@
 	density = 1
 	req_access = list(access_engine_equip)
 
-	use_power = 0
-	idle_power_usage = 10
-	active_power_usage = 300
+	use_power = 0 // WTF have they never used any power despite requiring it?
+	idle_power_usage = new(10, 0, 0)
+	active_power_usage = new(300, POWER_RATIO_Q_LASER, POWER_RATIO_D_LASER)
 
 	var/active = 0
 	var/powered = 0
@@ -221,14 +221,14 @@
 	if(stat & BROKEN)
 		return
 
-	if(state != 2 || (!powernet && active_power_usage)) //Not welded to the floor, or no more wire underneath and requires power
+	if(state != 2 || (!powernet && active_power_usage.P)) //Not welded to the floor, or no more wire underneath and requires power
 		active = 0
 		update_icon()
 		update_beam()
 		return
 
 	if(((last_shot + fire_delay) <= world.time) && (active == 1)) //It's currently activated and it hasn't processed in a bit
-		if(!active_power_usage || surplus(active_power_usage) >= active_power_usage.P) //Doesn't require power or powernet has enough supply
+		if(!active_power_usage.P || surplus(active_power_usage) >= active_power_usage.P) //Doesn't require power or powernet has enough supply
 			add_load(active_power_usage) //Drain it then bitch
 			if(!powered) //Yay its powered
 				powered = 1

@@ -6,8 +6,8 @@
 	icon_state = "borgcharger0(old)"
 	density = 1
 
-	idle_power_usage = 100
-	active_power_usage = 1000
+	idle_power_usage = new(100, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(1000, POWER_RATIO_Q_MOTOR_LATHE, POWER_RATIO_D_MOTOR_SERVO)
 	use_power = 1
 
 	machine_flags = WRENCHMOVE

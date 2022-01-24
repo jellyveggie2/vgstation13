@@ -23,6 +23,8 @@
 	var/unlocked = 1
 	var/power_use_this_tick = 0
 
+	active_power_usage = new(1, POWER_RATIO_Q_MOTOR_PUMP, 0) // multiplied by actual power use as determined by internal logic
+
 /obj/machinery/vaporizer/New()
 	..()
 	create_reagents(1000)
@@ -67,7 +69,7 @@
 		handle_tanks(target_value*mixratio,OXYGEN)
 		handle_tanks(target_value*(100-mixratio),NITROGEN)
 		nanomanager.update_uis(src)
-	machine_power_load += new /datum/power_vector(power_use_this_tick)
+	machine_power_load += power_use_this_tick * active_power_usage
 
 /obj/machinery/vaporizer/proc/force_reaction()
 	mixing_chamber.flags &= ~NOREACT

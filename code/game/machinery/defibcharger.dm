@@ -5,8 +5,8 @@
 	icon_state = "wrecharger0"
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 150
+	idle_power_usage = new(10, 0, 0)
+	active_power_usage = new(150, 0, POWER_RATIO_D_CAPACITOR_CHARGER)
 	has_beeped = FALSE
 
 	machine_flags = SCREWTOGGLE | CROWDESTROY //| WRENCHMOVE | FIXED2WORK if we want it to be wrenchable
@@ -70,7 +70,7 @@
 			if(B.charges < initial(B.charges))
 				B.charges++
 				icon_state = "wrecharger1"
-				machine_power_load += new /datum/power_vector(150)
+				machine_power_load += active_power_usage
 			else
 				icon_state = "wrecharger2"
 				if(!has_beeped)

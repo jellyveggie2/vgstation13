@@ -28,8 +28,8 @@
 	var/static/list/plasmaman_suits
 	var/static/list/vox_suits
 	var/apply_multiplier = 1
-	idle_power_usage = 50
-	active_power_usage = 300
+	idle_power_usage = new(50, 0, 0)
+	active_power_usage = new(300, 0.5, POWER_RATIO_D_MOTOR_TINY)
 
 /proc/build_plasmaman_suit_list()
 	return build_suit_list(/datum/species/plasmaman, /obj/item/clothing/suit/space/plasmaman, /obj/item/clothing/head/helmet/space/plasmaman)
@@ -74,18 +74,19 @@
 		initialize()
 
 /obj/machinery/suit_modifier/RefreshParts()
-	var/avg_rate = 0
+	var/rating_sum = 0
 	var/amount = 0
 	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
-		avg_rate += M.rating
+		rating_sum += M.rating
 		amount++
-	apply_multiplier = (avg_rate / amount)
-	avg_rate = 0
+	apply_multiplier = (rating_sum / amount)
+
+	rating_sum = 0
 	amount = 0
 	for(var/obj/item/weapon/stock_parts/micro_laser/ML in component_parts)
-		avg_rate += ML.rating
+		rating_sum += ML.rating
 		amount++
-	active_power_usage = 300 / (avg_rate / amount)
+	active_power_usage = initial_active_power / (rating_sum / amount)
 
 /obj/machinery/suit_modifier/initialize()
 	suit_overlay = new

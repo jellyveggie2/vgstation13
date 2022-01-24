@@ -12,8 +12,8 @@
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK
 
 	use_power = 1
-	idle_power_usage = 20
-	active_power_usage = 500
+	idle_power_usage = new(20, 0, 0)
+	active_power_usage = new(500, POWER_RATIO_Q_MOTOR_BIO_GRINDER, 0)
 	var/time_coeff = 1
 	var/content_limit = 3
 
@@ -290,7 +290,7 @@
 			continue
 		src.processing = 1
 		playsound(src, 'sound/machines/blender.ogg', 50, 1)
-		machine_power_load += new /datum/power_vector(500)
+		machine_power_load += active_power_usage
 		sleep(P.time*time_coeff)
 		P.process(src.loc, O)
 		src.processing = 0

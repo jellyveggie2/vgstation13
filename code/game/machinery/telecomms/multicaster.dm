@@ -8,7 +8,7 @@ var/list/pda_multicasters = list()
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 750
+	idle_power_usage = new(750, POWER_RATIO_Q_RADIO_TRANSMITTER, POWER_RATIO_D_COMPUTER)
 	var/obj/item/device/pda/camo/CAMO
 	var/on = TRUE
 

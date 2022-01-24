@@ -8,8 +8,8 @@
 	icon_state = "pad-idle"
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 20
-	active_power_usage = 500
+	idle_power_usage = new(20, 0, 0)
+	active_power_usage = new(500, POWER_RATIO_Q_FIELD_GENERATOR, 0)
 	var/stage = 0
 
 /obj/machinery/telepad_cargo/New()

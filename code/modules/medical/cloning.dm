@@ -14,6 +14,10 @@
 	icon = 'icons/obj/cloning.dmi'
 	icon_state = "pod_0"
 	req_access = list(access_genetics) //For premature unlocking.
+
+	idle_power_usage = new(200, 0, 0)
+	active_power_usage = new(7500, POWER_RATIO_Q_MEDICAL_CLONING, POWER_RATIO_D_MEDICAL_CLONING) //This might need tweaking.
+
 	var/mob/living/occupant
 	var/heal_level = 90 //The clone is released once its health reaches this level.
 	var/locked = FALSE
@@ -312,7 +316,7 @@
 			//Also heal some oxyloss ourselves because inaprovaline is so bad at preventing it!!
 			occupant.adjustOxyLoss(-4)
 
-			machine_power_load += new /datum/power_vector(7500) //This might need tweaking.
+			machine_power_load += active_power_usage
 			return
 
 		else if((occupant.health >= heal_level) && (!eject_wait))
@@ -327,7 +331,7 @@
 			locked = FALSE
 		if (!mess)
 			icon_state = "pod_0"
-		machine_power_load += new /datum/power_vector(200)
+		machine_power_load += idle_power_usage
 		return
 
 	return

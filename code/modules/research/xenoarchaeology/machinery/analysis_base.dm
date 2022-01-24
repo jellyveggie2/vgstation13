@@ -6,8 +6,8 @@
 	icon = 'icons/obj/virology.dmi'
 	icon_state = "analyser_old"
 
-	idle_power_usage = 10
-	active_power_usage = 1000
+	idle_power_usage = new(10, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(1000, POWER_RATIO_Q_ANALYZER, POWER_RATIO_D_MOTOR_TINY)
 
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK
 

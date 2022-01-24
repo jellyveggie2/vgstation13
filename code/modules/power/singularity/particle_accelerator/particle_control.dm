@@ -9,8 +9,8 @@
 	anchored = 0
 	density = 1
 	use_power = 0
-	idle_power_usage = 500
-	active_power_usage = 10000
+	idle_power_usage = new(500, 0, 0)
+	active_power_usage = new(10000, 0, 0)
 	construction_state = 0
 	active = 0
 	dir = 1

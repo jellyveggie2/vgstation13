@@ -10,7 +10,9 @@
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 50
+	idle_power_usage = new(50, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	//FIXME !J // TODO: This power cost is new so it remains 0. Give it an actual value in a later PR
+	active_power_usage = new(0, POWER_RATIO_Q_MEDICAL_CLONING, POWER_RATIO_D_MEDICAL_CLONING) // Additional power draw per printed organ
 
 	light_color = LIGHT_COLOR_CYAN
 	light_range_on = 3
@@ -85,7 +87,7 @@
 			//else if(loaded_dna)
 				//visible_message("<span class='notice'>The printer would be using the DNA sample if it was coded.</span>")
 				//TODO: Copy DNA hash or donor reference over to new organ.
-
+		machine_power_load += active_power_usage
 		visible_message("<span class='notice'>\The [src] spits out a brand new organ.</span>")
 	else
 		visible_message("<span class='warning'>\The [src]'s error light flickers. It can't make new organs out of thin air, fill it up first.</span>")

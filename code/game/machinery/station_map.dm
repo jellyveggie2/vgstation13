@@ -8,8 +8,8 @@ var/list/station_holomaps = list()
 	anchored = 1
 	density = 0
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 10
+	idle_power_usage = new(10, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(10, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	dir = NORTH
 
 	use_auto_lights = 1

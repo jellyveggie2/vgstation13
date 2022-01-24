@@ -106,7 +106,7 @@
 			return 1
 
 		gyro.mega_energy = clamp(new_val, 0.001, 0.01)
-		gyro.active_power_usage = gyro.mega_energy * 100000000 //1 MW for 0.01 TJ, 100 KW for 0.001 TJ.
+		gyro.active_power_usage = active_power_usage.unit() * gyro.mega_energy * 100000000 //1 MW for 0.01 TJ, 100 KW for 0.001 TJ.
 
 		updateUsrDialog()
 		return 1

@@ -8,7 +8,7 @@
 	anchored = 1
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK
 	req_access = list(access_rnd)
-	idle_power_usage = 100
+	idle_power_usage = new(100, POWER_RATIO_Q_FIELD_GENERATOR, 0)
 	var/error_message = null
 	var/efficiency_modifier = 0 //Subtract from crystal costs
 	var/crystal_reserve = 0 //Powered by bluespace crystals, this represents how much.

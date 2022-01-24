@@ -30,7 +30,7 @@
 	toggled = 1
 	//anchored = 1
 	//use_power = 0
-	//idle_power_usage = 0
+	//idle_power_usage = new()
 	heating_power = 0
 	autolinkers = list("c_relay")
 

@@ -40,6 +40,7 @@ var/list/ai_list = list()
 	var/datum/intercom_settings/intercom_clipboard = null //Clipboard for copy/pasting intercom settings
 	var/mentions_on = FALSE
 	var/list/holopadoverlays = list()
+	var/datum/power_vector/power_required = new(1000, 0, POWER_RATIO_D_COMPUTER)
 
 	// See VOX_AVAILABLE_VOICES for available values
 	var/vox_voice = "fem";

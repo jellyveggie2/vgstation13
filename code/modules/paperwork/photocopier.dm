@@ -7,8 +7,8 @@
 	anchored = 1
 	density = 1
 	use_power = 1
-	idle_power_usage = 30
-	active_power_usage = 200
+	idle_power_usage = new(30, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(200, 0, POWER_RATIO_D_MOTOR_TINY) // Unused, apparently
 	power_channel = EQUIP
 	var/opened = 0
 	var/obj/item/weapon/paper/copy = null	//what's in the copier!

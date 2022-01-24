@@ -18,6 +18,8 @@
 	var/scanmode = 0
 	var/senset = 0
 
+	active_power_usage = new(1000, 0.4, 0)
+
 	req_access = list(access_security)
 
 	flags = FPRINT | PROXMOVE
@@ -201,20 +203,20 @@
 				sndstr = "sound/machines/alert.ogg"
 				maxthreat = 2
 			src.last_read = world.time
-			machine_power_load += new /datum/power_vector(1000)
+			machine_power_load += active_power_usage
 			threat_carbons += dudesname
 		else if(dudesthreat && senset)
 			if(maxthreat < 1)
 				sndstr = "sound/machines/domore.ogg"
 				maxthreat = 1
 			src.last_read = world.time
-			machine_power_load += new /datum/power_vector(1000)
+			machine_power_load += active_power_usage
 			mildly_threatening_carbons += dudesname
 		else
 			if(maxthreat == 0)
 				sndstr = "sound/machines/info.ogg"
 			src.last_read = world.time
-			machine_power_load += new /datum/power_vector(1000)
+			machine_power_load += active_power_usage
 			clear_carbons += dudesname
 
 	if(threat_carbons.len)

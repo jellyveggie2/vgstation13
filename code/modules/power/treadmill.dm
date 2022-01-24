@@ -15,7 +15,7 @@
 	machine_flags = SCREWTOGGLE | WRENCHMOVE | EMAGGABLE
 	anchored = 1
 	use_power = 0
-	idle_power_usage = 0
+	idle_power_usage = new()
 	pass_flags_self = PASSGLASS
 	var/count_power = 0 //How much power have we produced SO FAR this count?
 	var/tick_power = 0 //How much power did we produce last count?

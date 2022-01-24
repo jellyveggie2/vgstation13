@@ -9,8 +9,8 @@
 
 /obj/machinery/r_n_d/fabricator
 	desc = "A fabricator. What kind, you don't know."
-	idle_power_usage = 20
-	active_power_usage = 5000
+	idle_power_usage = new(20, 0, 0)
+	active_power_usage = new(5000, POWER_RATIO_Q_MOTOR_LATHE, 0)
 
 	var/time_coeff = 1 //can be upgraded with research
 	var/resource_coeff = 1 //can be upgraded with research

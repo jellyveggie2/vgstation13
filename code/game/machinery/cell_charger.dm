@@ -6,8 +6,8 @@
 	icon_state_open = "ccharger_open"
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 10 //Power is already drained to charge batteries
+	idle_power_usage = new(10, 0, 0)
+	active_power_usage = new(1, 0, POWER_RATIO_D_CELL_CHARGER) //Additional power used while charging
 	power_channel = EQUIP
 	var/obj/item/weapon/cell/charging = null
 	var/transfer_rate = 1500 //How much power do we output every process tick ?
@@ -141,7 +141,7 @@
 		return
 
 	if(charging.give(transfer_rate*transfer_rate_coeff * (transfer_efficiency+transfer_efficiency_bonus) * (emagged ? 0.25 : 1)))//Inefficiency (Joule effect + other shenanigans)  //Lose most of it if emagged
-		machine_power_load += new /datum/power_vector(transfer_rate * transfer_rate_coeff * (emagged ? 10 : 1))  //Drain all the power if emagged
+		machine_power_load += active_power_usage * (emagged ? 10 : 1)  //Drain all the power if emagged
 		if(has_beeped) //It's charging again
 			has_beeped = FALSE
 	if(round(charging.percent() >= 100)&&!has_beeped)

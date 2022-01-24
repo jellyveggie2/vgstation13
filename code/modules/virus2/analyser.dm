@@ -10,8 +10,9 @@
 	light_range = 2
 	light_power = 1
 
-	idle_power_usage = 100
-	active_power_usage = 100//1000 extra power once per analysis
+	idle_power_usage = new(100, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(100, 0, POWER_RATIO_D_COMPUTER)
+	var/datum/power_vector/analysis_power = new(1000, POWER_RATIO_Q_ANALYZER, 0) // Extra power used once per analysis performed
 
 	var/process_time = 5
 	var/minimum_growth = 100
@@ -141,7 +142,7 @@
 		I.layer = ABOVE_LIGHTING_LAYER
 		overlays += I
 
-	machine_power_load += new /datum/power_vector(1000)
+	machine_power_load += analysis_power
 	set_light(2,2)
 	playsound(loc, "sound/machines/heps.ogg", 50, 1)
 

@@ -30,6 +30,7 @@ var/list/gateways = list() //List containing the gateways on away missions
 	density = 1
 	icon_state = "offcenter"
 	use_power = 1
+	active_power_usage = new(5000, POWER_RATIO_Q_FIELD_GENERATOR, 0)
 
 	//warping vars
 	var/list/linked = list()
@@ -64,7 +65,7 @@ var/list/gateways = list() //List containing the gateways on away missions
 		return
 
 	if(active)
-		machine_power_load += new /datum/power_vector(5000)
+		machine_power_load += active_power_usage
 
 
 /obj/machinery/gateway/centerstation/proc/detect()
@@ -152,7 +153,7 @@ var/list/gateways = list() //List containing the gateways on away missions
 		var/obj/effect/landmark/L_dest = pick(good_landmarks)
 		M.forceMove(get_turf(L_dest))
 		M.dir = SOUTH
-		machine_power_load += new /datum/power_vector(5000)
+		machine_power_load += active_power_usage
 
 
 /obj/machinery/gateway/centerstation/attackby(obj/item/device/W as obj, mob/user as mob)

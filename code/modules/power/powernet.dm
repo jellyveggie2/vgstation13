@@ -354,7 +354,7 @@ var/global/powernets_broke = 0
 	var/drained_hp = M.electrocute_act(shock_damage, source, siemens_coeff)	//zzzzzzap!
 	var/drained_energy = drained_hp * 20
 
-	var/datum/power_vector/zap_load = new /datum/power_vector(drained_energy / CELLRATE)// convert from "joules" to "watts"
+	var/datum/power_vector/zap_load = new(drained_energy / CELLRATE)// convert from "joules" to "watts"
 	if(source_area)
 		source_area.use_power(zap_load)
 	else if(istype(power_source, /datum/powernet))

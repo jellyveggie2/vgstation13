@@ -615,8 +615,8 @@
 
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 6
+	idle_power_usage = new(2, 0, 0)
+	active_power_usage = new(6, 0, 0)
 	power_channel = ENVIRON
 	ghost_read = 0
 

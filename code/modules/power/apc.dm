@@ -1170,7 +1170,7 @@
 
 		else
 			// Figure how much power we'd still need if we were to drain what's left on the grid
-			var/datum/power_vector/diff = new /datum/power_vector(lastused_total.P - excess, lastused_total.reactive_ratio(), lastused_total.distortion_ratio())
+			var/datum/power_vector/diff = (lastused_total.P - excess) * lastused_total.unit()
 
 			// The cell can cover the remaining cost: draw from cell, and do actually drain what's left on the grid (if anything)
 			if (cell.charge / CELLRATE > diff.apparent_power())

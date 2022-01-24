@@ -8,7 +8,8 @@
 	icon = 'icons/obj/chemical.dmi'
 	icon_state = "dispenser"
 	use_power = 1
-	idle_power_usage = 40
+	idle_power_usage = new(40, 0, 0)
+	active_power_usage = new(3000, POWER_RATIO_Q_FIELD_GENERATOR, 0)
 	var/energy = 0
 	var/max_energy = 50
 	var/rechargerate = 2
@@ -99,7 +100,7 @@ USE THIS CHEMISTRY DISPENSER FOR MAPS SO THEY START AT 100 ENERGY
 	var/oldenergy = energy
 	energy = min(energy + rechargerate, max_energy)
 	if(energy != oldenergy)
-		machine_power_load += new /datum/power_vector(3000) // This thing uses up alot of power (this is still low as shit for creating reagents from thin air)
+		machine_power_load += active_power_usage // This thing uses up alot of power (this is still low as shit for creating reagents from thin air)
 		nanomanager.update_uis(src) // update all UIs attached to src
 
 /obj/machinery/chem_dispenser/power_change()

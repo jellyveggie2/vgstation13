@@ -71,8 +71,8 @@ var/global/ingredientLimit = 10
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 20
-	active_power_usage = 500
+	idle_power_usage = new(20, 0, 0)
+	active_power_usage = new(500, 0, 0) // Resistive load, just heats things up
 
 	machine_flags = WRENCHMOVE | FIXED2WORK //need to add circuits before the other flags get in
 
@@ -712,8 +712,8 @@ var/global/ingredientLimit = 10
 	icon = 'icons/obj/cooking_machines.dmi'
 	icon_state = "oven_off"
 	var/icon_state_on = "oven_on"
-	idle_power_usage = 200
-	active_power_usage = 5000
+	idle_power_usage = new(200, 0, 0)
+	active_power_usage = new(5000, 0, 0) // Resisitive load, just heats thingsup
 	heat_production = 1500
 	source_temperature = T0C+180
 	density = 1

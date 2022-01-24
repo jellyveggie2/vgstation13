@@ -5,8 +5,9 @@
 	density = 1
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 5
-	active_power_usage = 1000
+	idle_power_usage = new(5)
+	active_power_usage = new(1000, 0, POWER_RATIO_D_CELL_CHARGER)
+	var/datum/power_vector/capacitor_charge_power = new(100, 0, POWER_RATIO_D_CAPACITOR_CHARGER)
 	var/mob/living/occupant = null
 	var/list/acceptable_upgradeables = list(/obj/item/weapon/cell) // battery for now
 	var/list/upgrade_holder = list()
@@ -42,7 +43,7 @@
 		T += C.rating-1
 	transfer_rate_coeff = initial(transfer_rate_coeff)+(T * 0.2)
 	capacitor_max = initial(capacitor_max)+(T * 750)
-	active_power_usage = 1000 * transfer_rate_coeff
+	active_power_usage = initial_active_power * transfer_rate_coeff
 
 /obj/machinery/recharge_station/Destroy()
 	src.go_out()
@@ -221,12 +222,12 @@
 		return
 	if (capacitor_stored > 0)
 		capacitor_stored -= C.give(capacitor_stored)
-	machine_power_load += new /datum/power_vector(200*transfer_rate_coeff, 0, POWER_RATIO_D_CAPACITOR_CHARGER)
-	C.give(200 * transfer_rate_coeff + (isMoMMI(occupant) ? 100 * transfer_rate_coeff : 0))
+	machine_power_load += 2 * capacitor_charge_power * transfer_rate_coeff
+	C.give(2 * capacitor_charge_power.P * transfer_rate_coeff + (isMoMMI(occupant) ? capacitor_charge_power.P * transfer_rate_coeff : 0))
 
 /obj/machinery/recharge_station/proc/process_capacitors()
 	var/charge_rate = min(20 * transfer_rate_coeff, capacitor_max - capacitor_stored)
-	machine_power_load += new /datum/power_vector(100 * charge_rate/20, 0, POWER_RATIO_D_CAPACITOR_CHARGER)
+	machine_power_load += capacitor_charge_power * charge_rate/20
 	capacitor_stored += charge_rate
 
 /obj/machinery/recharge_station/proc/go_out()

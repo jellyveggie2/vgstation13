@@ -29,10 +29,10 @@ Class Variables:
          2 -- machine is using power at its active power level
 
 
-   active_power_usage (num)
+   active_power_usage (/datum/power_vector)
       Value for the amount of power to use when in active power mode
 
-   idle_power_usage (num)
+   idle_power_usage (/datum/power_vector)
       Value for the amount of power to use when in idle power mode
 
    power_channel (num)
@@ -229,7 +229,7 @@ Class Procs:
 
 /obj/machinery/emp_act(severity)
 	if(use_power && stat == 0)
-		use_power(new /datum/power_vector(7500/severity))
+		use_power(new /datum/power_vector(7500/severity), 0, (severity > 1 ? POWER_RATIO_D_EMP_HEAVY : POWER_RATIO_D_EMP_LIGHT))
 
 		var/obj/effect/overlay/pulse2 = new/obj/effect/overlay ( src.loc )
 		pulse2.icon = 'icons/effects/effects.dmi'
@@ -272,12 +272,10 @@ Class Procs:
 	switch (use_power)
 		if (1)
 			machine_power_load += idle_power_usage
-			use_power(machine_power_load, power_channel)
 		if (2)
 			machine_power_load += active_power_usage
-			use_power(machine_power_load, power_channel)
+	use_power(machine_power_load, power_channel)
 	machine_power_load.reset()
-
 	return 1
 
 /obj/machinery/proc/multitool_topic(var/mob/user,var/list/href_list,var/obj/O)

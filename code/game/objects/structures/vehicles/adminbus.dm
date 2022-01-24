@@ -314,7 +314,7 @@
 		spawn()
 			if (H.engaged)
 				H.teleport(src)
-				H.machine_power_load += new /datum/power_vector(5000)
+				H.machine_power_load += H.active_power_usage
 				src.Move()
 
 	if(can_move)

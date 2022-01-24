@@ -61,8 +61,8 @@ max volume of plasma storeable by the field = the total volume of a number of ti
 	var/field_frequency = 1
 
 	use_power = 1
-	idle_power_usage = 50
-	active_power_usage = 500	//multiplied by field strength
+	idle_power_usage = new(50, 0, 0)
+	active_power_usage = new(500, POWER_RATIO_Q_FIELD_GENERATOR, 0)	//multiplied by field strength
 	anchored = 0
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK | WELD_FIXED | MULTITOOL_MENU
 
@@ -110,7 +110,7 @@ max volume of plasma storeable by the field = the total volume of a number of ti
 	if(href_list["str"])
 		var/dif = text2num(href_list["str"])
 		field_strength = min(max(field_strength + dif, MIN_FIELD_STR), MAX_FIELD_STR)
-		active_power_usage = 5 * field_strength	//change to 500 later
+		active_power_usage = 5 * field_strength * active_power_usage.unit()	//change to 500 later
 		if(owned_field)
 			owned_field.ChangeFieldStrength(field_strength)
 
@@ -159,7 +159,7 @@ max volume of plasma storeable by the field = the total volume of a number of ti
 /obj/machinery/power/rust_core/proc/set_strength(var/value)
 	value = clamp(value, MIN_FIELD_STR, MAX_FIELD_STR)
 	field_strength = value
-	active_power_usage = RUST_CORE_STR_COST * value
+	active_power_usage = RUST_CORE_STR_COST * value * active_power_usage.unit()
 	if(owned_field)
 		owned_field.ChangeFieldStrength(value)
 

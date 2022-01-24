@@ -7,8 +7,8 @@
 	var/active = 0
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 4
+	idle_power_usage = new(2, 0, 0)
+	active_power_usage = new(4, 0, 0)
 
 	ghost_read = 0 // Deactivate ghost touching.
 	ghost_write = 0
@@ -38,8 +38,8 @@
 	var/active = 0
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 4
+	idle_power_usage = new(2, 0, 0)
+	active_power_usage = new(5, 0, 0)
 
 	ghost_read = 0 // Deactivate ghost touching.
 	ghost_write = 0
@@ -56,8 +56,8 @@
 	var/active = 0
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 4
+	idle_power_usage = new(2, 0, 0)
+	active_power_usage = new(5, 0, 0)
 
 	ghost_read = 0 // Deactivate ghost touching.
 	ghost_write = 0

@@ -13,6 +13,8 @@
 	layer = BELOW_TABLE_LAYER
 	anchored = 1
 
+	active_power_usage = new(100, POWER_RATIO_Q_MOTOR_MINING, 0)
+
 	var/operating = 0	// 1 if running forward, -1 if backwards, 0 if off
 	var/operable = 1	// true if can operate (no broken segments in this belt run)
 	var/in_reverse = 0  // Swap forwards/reverse dirs. (Good for diagonals)
@@ -239,7 +241,7 @@
 		return
 	if(!operating)
 		return
-	machine_power_load += new /datum/power_vector(100)
+	machine_power_load += active_power_usage
 
 	affecting = loc.contents - src		// moved items will be all in loc
 	spawn(1)	// slight delay to prevent infinite propagation due to map order	//TODO: please no spawn() in process(). It's a very bad idea

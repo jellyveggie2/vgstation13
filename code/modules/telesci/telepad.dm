@@ -6,8 +6,8 @@
 	icon_state = "pad-idle"
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 200
-	active_power_usage = 5000
+	idle_power_usage = new(200, 0, 0)
+	active_power_usage = new(5000, POWER_RATIO_Q_FIELD_GENERATOR, 0)
 
 	machine_flags = MULTITOOL_MENU | SCREWTOGGLE | CROWDESTROY | FIXED2WORK
 	mech_flags = MECH_SCAN_FAIL

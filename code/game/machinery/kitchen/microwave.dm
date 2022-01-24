@@ -6,8 +6,8 @@
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 5
-	active_power_usage = 100
+	idle_power_usage = new(5, 0, 0)
+	active_power_usage = new(500, POWER_RATIO_Q_MICROWAVE, POWER_RATIO_D_MICROWAVE)
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | EJECTNOTDEL
 	flags = OPENCONTAINER | NOREACT
 	pass_flags = PASSTABLE
@@ -456,7 +456,7 @@
 	for (var/i=1 to seconds)
 		if (stat & (NOPOWER|BROKEN))
 			return 0
-		machine_power_load += new /datum/power_vector(500)
+		machine_power_load += active_power_usage
 		sleep(10/speed_multiplier)
 	return 1
 

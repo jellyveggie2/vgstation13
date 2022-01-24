@@ -11,8 +11,8 @@
 	var/previous_power_state = 0
 
 	use_power = 1
-	active_power_usage = 2000
-	idle_power_usage = 1000
+	idle_power_usage = new(1000, POWER_RATIO_Q_MEDICAL_CLONING, POWER_RATIO_D_MEDICAL_CLONING)
+	active_power_usage = new(2000, POWER_RATIO_Q_MEDICAL_CLONING, POWER_RATIO_D_MEDICAL_CLONING)
 
 	machine_flags = WRENCHMOVE
 

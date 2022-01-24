@@ -11,8 +11,8 @@
 	icon = 'icons/obj/computer.dmi'
 	icon_state = "solar"
 	use_power = 1
-	idle_power_usage = 50
-	active_power_usage = 300
+	idle_power_usage = new(50, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(300, 0, POWER_RATIO_D_COMPUTER)
 	id_tag = 0
 	var/cdir = 0
 	var/gen = 0

@@ -16,13 +16,13 @@
 	var/wasvalid = 0
 	var/lastfired = 0							// 1: if the turret is cooling down from a shot, 0: turret is ready to fire
 
-	var/reqpower = 350							// Amount of power per shot
 	var/shot_delay = 30 						//3 seconds between shots
 	var/fire_twice = 0
 
-	use_power = 1								// this turret uses and requires power
-	idle_power_usage = 50						// when inactive, this turret takes up constant 50 Equipment power
-	active_power_usage = 300					// when active, this turret takes up constant 300 Equipment power
+	use_power = 1																								// this turret uses and requires power
+	idle_power_usage = new(50, 0, 0)														// when inactive, this turret takes up constant 50 Equipment power
+	active_power_usage = new(300, 0, POWER_RATIO_D_SIMPLE_CONSOLE)							// when active, this turret takes up constant 300 Equipment power
+	var/datum/power_vector/reqpower = new(350, POWER_RATIO_Q_LASER, POWER_RATIO_D_LASER)	// Amount of power per shot
 //	var/list/targets
 	var/atom/movable/cur_target
 	var/targeting_active = 0
@@ -200,7 +200,7 @@
 	if (!istype(T) || !istype(U))
 		return
 
-	machine_power_load += new /datum/power_vector(reqpower)
+	machine_power_load += reqpower
 
 	playsound(src, installed.fire_sound, 75, 1)
 	var/obj/item/projectile/A

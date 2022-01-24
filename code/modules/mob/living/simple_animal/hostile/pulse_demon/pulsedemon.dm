@@ -35,7 +35,7 @@
     var/maxcharge = 1000                                                       //Max charge storable
     var/health_drain_rate = 5                                                  //Health drained per tick when not on power source
     var/health_regen_rate = 5                                                  //Health regenerated per tick when on power source
-    var/datum/power_vector/amount_per_regen = new /datum/power_vector(100)     //Amount of power used to regenerate health, taken from machines or the powernet
+    var/datum/power_vector/amount_per_regen = new(100)     //Amount of power used to regenerate health, taken from machines or the powernet
     var/charge_absorb_amount = 1000                                            //Amount of power sucked per tick from cells (eg: APCs)
     var/max_can_absorb = 10000                                                 //Maximum amount that max charge can increase to
     var/takeover_time = 30                                                     //Time spent taking over electronics

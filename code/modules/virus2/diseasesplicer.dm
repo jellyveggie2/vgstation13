@@ -17,8 +17,8 @@
 	var/scanning = 0 // Time in process ticks until scan is over
 	var/spliced = FALSE // If at least one effect has been spliced into the current dish this is TRUE
 
-	idle_power_usage = 100
-	active_power_usage = 600
+	idle_power_usage = new(100, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(600, 0, POWER_RATIO_D_COMPUTER)
 
 	light_color = "#00FF00"
 

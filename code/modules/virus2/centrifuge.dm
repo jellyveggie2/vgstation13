@@ -27,8 +27,8 @@
 	light_range = 2
 	light_power = 1
 
-	idle_power_usage = 100
-	active_power_usage = 300
+	idle_power_usage =  new(100, 0, 0)
+	active_power_usage =  new(300, POWER_RATIO_Q_MOTOR, 0)
 
 	var/base_efficiency = 1
 	var/upgrade_efficiency = 0.3 // the higher, the better will upgrade affect efficiency

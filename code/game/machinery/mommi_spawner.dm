@@ -11,8 +11,8 @@
 	var/const/metalPerTick = 1
 	var/mommi_type = /mob/living/silicon/robot/mommi/soviet
 	use_power = 1
-	idle_power_usage = 20
-	active_power_usage = 5000
+	idle_power_usage = new(20, 0, 0)
+	active_power_usage = new(5000, POWER_RATIO_Q_MOTOR_LATHE, POWER_RATIO_D_COMPUTER)
 	var/recharge_time = 60 SECONDS
 	var/locked_to_zlevel = TRUE // Whether to lock the spawned MoMMIs to the z-level
 	var/locked_law = "You belong to the station where you were created; do not leave it."

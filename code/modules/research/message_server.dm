@@ -54,8 +54,8 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 	density = 1
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 100
+	idle_power_usage = new(10, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(100, 0, POWER_RATIO_D_COMPUTER)
 	ghost_read=0
 	ghost_write=0 // #430
 
@@ -125,6 +125,6 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 	density = 1
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 100
+	idle_power_usage = new(10, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(100, 0, POWER_RATIO_D_MOTOR_TINY)
 

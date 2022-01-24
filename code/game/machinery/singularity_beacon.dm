@@ -15,7 +15,8 @@
 	light_power_on = 2
 
 	var/obj/item/weapon/cell/cell
-	var/datum/power_vector/power_load = new /datum/power_vector(1000, POWER_RATIO_Q_SINGULARITY_BEACON, 0) //A bit ugly. How much power this machine needs per tick. Equivalent to one minute on 30k W battery, two second ticks
+	var/datum/power_vector/power_load = new(1000, POWER_RATIO_Q_SINGULARITY_BEACON, 0) // How much power this machine needs per tick. Equivalent to one minute on 30k W battery, two second ticks
+	var/datum/power_vector/power_recharge_unit = new(1, 0, POWER_RATIO_D_CELL_CHARGER) // How this machine draws from the grid to recharge. Multiplied by however much it actually draws
 	var/power_draw = 0 //If there's spare power on the grid, cannibalize it to charge the beacon's battery
 	var/active = 0 //It doesn't use APCs, so use_power wouldn't really suit it
 	var/icontype = "beacon"
@@ -136,7 +137,7 @@
 		PN.load += power_load
 		if(cell && cell.charge < cell.maxcharge && cell.charge > 0 && PN.netexcess)
 			power_draw = min(cell.maxcharge - cell.charge, PN.netexcess) //Draw power directly from excess power
-			PN.load += new /datum/power_vector(power_draw)
+			PN.load += power_recharge_unit * power_draw
 			cell.give(power_draw) //We drew power from the grid, charge the cell
 		return 1
 

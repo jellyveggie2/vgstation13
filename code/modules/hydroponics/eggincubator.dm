@@ -5,8 +5,8 @@
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 500
+	idle_power_usage = new(10, 0, 0)
+	active_power_usage = new(500, 0, 0)
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | EJECTNOTDEL | MULTIOUTPUT
 	flags = OPENCONTAINER | NOREACT
 	pass_flags = PASSTABLE

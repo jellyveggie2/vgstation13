@@ -11,7 +11,7 @@
 	plane = ABOVE_TURF_PLANE
 	anchored = 1
 	density = 0
-
+	active_power_usage = new(150, 0, POWER_RATIO_D_CAPACITOR_CHARGER)
 	machine_flags = SCREWTOGGLE | CROWDESTROY
 
 /obj/machinery/mech_bay_recharge_floor/New()
@@ -36,7 +36,7 @@
 		capacitor_stored = 0
 	else if(capacitor_stored<capacitor_max && recharge_port && !recharging_mecha)
 		var/delta = min(recharge_port.pr_recharger.max_charge,capacitor_max-capacitor_stored)
-		machine_power_load += new /datum/power_vector(delta*150)
+		machine_power_load += active_power_usage * delta
 		capacitor_stored += delta
 
 /obj/machinery/mech_bay_recharge_floor/Crossed(var/atom/A)
@@ -98,7 +98,7 @@
 	var/obj/machinery/mech_bay_recharge_floor/recharge_floor
 	var/obj/machinery/computer/mech_bay_power_console/recharge_console
 	var/datum/global_iterator/mech_bay_recharger/pr_recharger
-
+	active_power_usage = new(150, 0, POWER_RATIO_D_CELL_CHARGER)
 	machine_flags = SCREWTOGGLE | CROWDESTROY
 
 /obj/machinery/mech_bay_recharge_port/New()
@@ -178,7 +178,7 @@
 		var/delta = min(max_charge, C.maxcharge - C.charge)
 		if(delta>0)
 			C.give(delta)
-			port.machine_power_load += new /datum/power_vector(delta*150)
+			port.machine_power_load += port.active_power_usage * delta
 		else
 			to_mech(O,"<span class='notice'><b>Fully charged.</b></span>")
 			port.stop_charge()

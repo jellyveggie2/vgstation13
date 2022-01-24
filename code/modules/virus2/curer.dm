@@ -5,6 +5,9 @@
 	var/curing
 	var/virusing
 
+	idle_power_usage = new(800, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(800, 0, POWER_RATIO_D_COMPUTER)
+
 	var/obj/item/weapon/reagent_containers/container = null
 
 /obj/machinery/computer/curer/attackby(var/obj/item/I as obj, var/mob/user as mob)
@@ -75,7 +78,6 @@
 
 	if(stat & (NOPOWER|BROKEN))
 		return
-	use_power(500)
 
 	if(curing)
 		curing -= 1

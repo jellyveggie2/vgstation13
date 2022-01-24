@@ -111,12 +111,12 @@ var/global/list/obj/machinery/light/alllights = list()
 	plane = OBJ_PLANE
 	layer = ABOVE_DOOR_LAYER
 	use_power = 2
-	idle_power_usage = 2
-	active_power_usage = 20
+	idle_power_usage = new(2)
+	active_power_usage = new(20, POWER_RATIO_Q_LIGHTBULB, POWER_RATIO_D_LIGHTBULB)
 	power_channel = LIGHT //Lights are calc'd via area so they dont need to be in the machine list
 	var/on = 0					// 1 if on, 0 if off
 	var/on_gs = 0
-	var/static_power_used = 0
+	var/datum/power_vector/static_power_used = new()
 	var/flickering = 0
 	var/obj/item/weapon/light/current_bulb = null
 	var/spawn_with_bulb = /obj/item/weapon/light/tube
@@ -280,9 +280,9 @@ var/global/list/obj/machinery/light/alllights = list()
 		on_gs = on
 		if(on)
 			static_power_used = current_bulb.cost * 20 //20W per unit luminosity
-			addStaticPower(new /datum/power_vector(static_power_used), STATIC_LIGHT)
+			addStaticPower(static_power_used, STATIC_LIGHT)
 		else
-			removeStaticPower(new /datum/power_vector(static_power_used), STATIC_LIGHT)
+			removeStaticPower(static_power_used, STATIC_LIGHT)
 
 /*
  * Attempt to set the light's on/off status.
@@ -608,7 +608,7 @@ var/global/list/obj/machinery/light/alllights = list()
 	var/brightness_range = 2 //how much light it gives off
 	var/brightness_power = 1
 	var/brightness_color = null
-	var/cost = 2 //How much power does it consume in an idle state?
+	var/datum/power_vector/cost = new(2, POWER_RATIO_Q_LIGHTBULB, POWER_RATIO_D_LIGHTBULB) //How much power does it consume
 	var/fitting = "tube"
 	var/frequency = 1500 //for smart lights
 
@@ -623,7 +623,7 @@ var/global/list/obj/machinery/light/alllights = list()
 	brightness_range = 6
 	brightness_power = 1.5
 	brightness_color = LIGHT_COLOR_TUNGSTEN
-	cost = 8
+	cost = new(8, POWER_RATIO_Q_LIGHTBULB, POWER_RATIO_D_LIGHTBULB)
 
 /obj/item/weapon/light/tube/he
 	name = "high efficiency light tube"
@@ -633,7 +633,7 @@ var/global/list/obj/machinery/light/alllights = list()
 	brightness_range = 8
 	brightness_power = 4
 	brightness_color = LIGHT_COLOR_HALOGEN
-	cost = 2
+	cost = new(2, POWER_RATIO_Q_LIGHTBULB_HE, POWER_RATIO_D_LIGHTBULB_HE)
 
 /obj/item/weapon/light/tube/smart
 	name = "smart light tube"
@@ -643,7 +643,7 @@ var/global/list/obj/machinery/light/alllights = list()
 	brightness_range = 8
 	brightness_power = 4
 	brightness_color = "#FFFFFF"
-	cost = 2
+	cost = new(2, POWER_RATIO_Q_LIGHTBULB_LED, POWER_RATIO_D_LIGHTBULB_LED)
 
 /obj/item/weapon/light/tube/broken
 	status = LIGHT_BROKEN
@@ -676,7 +676,7 @@ var/global/list/obj/machinery/light/alllights = list()
 	brightness_power = 2
 	brightness_color = LIGHT_COLOR_TUNGSTEN
 	starting_materials = list(MAT_GLASS = 50, MAT_IRON = 30)
-	cost = 5
+	cost = new(5, POWER_RATIO_Q_LIGHTBULB, POWER_RATIO_D_LIGHTBULB)
 	w_type = RECYK_GLASS
 
 /obj/item/weapon/light/bulb/broken
@@ -689,7 +689,7 @@ var/global/list/obj/machinery/light/alllights = list()
 	brightness_range = 6
 	brightness_power = 3
 	brightness_color = LIGHT_COLOR_HALOGEN
-	cost = 1
+	cost = new(1, POWER_RATIO_Q_LIGHTBULB_HE, POWER_RATIO_D_LIGHTBULB_HE)
 	starting_materials = list(MAT_GLASS = 150, MAT_IRON = 30)
 
 /obj/item/weapon/light/bulb/smart
@@ -699,7 +699,7 @@ var/global/list/obj/machinery/light/alllights = list()
 	brightness_range = 6
 	brightness_power = 3
 	brightness_color = "#FFFFFF"
-	cost = 1
+	cost = new(1, POWER_RATIO_Q_LIGHTBULB_LED, POWER_RATIO_D_LIGHTBULB_LED)
 	starting_materials = list(MAT_GLASS = 100, MAT_IRON = 30)
 
 /obj/item/weapon/light/attackby(obj/item/W, mob/user)

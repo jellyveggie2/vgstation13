@@ -23,8 +23,8 @@ Crew Monitor by Paul, based on the holomaps by Deity
 	desc = "Used to monitor active health sensors built into most of the crew's uniforms."
 	icon_state = "crew"
 	use_power = 1
-	idle_power_usage = 250
-	active_power_usage = 500
+	idle_power_usage = new(250, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(500, 0, POWER_RATIO_D_COMPUTER)
 	circuit = "/obj/item/weapon/circuitboard/crew"
 
 	light_color = LIGHT_COLOR_BLUE

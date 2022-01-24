@@ -32,6 +32,8 @@ var/global/list/rnd_machines = list()
 
 	var/datum/wires/rnd/wires = null
 
+	var/datum/power_vector/mat_loader_power = new(1, 0, POWER_RATIO_D_MOTOR_TINY)
+
 /obj/machinery/r_n_d/New()
 	rnd_machines |= src
 	..()
@@ -217,7 +219,7 @@ var/global/list/rnd_machines = list()
 					overlays -= image(icon = icon, icon_state = "autolathe_[stack.name]")
 
 		icon_state = "[base_state]"
-		machine_power_load += new /datum/power_vector(max(1000, (3750*amount/10)))
+		machine_power_load += mat_loader_power * (max(1000, (3750*amount/10)))
 		stack.use(amount)
 		to_chat(user, "<span class='notice'>You add [amount] sheet[amount > 1 ? "s":""] to the [src].</span>")
 		icon_state = "[base_state]"

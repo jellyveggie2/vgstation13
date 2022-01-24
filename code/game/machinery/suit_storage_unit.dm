@@ -28,6 +28,7 @@
 	var/department = "null"
 	var/image/openimage
 	var/image/closeimage
+	active_power_usage = new(100, 0, POWER_RATIO_D_CELL_CHARGER)
 
 	machine_flags = SCREWTOGGLE
 
@@ -755,7 +756,7 @@
 	if(suit && istype(suit, /obj/item/clothing/suit/space/rig))
 		var/obj/item/clothing/suit/space/rig/R = suit
 		if(R.cell && R.cell.charge < R.cell.maxcharge)
-			machine_power_load += new /datum/power_vector(100)
+			machine_power_load += active_power_usage
 			R.cell.give(30)
 
 //////////////////////////////REMINDER: Make it lock once you place some fucker inside.

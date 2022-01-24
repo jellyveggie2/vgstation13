@@ -13,6 +13,7 @@
 	var/rpmtarget = 0
 	var/capacity = 1e6
 	var/comp_id = 0
+	active_power_usage = new(2800, POWER_RATIO_Q_MOTOR_PUMP, 0)
 
 /obj/machinery/power/turbine
 	name = "gas turbine generator"
@@ -74,7 +75,7 @@
 
 
 	if(starter && !(stat & NOPOWER))
-		machine_power_load += new /datum/power_vector(2800)
+		machine_power_load += active_power_usage
 		if(rpm<1000)
 			rpmtarget = 1000
 	else

@@ -12,8 +12,9 @@
 	use_power = 1			//0 use nothing
 							//1 use idle power
 							//2 use active power
-	idle_power_usage = 10
-	active_power_usage = 100
+	idle_power_usage = new(10, 0, 0)
+	active_power_usage = new(100, 0, POWER_RATIO_D_CAPACITOR_CHARGER)
+
 	machine_flags = EMAGGABLE | SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK
 	var/active = TRUE
 	var/stored_charge = 0
@@ -112,16 +113,14 @@
 /obj/machinery/shield_capacitor/process()
 	if(active)
 		use_power = 2
-		if(stored_charge + charge_rate > max_charge)
-			active_power_usage = max_charge - stored_charge
-		else
-			active_power_usage = charge_rate
-		stored_charge += active_power_usage
+		var/charge = min (charge_rate, max_charge - stored_charge)
+		stored_charge += charge
+		active_power_usage = active_power_usage.unit() * charge
 	else
 		use_power = 1
 
 	time_since_fail++
-	if(stored_charge < active_power_usage * 1.5)
+	if(stored_charge < active_power_usage.P * 1.5)
 		time_since_fail = 0
 
 /obj/machinery/shield_capacitor/Topic(href, href_list[])

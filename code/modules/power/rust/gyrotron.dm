@@ -16,8 +16,9 @@
 	req_access = list(access_engine)
 
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 100000 //Yes that is a shitton. No you're not running this engine on an SE/AME you SE/AME scrubs.
+	idle_power_usage = new(10, 0, 0)
+	active_power_usage = new(100000, POWER_RATIO_Q_PARTICLE, POWER_RATIO_D_PARTICLE) //Yes that is a shitton. No you're not running this engine on an SE/AME you SE/AME scrubs.
+	var/datum/power_vector/shot_power = new(500, POWER_RATIO_Q_PARTICLE, POWER_RATIO_D_PARTICLE) // Additional power per shot. Has an additional mega_energy * 100 cost
 
 /obj/machinery/rust/gyrotron/initialize()
 	if(!id_tag)
@@ -57,7 +58,7 @@
 	A.damage = mega_energy * 1500
 
 	playsound(src, 'sound/weapons/emitter.ogg', 25, 1)
-	machine_power_load += new /datum/power_vector(100 * mega_energy + 500)
+	machine_power_load += shot_power + shot_power.unit() * 100 * mega_energy
 
 	A.dir = dir
 	A.dumbfire()

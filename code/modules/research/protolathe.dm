@@ -20,6 +20,8 @@ it creates. All the menus and other manipulation commands are in the R&D console
 
 	light_color = LIGHT_COLOR_CYAN
 
+	active_power_usage = new(1, POWER_RATIO_Q_MOTOR_LATHE, POWER_RATIO_D_SIMPLE_CONSOLE)
+
 	research_flags = CONSOLECONTROL | HASOUTPUT | TAKESMATIN | HASMAT_OVER | LOCKBOXES | MULTIOUTPUT
 
 	part_sets = list(

@@ -20,8 +20,8 @@ var/global/list/obj/machinery/keycard_auth/authenticators = list()
 	req_one_access = list(access_keycard_auth)
 	anchored = 1.0
 	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 6
+	idle_power_usage = new(2, 0, 0)
+	active_power_usage = new(6, 0, 0)
 	power_channel = ENVIRON
 
 /obj/machinery/keycard_auth/New()

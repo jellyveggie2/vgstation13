@@ -323,7 +323,8 @@
 	density = 1
 	anchored = 1
 	use_power = 1
-	idle_power_usage = 40
+	idle_power_usage = new(40, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
+	active_power_usage = new(30, POWER_RATIO_Q_MOTOR_BIO_GRINDER, POWER_RATIO_D_SIMPLE_CONSOLE) // Multiplied by number of ground produce
 	var/speed_coefficient = 15
 	var/biomass_coefficient = 9
 	var/tmp/processing = 0
@@ -579,7 +580,7 @@
 		update_icon()
 		updateUsrDialog()
 		playsound(src, 'sound/machines/blender.ogg', 50, 1)
-		machine_power_load += new /datum/power_vector(S*30)
+		machine_power_load += S * active_power_usage
 		sleep(speed_coefficient*(S+15))
 		processing = 0
 		update_icon()

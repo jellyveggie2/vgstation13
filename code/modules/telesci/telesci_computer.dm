@@ -26,8 +26,8 @@
 	var/z_co = 1         // Z coordinate
 
 	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 300
+	idle_power_usage = new(10, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(2, 0, POWER_RATIO_D_CELL_CHARGER)
 	power_channel = EQUIP
 	var/obj/item/weapon/cell/cell
 	var/teleport_cell_usage=1000 // 100% of a standard cell
@@ -109,7 +109,7 @@
 
 	var/used = cell.give(100)
 	if (used)
-		machine_power_load += new /datum/power_vector(used * 2) // This used to use CELLRATE, but CELLRATE is fucking awful. feel free to fix this properly!
+		machine_power_load += used * active_power_usage // This used to use CELLRATE, but CELLRATE is fucking awful. feel free to fix this properly!
 		nanomanager.update_uis(src)
 
 /obj/machinery/computer/telescience/attackby(obj/item/weapon/W, mob/user)

@@ -11,8 +11,8 @@
 	light_color = LIGHT_COLOR_YELLOW
 
 	use_power = 1
-	idle_power_usage = 300
-	active_power_usage = 300
+	idle_power_usage = new(300, 0, POWER_RATIO_D_COMPUTER)
+	active_power_usage = new(300, 0, POWER_RATIO_D_COMPUTER)
 
 	var/datum/powernet/connected_powernet
 
