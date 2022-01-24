@@ -422,9 +422,9 @@ var/area/space_area
 			static_environ += value
 
 /area/proc/clear_usage()
-	used_equip = new()
-	used_light = new()
-	used_environ = new()
+	used_equip.reset()
+	used_light.reset()
+	used_environ.reset()
 
 /area/proc/use_power(var/datum/power_vector/load, const/chan)
 	switch (chan)

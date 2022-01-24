@@ -1123,21 +1123,21 @@
 
 	area.calc_lighting() */
 
-	lastused_light = new()
+	lastused_light.reset()
 	lastused_light += this_area.usage(LIGHT)
 	lastused_light += this_area.usage(STATIC_LIGHT)
 
-	lastused_equip = new()
+	lastused_equip.reset()
 	lastused_equip += this_area.usage(EQUIP)
 	lastused_equip += this_area.usage(STATIC_EQUIP)
 
-	lastused_environ = new()
+	lastused_environ.reset()
 	lastused_environ += this_area.usage(ENVIRON)
 	lastused_environ += this_area.usage(STATIC_ENVIRON)
 
 	this_area.clear_usage()
 
-	lastused_total = new()
+	lastused_total.reset()
 	lastused_total += lastused_light
 	lastused_total += lastused_equip
 	lastused_total += lastused_environ

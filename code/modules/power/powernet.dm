@@ -116,7 +116,7 @@
 	viewload = round(viewload)
 
 	// reset the powernet
-	load = new()
+	load.reset()
 	avail = newavail
 	newavail = 0
 
