@@ -142,7 +142,7 @@ Class Procs:
 	// Power draw when active
 	var/datum/power_vector/active_power_usage = new()
 
-	// Total power usage to be applied next auto_use_power() update, resets after every process_use_power(). Set it during process() or any interactions, call use_power() directly to bypass process_use_power()
+	// Total power usage to be applied next process_use_power() update, resets after. Set it during process() or any interactions, call use_power() directly to bypass process_use_power()
 	var/datum/power_vector/machine_power_usage = new()
 
 	// Initial power draw values, filled in automatically on New(). Useful for stock part upgrades that change the actual power draw.

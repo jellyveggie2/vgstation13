@@ -74,7 +74,7 @@
 	return
 
 /datum/power_connection/proc/process()
-	return // auto_use_power() :^)
+	return // process_use_power() :^)
 
 // common helper procs for all power machines
 /datum/power_connection/proc/add_avail(var/amount)
@@ -260,21 +260,19 @@
 
 /datum/power_connection/consumer/process()
 	if(use)
-		auto_use_power()
+		process_use_power()
 
-/datum/power_connection/consumer/proc/auto_use_power()
+/datum/power_connection/consumer/proc/process_use_power()
 	if(!powered(channel))
 		return 0
 
 	switch (use)
 		if (1)
 			component_power_load += idle_power_usage
-			use_power(component_power_load, channel)
 		if (2)
 			component_power_load += active_power_usage
-			use_power(component_power_load, channel)
+	use_power(component_power_load, channel)
 	component_power_load.reset()
-
 	return 1
 
 

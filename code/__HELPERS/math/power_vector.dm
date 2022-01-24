@@ -107,10 +107,6 @@ There are some properties of this vector that are of interest, in order of popul
 
 /datum/power_vector/proc/operator/(k)
 	return new /datum/power_vector(P / k, Q / k, D / k, FALSE)
-/datum/power_vector/proc/operator/=(k)
-	P /= k
-	Q /= k
-	D /= k
 
 // Cross Product
 /datum/power_vector/proc/cross(datum/power_vector/v)
