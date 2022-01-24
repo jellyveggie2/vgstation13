@@ -207,7 +207,7 @@
 		new_usage = max(new_usage, 0.01)
 		new_usage = min(new_usage, 100)
 		fuel_usage = new_usage / 100
-		active_power_usage = (500 + 1000 * fuel_usage) * active_power_usage.unit()
+		active_power_usage = active_power_usage.unit() * (500 + 1000 * fuel_usage)
 		return 1
 
 	if(href_list["update_extern"])

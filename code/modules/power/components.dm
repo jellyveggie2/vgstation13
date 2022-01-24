@@ -273,7 +273,7 @@
 		if (2)
 			component_power_load += active_power_usage
 			use_power(component_power_load, channel)
-	component_power_load.reset()
+	component_power_load = new()
 
 	return 1
 

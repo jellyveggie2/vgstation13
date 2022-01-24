@@ -115,7 +115,7 @@
 
 			// found a powernet, so drain up to max power from it
 			var/drained = min ( drain_rate.P, power_excess_calculator(PN.avail, qr=drain_rate.qr(), dr=drain_rate.dr()) )
-			PN.load += drained * drain_rate.unit()
+			PN.load += drain_rate.unit() * drained
 			power_drained += drained
 
 			// if tried to drain more than available on powernet

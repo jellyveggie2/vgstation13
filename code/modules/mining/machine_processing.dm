@@ -309,8 +309,8 @@
 	for(var/obj/item/weapon/stock_parts/micro_laser/A in component_parts)
 		i += A.rating - 1
 
-	idle_power_usage = initial_idle_power - (i * (initial_idle_power / 4))
-	active_power_usage = initial_active_power - (i * (initial_active_power / 4))
+	idle_power_usage = initial_idle_power * (1 - i / 4)
+	active_power_usage = initial_active_power * (1 - i / 4)
 
 /obj/machinery/mineral/processing_unit/New()
 	. = ..()

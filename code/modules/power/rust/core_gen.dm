@@ -110,7 +110,7 @@ max volume of plasma storeable by the field = the total volume of a number of ti
 	if(href_list["str"])
 		var/dif = text2num(href_list["str"])
 		field_strength = min(max(field_strength + dif, MIN_FIELD_STR), MAX_FIELD_STR)
-		active_power_usage = 5 * field_strength * active_power_usage.unit()	//change to 500 later
+		active_power_usage = active_power_usage.unit() * 5 * field_strength	//change to 500 later
 		if(owned_field)
 			owned_field.ChangeFieldStrength(field_strength)
 

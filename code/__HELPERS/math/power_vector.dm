@@ -86,8 +86,6 @@ There are some properties of this vector that are of interest, in order of popul
 	return P * v.P + Q * v.Q + D * v.D
 
 /datum/power_vector/proc/operator*(x)
-	if(istype(x, /datum/power_vector))
-		return dot_product(x)
 	return new /datum/power_vector(P * x, Q * x, D * x, FALSE)
 
 /datum/power_vector/proc/operator/(k)
@@ -114,13 +112,8 @@ There are some properties of this vector that are of interest, in order of popul
 
 // --- Power operations ---
 // General
-/datum/power_vector/proc/reset()
-	P = 0
-	Q = 0
-	D = 0
-
 /datum/power_vector/proc/power_factor()
-	return P / norm()
+	return P ? P / norm() : 0
 
 // Reactive
 /datum/power_vector/proc/reactive_ratio()

@@ -222,7 +222,7 @@
 		return
 	if (capacitor_stored > 0)
 		capacitor_stored -= C.give(capacitor_stored)
-	machine_power_load += 2 * capacitor_charge_power * transfer_rate_coeff
+	machine_power_load += capacitor_charge_power * transfer_rate_coeff * 2
 	C.give(2 * capacitor_charge_power.P * transfer_rate_coeff + (isMoMMI(occupant) ? capacitor_charge_power.P * transfer_rate_coeff : 0))
 
 /obj/machinery/recharge_station/proc/process_capacitors()

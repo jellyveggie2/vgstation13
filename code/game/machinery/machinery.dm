@@ -275,7 +275,7 @@ Class Procs:
 		if (2)
 			machine_power_load += active_power_usage
 	use_power(machine_power_load, power_channel)
-	machine_power_load.reset()
+	machine_power_load = new()
 	return 1
 
 /obj/machinery/proc/multitool_topic(var/mob/user,var/list/href_list,var/obj/O)

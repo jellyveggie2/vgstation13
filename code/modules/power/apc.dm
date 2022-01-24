@@ -1123,21 +1123,21 @@
 
 	area.calc_lighting() */
 
-	lastused_light.reset()
+	lastused_light = new()
 	lastused_light += this_area.usage(LIGHT)
 	lastused_light += this_area.usage(STATIC_LIGHT)
 
-	lastused_equip.reset()
+	lastused_equip = new()
 	lastused_equip += this_area.usage(EQUIP)
 	lastused_equip += this_area.usage(STATIC_EQUIP)
 
-	lastused_environ.reset()
+	lastused_environ = new()
 	lastused_environ += this_area.usage(ENVIRON)
 	lastused_environ += this_area.usage(STATIC_ENVIRON)
 
 	this_area.clear_usage()
 
-	lastused_total.reset()
+	lastused_total = new()
 	lastused_total += lastused_light
 	lastused_total += lastused_equip
 	lastused_total += lastused_environ
@@ -1170,13 +1170,13 @@
 
 		else
 			// Figure how much power we'd still need if we were to drain what's left on the grid
-			var/datum/power_vector/diff = (lastused_total.P - excess) * lastused_total.unit()
+			var/datum/power_vector/diff = lastused_total.unit() * (lastused_total.P - excess)
 
 			// The cell can cover the remaining cost: draw from cell, and do actually drain what's left on the grid (if anything)
 			if (cell.charge / CELLRATE > diff.apparent_power())
 				cell.charge -= diff.apparent_power() * CELLRATE
 				if (excess)
-					add_load(new /datum/power_vector(excess, lastused_total.reactive_ratio(), lastused_total.distortion_ratio()))
+					add_load(lastused_total.unit() * excess)
 
 			// There's not enough power on the cell to cover the remaining cost: Drain the cell and shut down, but leave the grid untouched
 			else
@@ -1230,7 +1230,7 @@
 			if(charge_excess > 0) // check to make sure we have enough to charge
 				// Max charge is capped to % per second constant
 				var/ch = min(charge_excess * CELLRATE, cell.maxcharge * CHARGELEVEL)
-				add_load(new /datum/power_vector(ch/CELLRATE, 0, POWER_RATIO_D_CELL_CHARGER)) // Removes the power we're taking from the grid
+				add_load(recharge_load_unit.unit() * ch/CELLRATE) // Removes the power we're taking from the grid
 				cell.give(ch) // actually recharge the cell
 
 			else

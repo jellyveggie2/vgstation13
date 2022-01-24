@@ -37,7 +37,7 @@
 	parts_rating = 0
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
 		parts_rating += C.rating - 1
-	idle_power_usage = initial_idle_power - (parts_rating * (initial_idle_power / 4))//25% power usage reduction for an advanced capacitor, 50% for a super one.
+	idle_power_usage = initial_idle_power * (1 - parts_rating/4)//25% power usage reduction for an advanced capacitor, 50% for a super one.
 
 /obj/machinery/mineral/unloading_machine/multitool_topic(mob/user, list/href_list, obj/item/device/multitool/P)
 	if("changedir" in href_list)

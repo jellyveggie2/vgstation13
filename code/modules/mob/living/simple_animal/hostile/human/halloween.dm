@@ -500,7 +500,7 @@
 			var/datum/powernet/PN = C.get_powernet()
 			if(cell && PN && PN.avail > 0 && cell.percent() < 100)
 				var/drained = min (rand(500,1500), power_excess_calculator(PN.avail, qr=power_drain_unit.qr(), dr=power_drain_unit.dr()))
-				PN.load += power_drain_unit * drained
+				PN.load += power_drain_unit.unit() * drained
 				cell.give(drained/10)
 			else
 				visible_message("<span class = 'notice'>\The [src] detaches from \the [C]</span>")
