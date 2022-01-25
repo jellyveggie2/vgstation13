@@ -28,6 +28,7 @@
 	var/department = "null"
 	var/image/openimage
 	var/image/closeimage
+	use_power = MACHINE_POWER_USE_MANUAL
 	active_power_usage = new(100, 0, POWER_RATIO_D_CELL_CHARGER)
 
 	machine_flags = SCREWTOGGLE

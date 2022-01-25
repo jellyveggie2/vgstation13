@@ -12,7 +12,7 @@
 	desc = "A device that uses station power to create points of magnetic energy."
 	level = 1		// underfloor
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(50)
 	active_power_usage = new(15, POWER_RATIO_Q_FIELD_GENERATOR, 0) // Will be multiplied by electricity_level
 	var/datum/power_vector/pull_power_usage = new(5, POWER_RATIO_Q_FIELD_GENERATOR, 0) // Power used if an object is pulled. Will be multiplied by electricity_level
@@ -160,10 +160,10 @@
 
 	// Update power usage:
 	if(on)
-		use_power = 2
+		use_power = MACHINE_POWER_USE_ACTIVE
 		active_power_usage = initial_active_power * electricity_level
 	else
-		use_power = 0
+		use_power = MACHINE_POWER_USE_NONE
 
 
 	// Overload conditions:
@@ -210,7 +210,7 @@
 	icon_state = "airlock_control_standby"
 	density = 1
 	anchored = 1.0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(45, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	var/frequency = 1449
 	var/code = 0

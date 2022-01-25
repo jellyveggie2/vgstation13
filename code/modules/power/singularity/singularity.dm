@@ -10,7 +10,7 @@ var/list/global_singularity_pool
 	layer = SINGULARITY_LAYER
 	plane = EFFECTS_PLANE
 	luminosity = 6
-	use_power = 0
+	use_power = MACHINE_POWER_USE_NONE
 
 	var/current_size = 1
 	var/allowed_size = 1

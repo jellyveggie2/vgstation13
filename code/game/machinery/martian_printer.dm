@@ -5,7 +5,7 @@
 	icon_state = "m_pad"
 	density = 1
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(20, 0, 0)
 	active_power_usage = new(5000, POWER_RATIO_Q_MEDICAL_CLONING, POWER_RATIO_D_MEDICAL_CLONING)
 	var/building = 0

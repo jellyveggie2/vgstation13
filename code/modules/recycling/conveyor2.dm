@@ -12,7 +12,7 @@
 	<br><span class='info'>It can be pried into a different direction using a crowbar, but cannot be moved without welding it apart.</span>"
 	layer = BELOW_TABLE_LAYER
 	anchored = 1
-
+	use_power = MACHINE_POWER_USE_MANUAL
 	active_power_usage = new(100, POWER_RATIO_Q_MOTOR_MINING, 0)
 
 	var/operating = 0	// 1 if running forward, -1 if backwards, 0 if off

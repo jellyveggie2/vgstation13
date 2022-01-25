@@ -11,7 +11,7 @@
 	machine_flags = WRENCHMOVE | FIXED2WORK | EMAGGABLE
 	emag_cost = 0
 	emagged = 0
-	use_power = 0
+	use_power = MACHINE_POWER_USE_NONE
 
 /obj/machinery/sweet/attackby(var/obj/O as obj, var/mob/user as mob)
 	if (stat & (NOPOWER|BROKEN))

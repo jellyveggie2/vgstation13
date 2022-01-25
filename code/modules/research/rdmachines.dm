@@ -32,6 +32,7 @@ var/global/list/rnd_machines = list()
 
 	var/datum/wires/rnd/wires = null
 
+	use_power = MACHINE_POWER_USE_MANUAL
 	var/datum/power_vector/mat_loader_power = new(1, 0, POWER_RATIO_D_MOTOR_TINY)
 
 /obj/machinery/r_n_d/New()

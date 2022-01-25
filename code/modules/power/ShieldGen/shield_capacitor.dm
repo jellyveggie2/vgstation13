@@ -9,7 +9,7 @@
 	req_one_access = list(access_security, access_engine) // For locking/unlocking controls
 	density = 1
 	anchored = TRUE
-	use_power = 1			//0 use nothing
+	use_power = MACHINE_POWER_USE_IDLE			//0 use nothing
 							//1 use idle power
 							//2 use active power
 	idle_power_usage = new(10, 0, 0)
@@ -112,12 +112,12 @@
 
 /obj/machinery/shield_capacitor/process()
 	if(active)
-		use_power = 2
+		use_power = MACHINE_POWER_USE_ACTIVE
 		var/charge = min (charge_rate, max_charge - stored_charge)
 		stored_charge += charge
 		active_power_usage = active_power_usage.unit() * charge
 	else
-		use_power = 1
+		use_power = MACHINE_POWER_USE_IDLE
 
 	time_since_fail++
 	if(stored_charge < active_power_usage.P * 1.5)

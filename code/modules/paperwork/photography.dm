@@ -763,7 +763,7 @@
 	ghost_read=0
 	ghost_write=0
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(10, 0, 0)
 	active_power_usage = new(10, 0, 0)
 	var/background = "white"

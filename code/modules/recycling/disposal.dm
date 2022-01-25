@@ -24,7 +24,7 @@
 	var/last_sound = 0
 	var/template_path = "disposalsbin.tmpl"
 	var/deconstructable = TRUE	//Set to FALSE for disposal machinery that can be used for transporting players or things, but not tinkered with by players.
-
+	use_power = MACHINE_POWER_USE_MANUAL
 	idle_power_usage = new(100, 0, 0)
 	active_power_usage = new(500, POWER_RATIO_Q_MOTOR_PUMP, 0)
 

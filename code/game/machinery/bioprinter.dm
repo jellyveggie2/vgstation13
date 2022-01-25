@@ -9,7 +9,7 @@
 
 	density = 1
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(50, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	//FIXME !J // TODO: This power cost is new so it remains 0. Give it an actual value in a later PR
 	active_power_usage = new(0, POWER_RATIO_Q_MEDICAL_CLONING, POWER_RATIO_D_MEDICAL_CLONING) // Additional power draw per printed organ

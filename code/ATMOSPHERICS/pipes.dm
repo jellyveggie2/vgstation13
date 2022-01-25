@@ -5,8 +5,8 @@
 	force = 20
 	plane = ABOVE_TURF_PLANE //Set above turf for mapping preview only, supposed to be ABOVE_PLATING_PLANE, handled in update_planes_and_layers() (called on New())
 	layer = PIPE_LAYER
-	use_power = 0
-	var/alert_pressure = 80*ONE_ATMOSPHERE
+	use_power = MACHINE_POWER_USE_NONE
+	var/alert_pressure = 80 * ONE_ATMOSPHERE
 	var/baseicon=""
 
 /obj/machinery/atmospherics/pipe/node_plane()

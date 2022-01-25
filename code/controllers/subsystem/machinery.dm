@@ -40,12 +40,13 @@ var/list/machines = list()
 		if (!M || M.gcDestroyed || M.timestopped)
 			continue
 
-		if (M.process() == PROCESS_KILL)
+		if (M.process() == PROCESS_KILL && !M.use_power)
 			M.inMachineList = 0
 			machines.Remove(M)
 			continue
 
-		M.process_use_power()
+		if (M.use_power)
+			M.process_use_power()
 
 		if (MC_TICK_CHECK)
 			return

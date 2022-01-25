@@ -276,15 +276,15 @@
 
 /obj/machinery/bodyscanner/process()
 	if (stat & (BROKEN | NOPOWER | MAINT | EMPED))
-		use_power = 0
+		use_power = MACHINE_POWER_USE_NONE
 		return
 	if (occupant)
-		use_power = 2
+		use_power = MACHINE_POWER_USE_ACTIVE
 		if (emagged)
 			occupant.apply_radiation(12,RAD_EXTERNAL)
 
 	else
-		use_power = 1
+		use_power = MACHINE_POWER_USE_IDLE
 
 /obj/machinery/bodyscanner/attack_paw(mob/user)
 	return attack_hand(user)

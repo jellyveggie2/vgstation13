@@ -25,7 +25,7 @@
 	var/y_co = 1         // Y coordinate
 	var/z_co = 1         // Z coordinate
 
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(10, 0, POWER_RATIO_D_COMPUTER)
 	active_power_usage = new(2, 0, POWER_RATIO_D_CELL_CHARGER)
 	power_channel = EQUIP

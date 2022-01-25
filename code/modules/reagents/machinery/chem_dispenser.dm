@@ -7,7 +7,7 @@
 	anchored = TRUE
 	icon = 'icons/obj/chemical.dmi'
 	icon_state = "dispenser"
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(40, 0, 0)
 	active_power_usage = new(3000, POWER_RATIO_Q_FIELD_GENERATOR, 0)
 	var/energy = 0

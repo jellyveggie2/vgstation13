@@ -29,7 +29,7 @@ var/list/gateways = list() //List containing the gateways on away missions
 /obj/machinery/gateway/centerstation
 	density = 1
 	icon_state = "offcenter"
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	active_power_usage = new(5000, POWER_RATIO_Q_FIELD_GENERATOR, 0)
 
 	//warping vars
@@ -167,7 +167,7 @@ var/list/gateways = list() //List containing the gateways on away missions
 /obj/machinery/gateway/centeraway
 	density = 1
 	icon_state = "offcenter"
-	use_power = 0
+	use_power = MACHINE_POWER_USE_NONE
 	var/calibrated = 1
 	var/list/linked = list()	//a list of the connected gateway chunks
 	var/ready = 0

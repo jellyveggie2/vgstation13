@@ -406,7 +406,7 @@
 	grab_ores() //Grab some more ore to process this tick.
 
 	if(!on)
-		use_power = 1
+		use_power = MACHINE_POWER_USE_IDLE
 		broadcast_status()
 		return
 
@@ -428,9 +428,9 @@
 			break
 
 	if(sheets_this_tick) //We produced something this tick, make it take more power.
-		use_power = 2
+		use_power = MACHINE_POWER_USE_ACTIVE
 	else
-		use_power = 1
+		use_power = MACHINE_POWER_USE_IDLE
 
 	broadcast_status()
 

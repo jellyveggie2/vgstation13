@@ -4,7 +4,7 @@
 	icon_state = "borgcharger0"
 	density = 1
 	anchored = 1.0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(5)
 	active_power_usage = new(1000, 0, POWER_RATIO_D_CELL_CHARGER)
 	var/datum/power_vector/capacitor_charge_power = new(100, 0, POWER_RATIO_D_CAPACITOR_CHARGER)
@@ -245,7 +245,7 @@
 		occupant.forceMove(src.loc)
 	occupant = null
 	build_icon()
-	src.use_power = 1
+	src.use_power = MACHINE_POWER_USE_IDLE
 	// Removes dropped items/magically appearing mobs from the charger too
 	for (var/atom/movable/x in src.contents)
 		if(!(x in upgrade_holder | component_parts))
@@ -296,7 +296,7 @@
 	src.occupant = R
 	src.add_fingerprint(R)
 	build_icon()
-	src.use_power = 2
+	src.use_power = MACHINE_POWER_USE_ACTIVE
 	if(isrobot(R))
 		var/mob/living/silicon/robot/RR = R
 		for(var/obj/O in upgrade_holder)

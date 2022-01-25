@@ -54,10 +54,11 @@ var/list/pipenet_processing_objects = list()
 		if (!atmosmachinery || atmosmachinery.gcDestroyed || atmosmachinery.timestopped)
 			continue
 
-		if (atmosmachinery.process() && MC_TICK_CHECK)
+		if (atmosmachinery.process() && MC_TICK_CHECK && !atmosmachinery.use_power)
 			return
 
-		atmosmachinery.process_use_power()
+		if (atmosmachinery.use_power)
+			atmosmachinery.process_use_power()
 
 	while (currentrun_pipenets.len)
 		var/datum/pipe_network/pipeNetwork = currentrun_pipenets[currentrun_pipenets.len]

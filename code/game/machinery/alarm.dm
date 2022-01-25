@@ -192,7 +192,7 @@ var/global/list/airalarm_presets = list(
 	icon = 'icons/obj/monitors.dmi'
 	icon_state = "alarm0"
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(100, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	active_power_usage = new(200, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	var/datum/power_vector/heat_pump_power = new(200, POWER_RATIO_Q_MOTOR_PUMP, 0)
@@ -340,7 +340,7 @@ var/global/list/airalarm_presets = list(
 
 /obj/machinery/alarm/process()
 	if((stat & (NOPOWER|BROKEN)) || shorted || buildstage != 2)
-		use_power = 0
+		use_power = MACHINE_POWER_USE_NONE
 		return
 
 	var/turf/simulated/location = loc
@@ -390,7 +390,7 @@ var/global/list/airalarm_presets = list(
 
 	if (new_danger < old_level)
 		danger_averted_confidence++
-		use_power = 1
+		use_power = MACHINE_POWER_USE_IDLE
 
 	// Only change danger level if:
 	// we're going up a level
@@ -399,7 +399,7 @@ var/global/list/airalarm_presets = list(
 		setDangerLevel(new_danger)
 		update_icon()
 		danger_averted_confidence = 0 // Reset counter.
-		use_power = 2
+		use_power = MACHINE_POWER_USE_ACTIVE
 
 	if (mode==AALARM_MODE_CYCLE && environment.return_pressure()<ONE_ATMOSPHERE*0.05)
 		mode=AALARM_MODE_FILL
@@ -1168,7 +1168,7 @@ FIRE ALARM
 	var/timing = 0.0
 	var/lockdownbyai = 0
 	anchored = 1.0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(2, 0, 0)
 	active_power_usage = new(6, 0, 0)
 	power_channel = ENVIRON
@@ -1496,7 +1496,7 @@ var/global/list/firealarms = list() //shrug
 	var/timing = 0.0
 	var/lockdownbyai = 0
 	anchored = 1.0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(2, 0, 0)
 	active_power_usage = new(6, 0, 0)
 

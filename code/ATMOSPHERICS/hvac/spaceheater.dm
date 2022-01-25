@@ -33,6 +33,7 @@
 	icon_state = "vheater0"
 	base_state = "vheater"
 	anchored = 1
+	use_power = MACHINE_POWER_USE_MANUAL
 
 /obj/machinery/space_heater/vesta/ispowered()
 	return !(stat & NOPOWER)

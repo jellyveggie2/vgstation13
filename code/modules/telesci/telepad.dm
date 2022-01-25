@@ -5,7 +5,7 @@
 	icon = 'icons/obj/telescience.dmi'
 	icon_state = "pad-idle"
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(200, 0, 0)
 	active_power_usage = new(5000, POWER_RATIO_Q_FIELD_GENERATOR, 0)
 

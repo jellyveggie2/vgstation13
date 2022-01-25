@@ -11,7 +11,7 @@
 
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK
 
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(20, 0, 0)
 	active_power_usage = new(500, POWER_RATIO_Q_MOTOR_BIO_GRINDER, 0)
 	var/time_coeff = 1

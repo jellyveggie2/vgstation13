@@ -6,7 +6,7 @@
 	icon_state = "bigscanner"
 	anchored = 1
 	density = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(30, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	active_power_usage = new(200, 0, POWER_RATIO_D_MOTOR_TINY) // Unused, apparently
 	power_channel = EQUIP

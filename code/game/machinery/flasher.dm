@@ -12,6 +12,7 @@ var/list/obj/machinery/flasher/flashers = list()
 	var/last_flash = 0 //Don't want it getting spammed like regular flashes
 	var/strength = 10 //How knocked down targets are when flashed.
 	var/base_state = "mflash"
+	use_power = MACHINE_POWER_USE_MANUAL
 	active_power_usage = new(1000, 0, 0)
 	anchored = 1
 	ghost_read=0

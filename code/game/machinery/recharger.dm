@@ -4,7 +4,7 @@
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "recharger0"
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(4, 0, 0)
 	active_power_usage = new(1, 0, POWER_RATIO_D_CELL_CHARGER) // Additional power when recharging, multiplied by whatever value corresponds to whatever you're charging
 	var/has_beeped = FALSE
@@ -34,7 +34,7 @@
 	) // Fashioned from the cell charger, they both serve a similar purpose
 	RefreshParts()
 	if(self_powered)
-		use_power = 0
+		use_power = MACHINE_POWER_USE_NONE
 		idle_power_usage = new()
 		active_power_usage = new()
 
@@ -122,7 +122,7 @@
 		charging = G
 		has_beeped = FALSE
 		if(!self_powered)
-			use_power = 2
+			use_power = MACHINE_POWER_USE_ACTIVE
 		update_icon()
 		return 1
 
@@ -164,7 +164,7 @@
 		user.put_in_hands(charging)
 		charging = null
 		if(!self_powered)
-			use_power = 1
+			use_power = MACHINE_POWER_USE_IDLE
 		appearance_backup=null
 		update_icon()
 
@@ -183,7 +183,7 @@
 			charging.forceMove(loc)
 			visible_message("<span class='notice'>[src] powers down and ejects \the [charging].</span>")
 			charging = null
-			use_power = 1
+			use_power = MACHINE_POWER_USE_IDLE
 			appearance_backup=null
 			update_icon()
 		return
@@ -313,7 +313,7 @@
 			charging.forceMove(get_turf(src))
 			charging = null
 			if(!self_powered)
-				use_power = 1
+				use_power = MACHINE_POWER_USE_IDLE
 		appearance_backup=null
 		update_icon()
 

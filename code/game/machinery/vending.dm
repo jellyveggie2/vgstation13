@@ -21,7 +21,7 @@ var/global/num_vending_terminals = 1
 	density = 1
 	layer = OPEN_DOOR_LAYER //This is below BELOW_OBJ_LAYER because vendors can contain crates/closets
 	pass_flags_self = PASSMACHINE
-
+	use_power = MACHINE_POWER_USE_MANUAL
 	active_power_usage = new(5, 0, POWER_RATIO_D_MOTOR_TINY)
 
 	var/health = 100

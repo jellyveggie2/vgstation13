@@ -36,11 +36,12 @@ var/datum/subsystem/bots/SSBots
 		if (!M || M.gcDestroyed || M.timestopped)
 			continue
 
-		if (M.process() == PROCESS_KILL)
+		if (M.process() == PROCESS_KILL && !M.use_power)
 			bots_list.Remove(M)
 			continue
 
-		M.process_use_power()
+		if (M.use_power)
+			M.process_use_power()
 
 		if (MC_TICK_CHECK)
 			return

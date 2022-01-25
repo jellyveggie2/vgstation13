@@ -22,7 +22,7 @@ var/list/nuclear_bombs = list()
 	                      // 3 is sealant open, 4 is unwrenched, 5 is removed from bolts.
 	var/nt_aligned = 1
 	flags = FPRINT
-	use_power = 0
+	use_power = MACHINE_POWER_USE_NONE
 
 /obj/machinery/nuclearbomb/New()
 	..()

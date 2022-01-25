@@ -9,7 +9,7 @@
 	density = 1
 	req_access = list(access_engine_equip)
 
-	use_power = 0 // WTF have they never used any power despite requiring it?
+	use_power = MACHINE_POWER_USE_NONE // WTF have they never used any power despite requiring it?
 	idle_power_usage = new(10, 0, 0)
 	active_power_usage = new(300, POWER_RATIO_Q_LASER, POWER_RATIO_D_LASER)
 

@@ -15,7 +15,7 @@
 
 	var/injecting = FALSE
 
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(10, 0, 0)
 	active_power_usage = new(500, POWER_RATIO_Q_PARTICLE, POWER_RATIO_D_PARTICLE)
 	var/remote_access_enabled = TRUE
@@ -225,14 +225,14 @@
 /obj/machinery/power/rust_fuel_injector/proc/begin_injecting()
 	if(!injecting && cur_assembly)
 		injecting = TRUE
-		use_power = 2
+		use_power = MACHINE_POWER_USE_ACTIVE
 		update_icon()
 
 /obj/machinery/power/rust_fuel_injector/proc/stop_injecting()
 	if(injecting)
 		injecting = FALSE
 		icon_state = "injector0"
-		use_power = 1
+		use_power = MACHINE_POWER_USE_IDLE
 		update_icon()
 
 /obj/machinery/power/rust_fuel_injector/proc/inject()

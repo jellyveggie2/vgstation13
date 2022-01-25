@@ -131,7 +131,7 @@ Class Procs:
 
 	var/stat = 0
 	var/emagged = 0
-	var/use_power = 1
+	var/use_power = MACHINE_POWER_USE_IDLE
 		//0 = manage machine power manually
 		//1 = add idle power every process_use_power()
 		//2 = add active power every process_use_power()

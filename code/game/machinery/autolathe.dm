@@ -13,7 +13,7 @@
 
 	start_end_anims = 1
 
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(50, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	active_power_usage = new(500, POWER_RATIO_Q_MOTOR_LATHE, POWER_RATIO_D_SIMPLE_CONSOLE)
 

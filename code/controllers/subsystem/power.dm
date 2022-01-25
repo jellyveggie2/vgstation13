@@ -72,12 +72,13 @@ var/list/cable_list = list() //Index for all cables, so that powernets don't hav
 
 			M.check_rebuild() //Checks to make sure the powernet doesn't need to be rebuilt, rebuilds it if it does
 
-			if (M.process() == PROCESS_KILL)
+			if (M.process() == PROCESS_KILL && !M.use_power)
 				M.inMachineList = FALSE
 				power_machines.Remove(M)
 				continue
 
-			M.process_use_power()
+			if (M.use_power)
+				M.process_use_power()
 
 		else if (istype(X, /datum/power_connection))
 			var/datum/power_connection/C = X

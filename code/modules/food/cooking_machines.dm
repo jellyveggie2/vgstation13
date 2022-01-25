@@ -70,7 +70,7 @@ var/global/ingredientLimit = 10
 	var/recursive_ingredients = 0 //allow /food/snacks/customizable as a valid ingredient
 	density = 1
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(20, 0, 0)
 	active_power_usage = new(500, 0, 0) // Resistive load, just heats things up
 
@@ -666,7 +666,7 @@ var/global/ingredientLimit = 10
 	density = 0
 	icon_state = "spit"
 	icon_state_on = "spit"
-	use_power = 0
+	use_power = MACHINE_POWER_USE_NONE
 	cooks_in_reagents = 0
 	machine_flags = null
 
@@ -718,7 +718,7 @@ var/global/ingredientLimit = 10
 	source_temperature = T0C+180
 	density = 1
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK
 	var/obj/item/weapon/reagent_containers/within
 
@@ -789,11 +789,11 @@ var/global/ingredientLimit = 10
 /obj/machinery/oven/proc/toggle(mob/user)
 	if(use_power == 1)
 		icon_state = icon_state_on
-		use_power = 2
+		use_power = MACHINE_POWER_USE_ACTIVE
 		processing_objects.Add(src)
 	else if(use_power == 2)
 		icon_state = initial(icon_state)
-		use_power = 1
+		use_power = MACHINE_POWER_USE_IDLE
 		processing_objects.Remove(src)
 	if(user)
 		to_chat(user, use_power ? "<span class = 'notice'>You turn \the [src] [use_power == 2 ? "on" : "off"].</span>" : "<span class = 'warning'>\The [src] doesn't seem to be plugged in!</span>")

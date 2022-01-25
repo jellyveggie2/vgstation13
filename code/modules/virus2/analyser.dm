@@ -9,7 +9,6 @@
 	light_color = "#6496FA"
 	light_range = 2
 	light_power = 1
-
 	idle_power_usage = new(100, 0, POWER_RATIO_D_COMPUTER)
 	active_power_usage = new(100, 0, POWER_RATIO_D_COMPUTER)
 	var/datum/power_vector/analysis_power = new(1000, POWER_RATIO_Q_ANALYZER, 0) // Extra power used once per analysis performed

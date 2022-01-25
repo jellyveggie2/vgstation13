@@ -19,7 +19,7 @@
 	var/shot_delay = 30 						//3 seconds between shots
 	var/fire_twice = 0
 
-	use_power = 1																								// this turret uses and requires power
+	use_power = MACHINE_POWER_USE_IDLE																								// this turret uses and requires power
 	idle_power_usage = new(50, 0, 0)														// when inactive, this turret takes up constant 50 Equipment power
 	active_power_usage = new(300, 0, POWER_RATIO_D_SIMPLE_CONSOLE)							// when active, this turret takes up constant 300 Equipment power
 	var/datum/power_vector/reqpower = new(350, POWER_RATIO_Q_LASER, POWER_RATIO_D_LASER)	// Amount of power per shot
@@ -168,7 +168,7 @@
 		if(!raising)
 			if(!raised)
 				popUp()
-				use_power = 2
+				use_power = MACHINE_POWER_USE_ACTIVE
 			else
 				spawn()
 					if(!targeting_active)
@@ -183,7 +183,7 @@
 				playsound(src, 'sound/effects/turret/move2.wav', 60, 1)
 	else if(!raising || raised)//else, pop down
 		popDown()
-		use_power = 1
+		use_power = MACHINE_POWER_USE_IDLE
 	return
 
 /obj/machinery/turret/proc/target()

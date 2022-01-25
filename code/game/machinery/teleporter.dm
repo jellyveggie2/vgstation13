@@ -237,7 +237,7 @@
 	desc = "This generates the portal through which you step through to teleport elsewhere."
 	icon_state = "tele0"
 	//var/accurate = 0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(10, 0, 0)
 	active_power_usage = new(5000, POWER_RATIO_Q_FIELD_GENERATOR, 0) // Additional power used when something goes through
 	component_parts = newlist(
@@ -346,7 +346,7 @@
 	name = "teleporter controller"
 	desc = "This co-ordinates nearby teleporter horizon generators."
 	icon_state = "controller"
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(10, 0, 0)
 	active_power_usage = new(5000, 0, POWER_RATIO_D_COMPUTER) // Additional power used when something goes through
 	component_parts = newlist(

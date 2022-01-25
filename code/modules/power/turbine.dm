@@ -13,6 +13,7 @@
 	var/rpmtarget = 0
 	var/capacity = 1e6
 	var/comp_id = 0
+	use_power = MACHINE_POWER_USE_MANUAL
 	active_power_usage = new(2800, POWER_RATIO_Q_MOTOR_PUMP, 0)
 
 /obj/machinery/power/turbine

@@ -17,7 +17,7 @@
 	var/idmode = 0
 	var/scanmode = 0
 	var/senset = 0
-
+	use_power = MACHINE_POWER_USE_MANUAL
 	active_power_usage = new(1000, 0.4, 0)
 
 	req_access = list(access_security)

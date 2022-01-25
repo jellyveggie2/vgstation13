@@ -9,7 +9,7 @@
 	density = 1
 	opacity = 1
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(5, POWER_RATIO_Q_MOTOR_PUMP, 0)
 	active_power_usage = new(100, POWER_RATIO_Q_MOTOR_PUMP, 0) // Unused, apparently
 	flags = NOREACT

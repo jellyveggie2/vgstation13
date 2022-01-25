@@ -128,7 +128,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	icon_state = "holopad1"
 	A.current = src
 	master = A//AI is the master.
-	use_power = 2//Active power usage.
+	use_power = MACHINE_POWER_USE_ACTIVE//Active power usage.
 	move_hologram()
 	if(A && A.holopadoverlays.len)
 		for(var/image/ol in A.holopadoverlays)
@@ -153,7 +153,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	master = null//Null the master, since no-one is using it now.
 	set_light(0)			//pad lighting (hologram lighting will be handled automatically since its owner was deleted)
 	icon_state = "holopad0"
-	use_power = 1//Passive power usage.
+	use_power = MACHINE_POWER_USE_IDLE//Passive power usage.
 	return 1
 
 /obj/machinery/hologram/holopad/emp_act()
@@ -235,7 +235,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 
 /obj/machinery/hologram
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(5, 0, 0)
 	active_power_usage = new(100, POWER_RATIO_Q_LIGHTBULB_LED, POWER_RATIO_D_LIGHTBULB_LED)
 	var/obj/effect/overlay/hologram/holo //The projection itself. If there is one, the instrument is on, off otherwise.

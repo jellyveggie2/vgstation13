@@ -100,7 +100,7 @@ var/list/obj/machinery/holosign/holosigns = list()
 	var/active = 0
 	var/image/overlay
 	anchored = 1.0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(2, 0, 0)
 	active_power_usage = new(5, 0, 0)
 

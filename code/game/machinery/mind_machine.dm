@@ -3,7 +3,7 @@
 	icon = 'icons/obj/mind_machine.dmi'
 	density = 1
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(50, 0, 0)
 	active_power_usage = new(2000, POWER_RATIO_Q_MEDICAL_SCANNER, POWER_RATIO_D_COMPUTER)
 	light_power_on = 1

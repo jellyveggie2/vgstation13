@@ -11,7 +11,7 @@
 	var/gibtime = 40 // Time from starting until meat appears
 	var/mob/living/occupant // Mob who has been put inside
 	var/opened = 0.0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(20, 0, 0)
 	active_power_usage = new(1000, POWER_RATIO_Q_MOTOR_BIO_GRINDER, 0)
 	machine_flags = SCREWTOGGLE | CROWDESTROY | WRENCHMOVE | FIXED2WORK

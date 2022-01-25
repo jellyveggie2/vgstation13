@@ -5,7 +5,7 @@
 	density = 1
 	anchored = 0
 
-	use_power = 0
+	use_power = MACHINE_POWER_USE_NONE
 	idle_power_usage = new(100, 0, POWER_RATIO_D_SIMPLE_CONSOLE) //Watts, I hope.  Just enough to do the computer and display things.
 
 	var/thermal_efficiency = 0.65

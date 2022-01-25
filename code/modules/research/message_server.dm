@@ -53,7 +53,7 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 	name = "Messaging Server"
 	density = 1
 	anchored = 1.0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(10, 0, POWER_RATIO_D_COMPUTER)
 	active_power_usage = new(100, 0, POWER_RATIO_D_COMPUTER)
 	ghost_read=0
@@ -124,7 +124,7 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 	name = "Blackbox Recorder"
 	density = 1
 	anchored = 1.0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(10, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	active_power_usage = new(100, 0, POWER_RATIO_D_MOTOR_TINY)
 

@@ -10,7 +10,7 @@
 	var/const/metalPerMoMMI = 10
 	var/const/metalPerTick = 1
 	var/mommi_type = /mob/living/silicon/robot/mommi/soviet
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(20, 0, 0)
 	active_power_usage = new(5000, POWER_RATIO_Q_MOTOR_LATHE, POWER_RATIO_D_COMPUTER)
 	var/recharge_time = 60 SECONDS

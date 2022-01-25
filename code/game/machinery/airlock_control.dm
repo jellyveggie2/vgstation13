@@ -11,7 +11,7 @@
 	var/shockedby = list()
 	var/datum/radio_frequency/radio_connection
 	explosion_resistance = 15
-
+	use_power = MACHINE_POWER_USE_MANUAL
 
 /obj/machinery/door/airlock/receive_signal(datum/signal/signal)
 	if(!signal || signal.encryption)

@@ -5,7 +5,7 @@
 	icon_state = "grinder"
 	density = 1
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	ghost_read = 0
 	idle_power_usage = new(5, 0, 0)
 	active_power_usage = new(500, POWER_RATIO_Q_MOTOR_BIO_GRINDER, 0)

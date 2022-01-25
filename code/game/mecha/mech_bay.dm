@@ -11,6 +11,7 @@
 	plane = ABOVE_TURF_PLANE
 	anchored = 1
 	density = 0
+	use_power = MACHINE_POWER_USE_MANUAL
 	active_power_usage = new(150, 0, POWER_RATIO_D_CAPACITOR_CHARGER)
 	machine_flags = SCREWTOGGLE | CROWDESTROY
 

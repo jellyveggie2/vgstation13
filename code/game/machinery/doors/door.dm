@@ -25,6 +25,7 @@ var/list/all_doors = list()
 	var/normalspeed = 1
 	pass_flags_self = PASSDOOR
 	machine_flags = SCREWTOGGLE
+	use_power = MACHINE_POWER_USE_NONE
 
 	// for glass airlocks/opacity firedoors
 	var/heat_proof = 0

@@ -60,7 +60,7 @@
 	var/wasvalid = 0
 	var/lastfired = 0
 	var/shot_delay = 50
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(50, 0, 0)
 	active_power_usage = new(300, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	var/datum/power_vector/shoot_power = new(500, POWER_RATIO_Q_LASER, POWER_RATIO_D_LASER)
@@ -151,7 +151,7 @@
 		if(!isPopping())
 			if(isDown())
 				popUp()
-				use_power = 2
+				use_power = MACHINE_POWER_USE_ACTIVE
 			else
 				spawn()
 					if(!targeting_active)
@@ -161,7 +161,7 @@
 	else if(!isPopping())//else, pop down
 		if(!isDown())
 			popDown()
-			use_power = 1
+			use_power = MACHINE_POWER_USE_IDLE
 
 	return
 

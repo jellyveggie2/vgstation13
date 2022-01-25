@@ -7,7 +7,7 @@ var/global/list/igniters = list()
 	var/on = 1.0
 	var/obj/item/device/assembly_holder/assembly=null
 	anchored = 1.0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(2, 0, 0)
 	active_power_usage = new(50, 0, 0)
 
@@ -89,7 +89,7 @@ var/global/list/igniters = list()
 	var/last_spark = 0
 	var/base_state = "migniter"
 	anchored = 1
-
+	use_power = MACHINE_POWER_USE_MANUAL
 	active_power_usage = new(1000, -0.1, 0)
 
 	ghost_read = 0 // Deactivate ghost touching.

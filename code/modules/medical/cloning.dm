@@ -14,7 +14,7 @@
 	icon = 'icons/obj/cloning.dmi'
 	icon_state = "pod_0"
 	req_access = list(access_genetics) //For premature unlocking.
-
+	use_power = MACHINE_POWER_USE_MANUAL
 	idle_power_usage = new(200, 0, 0)
 	active_power_usage = new(7500, POWER_RATIO_Q_MEDICAL_CLONING, POWER_RATIO_D_MEDICAL_CLONING) //This might need tweaking.
 

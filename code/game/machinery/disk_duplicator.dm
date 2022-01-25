@@ -4,7 +4,7 @@
 	icon = 'icons/obj/datadisks.dmi'
 	icon_state = "duplicator0"
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(4, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 	active_power_usage = new(10, 0, POWER_RATIO_D_SIMPLE_CONSOLE)
 

@@ -5,7 +5,7 @@
 	icon_state = "ccharger0"
 	icon_state_open = "ccharger_open"
 	anchored = 1
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(10, 0, 0)
 	active_power_usage = new(1, 0, POWER_RATIO_D_CELL_CHARGER) //Additional power used while charging
 	power_channel = EQUIP

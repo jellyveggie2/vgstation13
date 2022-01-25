@@ -23,7 +23,7 @@
 	anchored = 1
 	density = 1
 
-	use_power = 0
+	use_power = MACHINE_POWER_USE_NONE
 	idle_power_usage = new()
 	active_power_usage = new()
 

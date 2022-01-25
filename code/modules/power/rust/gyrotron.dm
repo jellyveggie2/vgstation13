@@ -15,7 +15,7 @@
 
 	req_access = list(access_engine)
 
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(10, 0, 0)
 	active_power_usage = new(100000, POWER_RATIO_Q_PARTICLE, POWER_RATIO_D_PARTICLE) //Yes that is a shitton. No you're not running this engine on an SE/AME you SE/AME scrubs.
 	var/datum/power_vector/shot_power = new(500, POWER_RATIO_Q_PARTICLE, POWER_RATIO_D_PARTICLE) // Additional power per shot. Has an additional mega_energy * 100 cost
@@ -35,7 +35,7 @@
 
 /obj/machinery/rust/gyrotron/proc/stop_emitting()
 	emitting = 0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	update_icon()
 
 /obj/machinery/rust/gyrotron/proc/start_emitting()
@@ -43,7 +43,7 @@
 		return
 
 	emitting = 1
-	use_power = 2
+	use_power = MACHINE_POWER_USE_ACTIVE
 
 	update_icon()
 

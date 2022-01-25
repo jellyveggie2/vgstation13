@@ -5,7 +5,7 @@
 	icon_state = "emancipation_grill"
 	density = FALSE
 	anchored = TRUE
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(75, 0, 0)
 	active_power_usage = new(750, POWER_RATIO_Q_FIELD_GENERATOR, 0) // Additional power used when frazzling something
 	flow_flags = IMPASSABLE

@@ -6,6 +6,7 @@
 	flags = FPRINT
 	req_access = list(access_janitor)
 	template_path = "disposalsbincompactor.tmpl"
+	use_power = MACHINE_POWER_USE_MANUAL
 	active_power_usage = new(500, POWER_RATIO_Q_MOTOR_MINING, 0)
 
 /obj/machinery/disposal/compactor/proc/compact()

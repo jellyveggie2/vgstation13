@@ -59,7 +59,7 @@
 	icon_state = "scanner_0"
 	density = 1
 	anchored = 1.0
-	use_power = 1
+	use_power = MACHINE_POWER_USE_IDLE
 	idle_power_usage = new(50, 0, 0)
 	active_power_usage = new(300, POWER_RATIO_Q_MEDICAL_SCANNER, 0)
 	var/locked = 0
@@ -529,9 +529,9 @@
 
 /obj/machinery/computer/scan_consolenew/process()
 	if (connected && connected.occupant)
-		use_power = 2
+		use_power = MACHINE_POWER_USE_ACTIVE
 	else
-		use_power = 1
+		use_power = MACHINE_POWER_USE_IDLE
 
 /obj/machinery/computer/scan_consolenew/attack_hand(user as mob)
 	if(!..())
