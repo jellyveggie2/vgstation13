@@ -6,7 +6,7 @@
 	var/datum/power_vector/load = new()			// the current load on the powernet, increased by each machine at processing
 	var/newavail = 0			// what available power was gathered last tick, then becomes...
 	var/avail = 0				// ...the current available power in the powernet
-	var/viewload = 0			// the load as it appears on the power console (gradually updated)
+	var/datum/power_vector/viewload = new()			// the load as it appears on the power console (gradually updated)
 	var/number = 0
 	var/netexcess = 0			// excess power on the powernet (typically avail-load.apparent_power()), for power storage purposes
 
@@ -112,8 +112,7 @@
 			C.excess(netexcess)
 
 	// updates the viewed load (as seen on power computers)
-	viewload = 0.8 * viewload + 0.2 * load.apparent_power()
-	viewload = round(viewload)
+	viewload = viewload * 0.8 + load * 0.2
 
 	// reset the powernet
 	load.reset()

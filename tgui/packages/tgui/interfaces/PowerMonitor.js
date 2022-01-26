@@ -30,7 +30,7 @@ export const PowerMonitorContent = (props, context) => {
     sortByField,
     setSortByField,
   ] = useLocalState(context, 'sortByField', null);
-  const { supply, demand } = data;
+  const { supply, demand, real, reactive, distorted } = data;
   const supplyNum = history.supply[history.supply.length - 1] || 0;
   const demandNum = history.demand[history.demand.length - 1] || 0;
   const supplyData = history.supply.map((value, i) => [i, value]);
@@ -39,6 +39,19 @@ export const PowerMonitorContent = (props, context) => {
     ...history.supply,
     ...history.demand);
     // Process area data
+
+
+  const realNum = history.real[history.real.length - 1] || 0;
+  const reactiveNum = history.reactive[history.reactive.length - 1] || 0;
+  const distortedNum = history.distorted[history.distorted.length - 1] || 0;
+  const realData = history.real.map((value, i) => [i, value]);
+  const reactiveData = history.reactive.map((value, i) => [i, value]);
+  const distortedData = history.distorted.map((value, i) => [i, value]);
+  const maxValuePQR = Math.max(
+    ...history.real,
+    ...history.reactive,
+    ...history.distorted);
+
   const areas = flow([
     map((area, i) => ({
       ...area,
@@ -47,13 +60,15 @@ export const PowerMonitorContent = (props, context) => {
     })),
     sortByField === 'name' && sortBy(area => area.name),
     sortByField === 'charge' && sortBy(area => -area.charge),
-    sortByField === 'draw' && sortBy(
-      area => -powerRank(area.load),
-      area => -parseFloat(area.load)),
+    sortByField === 'draw' && sortBy( area => -area.rawLoad),
+    sortByField === 'pf' && sortBy( area => -area.rawPf),
+    sortByField === 'thd' && sortBy( area => -area.rawThd),
   ])(data.areas);
   return (
     <>
+
       <Flex mx={-0.5} mb={1}>
+
         <Flex.Item mx={0.5} width="200px">
           <Section>
             <LabeledList>
@@ -97,6 +112,69 @@ export const PowerMonitorContent = (props, context) => {
           </Box>
         </Flex.Item>
       </Flex>
+
+      <Flex mx={-0.5} mb={1}>
+        <Flex.Item mx={0.5} width="200px">
+          <Section>
+            <LabeledList>
+              <LabeledList.Item label="Real">
+                <ProgressBar
+                  value={realNum}
+                  minValue={0}
+                  maxValue={demandNum}
+                  color="green">
+                  {real}
+                </ProgressBar>
+              </LabeledList.Item>
+              <LabeledList.Item label="Reactive">
+                <ProgressBar
+                  value={reactiveNum}
+                  minValue={0}
+                  maxValue={demandNum}
+                  color="blue">
+                  {reactive}
+                </ProgressBar>
+              </LabeledList.Item>
+              <LabeledList.Item label="Distortion">
+                <ProgressBar
+                  value={distortedNum}
+                  minValue={0}
+                  maxValue={demandNum}
+                  color="red">
+                  {distorted}
+                </ProgressBar>
+              </LabeledList.Item>
+            </LabeledList>
+          </Section>
+        </Flex.Item>
+
+        <Flex.Item mx={0.5} grow={2}>
+          <Box position="relative" height="100%">
+            <Chart.Line
+              fillPositionedParent
+              data={realData}
+              rangeX={[0, realData.length - 1]}
+              rangeY={[0, maxValuePQR]}
+              strokeColor="rgba(0, 255, 0, 1)"
+              fillColor="rgba(0, 255, 0, 0.1)" />
+            <Chart.Line
+              fillPositionedParent
+              data={reactiveData}
+              rangeX={[0, reactiveData.length - 1]}
+              rangeY={[0, maxValuePQR]}
+              strokeColor="rgba(0, 0, 255, 1)"
+              fillColor="rgba(0, 0, 255, 0.1)" />
+            <Chart.Line
+              fillPositionedParent
+              data={distortedData}
+              rangeX={[0, distortedData.length - 1]}
+              rangeY={[0, maxValuePQR]}
+              strokeColor="rgba(255, 0, 0, 1)"
+              fillColor="rgba(255, 0, 0, 0.1)" />
+          </Box>
+        </Flex.Item>
+      </Flex>
+
       <Section>
         <Box mb={1}>
           <Box inline mr={2} color="label">
@@ -120,6 +198,18 @@ export const PowerMonitorContent = (props, context) => {
             onClick={() => setSortByField(
               sortByField !== 'draw' && 'draw'
             )} />
+          <Button.Checkbox
+            checked={sortByField === 'pf'}
+            content="Power Factor"
+            onClick={() => setSortByField(
+              sortByField !== 'pf' && 'pf'
+            )} />
+          <Button.Checkbox
+            checked={sortByField === 'draw'}
+            content="Total Harmonic Distortion"
+            onClick={() => setSortByField(
+              sortByField !== 'thd' && 'thd'
+            )} />
         </Box>
         <Table>
           <Table.Row header>
@@ -131,6 +221,12 @@ export const PowerMonitorContent = (props, context) => {
             </Table.Cell>
             <Table.Cell textAlign="right">
               Draw
+            </Table.Cell>
+            <Table.Cell textAlign="right">
+              PF
+            </Table.Cell>
+            <Table.Cell textAlign="right">
+              THD
             </Table.Cell>
             <Table.Cell collapsing title="Equipment">
               Eqp
@@ -156,6 +252,12 @@ export const PowerMonitorContent = (props, context) => {
               </td>
               <td className="Table__cell text-right text-nowrap">
                 {area.load}
+              </td>
+              <td className="Table__cell text-right text-nowrap">
+                {area.pf}
+              </td>
+              <td className="Table__cell text-right text-nowrap">
+                {area.thd}
               </td>
               <td className="Table__cell text-center text-nowrap">
                 <AreaStatusColorBox status={area.eqp} />

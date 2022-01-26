@@ -748,7 +748,13 @@
 		"powerCellStatus" = cell ? cell.percent() : null,
 		"chargeMode" = chargemode,
 		"chargingStatus" = charging,
-		"totalLoad" = lastused_total.apparent_power(),
+		"totalLoad" = lastused_total.S_string(),
+		"powerFactor" = lastused_total.PF_string(),
+		"powerFactorRating" = lastused_total.PF_rating(),
+		"displacementFactor" = lastused_total.DPF_string(),
+		"displacementFactorRating" = lastused_total.DPF_rating(),
+		"harmonicDistortion" = lastused_total.THD_string(),
+		"harmonicDistortionRating" = lastused_total.THD_rating(),
 		"coverLocked" = coverlocked,
 		"siliconUser" = istype(user, /mob/living/silicon) || isAdminGhost(user) || OMNI_LINK(user,src), // Allow aghosts to fuck with APCs
 		"malfLocked"= malflocked,
@@ -757,7 +763,7 @@
 		"powerChannels" = list(
 			list(
 				"title" = "Equipment",
-				"powerLoad" = lastused_equip.apparent_power(),
+				"powerLoad" = lastused_equip.S_string(),
 				"status" = equipment,
 				"topicParams" = list(
 					"auto" = list("eqp" = 3),
@@ -767,7 +773,7 @@
 			),
 			list(
 				"title" = "Lighting",
-				"powerLoad" = lastused_light.apparent_power(),
+				"powerLoad" = lastused_light.S_string(),
 				"status" = lighting,
 				"topicParams" = list(
 					"auto" = list("lgt" = 3),
@@ -777,7 +783,7 @@
 			),
 			list(
 				"title" = "Environment",
-				"powerLoad" = lastused_environ.apparent_power(),
+				"powerLoad" = lastused_environ.S_string(),
 				"status" = environ,
 				"topicParams" = list(
 					"auto" = list("env" = 3),
@@ -804,7 +810,7 @@
 
 /obj/machinery/power/apc/proc/report()
 	var/area/this_area = get_area(src)
-	return "[this_area.name] : [equipment]/[lighting]/[environ] ([lastused_total.apparent_power()]) : [cell? cell.percent() : "N/C"] ([charging])"
+	return "[this_area.name] : [equipment]/[lighting]/[environ] ([lastused_total.S_string()]) : [cell? cell.percent() : "N/C"] ([charging])"
 
 /obj/machinery/power/apc/proc/update()
 	var/area/this_area = get_area(src)

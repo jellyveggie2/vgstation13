@@ -26,6 +26,9 @@
 	search()
 	history["supply"] = list()
 	history["demand"] = list()
+	history["real"] = list()
+	history["reactive"] = list()
+	history["distorted"] = list()
 
 /obj/machinery/computer/powermonitor/proc/search()
 	var/obj/machinery/power/apc/areaapc = get_area(src).areaapc
@@ -63,7 +66,10 @@
 	if(!connected_powernet)
 		return data
 	data["supply"] = format_watts(connected_powernet.avail)
-	data["demand"] = format_watts(connected_powernet.viewload)
+	data["demand"] = connected_powernet.viewload.S_string()
+	data["real"] = connected_powernet.viewload.P_string()
+	data["reactive"] = connected_powernet.viewload.Q_string()
+	data["distorted"] = connected_powernet.viewload.D_string()
 	for(var/obj/machinery/power/terminal/term in connected_powernet.nodes)
 		var/obj/machinery/power/apc/apc = term.master
 		if(!istype(apc))
@@ -71,7 +77,14 @@
 		data["areas"] += list(list(
 			"name" = get_area(apc).name,
 			"charge" = apc.cell?.percent() || 0,
-			"load" = format_watts(apc.lastused_total.apparent_power()),
+			"load" = apc.lastused_total.S_string(),
+			"pf" = apc.lastused_total.PF_string(),
+			"thd" = apc.lastused_total.THD_string(),
+			"rawLoad" = apc.lastused_total.apparent_power(),
+			"rawPf" = apc.lastused_total.power_factor(),
+			"rawThd" = apc.lastused_total.distortion_ratio(),
+			"pfRating" = apc.lastused_total.PF_string(),
+			"thdRating" = apc.lastused_total.THD_string(),
 			"charging" = apc.charging,
 			"eqp" = apc.equipment,
 			"lgt" = apc.lighting,
@@ -86,15 +99,30 @@
 
 		var/list/supply = history["supply"]
 		var/list/demand = history["demand"]
+		var/list/real = history["real"]
+		var/list/reactive = history["reactive"]
+		var/list/distorted = history["distorted"]
 
 		if(connected_powernet)
 			supply += connected_powernet.avail
 			if(supply.len > record_size)
 				supply.Cut(1, 2)
 
-			demand += connected_powernet.viewload
+			demand += connected_powernet.viewload.apparent_power()
 			if(demand.len > record_size)
 				demand.Cut(1, 2)
+
+			real += connected_powernet.viewload.P
+			if(real.len > record_size)
+				real.Cut(1, 2)
+
+			reactive += connected_powernet.viewload.Q
+			if(reactive.len > record_size)
+				reactive.Cut(1, 2)
+
+			distorted += connected_powernet.viewload.D
+			if(distorted.len > record_size)
+				distorted.Cut(1, 2)
 
 /obj/machinery/computer/powermonitor/power_change()
 	..()

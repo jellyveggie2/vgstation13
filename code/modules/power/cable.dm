@@ -222,7 +222,7 @@ By design, d1 is the smallest direction and d2 is the highest
 
 /obj/structure/cable/proc/report_load(mob/user)
 	if((powernet) && (powernet.avail > 0))		// is it powered?
-		to_chat(user, "<SPAN CLASS='warning'>Power network status report - Load: [powernet.load.toString(TRUE)] - Available: [format_watts(powernet.avail)].</SPAN>")
+		to_chat(user, "<SPAN CLASS='warning'>Power network status report - Load: [powernet.load.S_string()] - Available: [format_watts(powernet.avail)] - PF: [powernet.load.PF_full_string()].</SPAN>")
 	else
 		to_chat(user, "<SPAN CLASS='notice'>The cable is not powered.</SPAN>")
 

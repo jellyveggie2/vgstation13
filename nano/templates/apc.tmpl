@@ -104,8 +104,8 @@
 			<div class="itemLabel">
 				{{:value.title}}:
 			</div>
-			<div class="itemContent" style="width: 70px; text-align: right">
-				{{:value.powerLoad}} W
+			<div class="itemContent" style="width: 100px; text-align: right">
+				{{:value.powerLoad}}
 			</div>
 			<div class="itemContent" style="width: 105px">
 				&nbsp;&nbsp;
@@ -136,11 +136,40 @@
 		<div class="itemLabel">
 			Total Load:
 		</div>
-		<div class="itemContent" style="width: 70px; text-align: right">
-			{{:data.totalLoad}} W
+		<div class="itemContent" style="width: 100px; text-align: right">
+			{{:data.totalLoad}}
 		</div>
 	</div>
-
+	<div class="item">&nbsp;</div>
+	<div class="item">
+		<div class="itemLabel">
+			Power Factor:
+		</div>
+		<div class="itemContentFull">
+			{{if data.powerFactorRating == 2}}
+				<span class='good'>{{:data.powerFactor}}</span>&nbsp;
+			{{else data.powerFactorRating == 1}}
+				<span class='average'>{{:data.powerFactor}}</span>&nbsp;
+			{{else}}
+				<span class='bad'>{{:data.powerFactor}}</span>&nbsp;
+			{{/if}}
+			{{if data.displacementFactorRating == 2}}
+				(<span class='good'>{{:data.displacementFactor}}</span>,&nbsp;
+			{{else data.displacementFactorRating == 1}}
+				(<span class='average'>{{:data.displacementFactor}}</span>,&nbsp;
+			{{else}}
+				(<span class='bad'>{{:data.displacementFactor}}</span>,&nbsp;
+			{{/if}}
+			{{if data.harmonicDistortionRating == 2}}
+				<span class='good'>{{:data.harmonicDistortion}}</span>)
+			{{else data.harmonicDistortionRating == 1}}
+				<span class='average'>{{:data.harmonicDistortion}}</span>)
+			{{else}}
+				<span class='bad'>{{:data.harmonicDistortion}}</span>)
+			{{/if}}
+		</div>
+	</div>
+	
 	<div class="item">&nbsp;</div>
 
 	<div class="item">

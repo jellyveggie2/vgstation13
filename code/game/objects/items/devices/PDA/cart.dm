@@ -406,7 +406,7 @@ Code:
 						L += A
 
 
-				menu += {"<PRE>Total power: [powmonitor.connected_powernet.avail] W<BR>Total load:  [num2text(powmonitor.connected_powernet.viewload,10)] W<BR>
+				menu += {"<PRE>Total power: [format_units(powmonitor.connected_powernet.avail)]W<BR>Total load: [powmonitor.connected_powernet.viewload.S_string()]<BR>
 					<FONT SIZE=-1>"}
 				if(L.len > 0)
 					menu += "Area                           Eqp./Lgt./Env.  Load   Cell<HR>"
