@@ -28,7 +28,7 @@
 	history["demand"] = list()
 	history["real"] = list()
 	history["reactive"] = list()
-	history["distorted"] = list()
+	history["deformed"] = list()
 
 /obj/machinery/computer/powermonitor/proc/search()
 	var/obj/machinery/power/apc/areaapc = get_area(src).areaapc
@@ -69,7 +69,20 @@
 	data["demand"] = connected_powernet.viewload.S_string()
 	data["real"] = connected_powernet.viewload.P_string()
 	data["reactive"] = connected_powernet.viewload.Q_string()
-	data["distorted"] = connected_powernet.viewload.D_string()
+	data["deformed"] = connected_powernet.viewload.D_string()
+
+	data["pf"] = connected_powernet.viewload.PF_string()
+	data["dpf"] = connected_powernet.viewload.DPF_string()
+	data["thd"] = connected_powernet.viewload.THD_string()
+	data["rawPf"] = connected_powernet.viewload.power_factor()
+	data["rawDpf"] = connected_powernet.viewload.reactive_factor()
+	data["rawThd"] = connected_powernet.viewload.distortion_ratio()
+	data["pfLimitGood"] = POWER_FACTOR_THRESHOLD_GOOD
+	data["pfLimitAverage"] = POWER_FACTOR_THRESHOLD_AVERAGE
+	data["dpfLimitGood"] = DISPLACEMENT_POWER_FACTOR_THRESHOLD_GOOD
+	data["dpfLimitAverage"] = DISPLACEMENT_POWER_FACTOR_THRESHOLD_AVERAGE
+	data["thdLimitGood"] = TOTAL_HARMONIC_DISTORTION_THRESHOLD_GOOD
+	data["thdLimitAverage"] = TOTAL_HARMONIC_DISTORTION_THRESHOLD_AVERAGE
 	for(var/obj/machinery/power/terminal/term in connected_powernet.nodes)
 		var/obj/machinery/power/apc/apc = term.master
 		if(!istype(apc))
@@ -83,8 +96,8 @@
 			"rawLoad" = apc.lastused_total.apparent_power(),
 			"rawPf" = apc.lastused_total.power_factor(),
 			"rawThd" = apc.lastused_total.distortion_ratio(),
-			"pfRating" = apc.lastused_total.PF_string(),
-			"thdRating" = apc.lastused_total.THD_string(),
+			"pfRating" = apc.lastused_total.PF_rating(),
+			"thdRating" = apc.lastused_total.THD_rating(),
 			"charging" = apc.charging,
 			"eqp" = apc.equipment,
 			"lgt" = apc.lighting,
@@ -101,7 +114,7 @@
 		var/list/demand = history["demand"]
 		var/list/real = history["real"]
 		var/list/reactive = history["reactive"]
-		var/list/distorted = history["distorted"]
+		var/list/deformed = history["deformed"]
 
 		if(connected_powernet)
 			supply += connected_powernet.avail
@@ -120,9 +133,9 @@
 			if(reactive.len > record_size)
 				reactive.Cut(1, 2)
 
-			distorted += connected_powernet.viewload.D
-			if(distorted.len > record_size)
-				distorted.Cut(1, 2)
+			deformed += connected_powernet.viewload.D
+			if(deformed.len > record_size)
+				deformed.Cut(1, 2)
 
 /obj/machinery/computer/powermonitor/power_change()
 	..()

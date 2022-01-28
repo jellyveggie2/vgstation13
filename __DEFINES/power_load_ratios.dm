@@ -9,11 +9,11 @@
  * - Manipulators: Reactive, due to motors powering the manipulator
  * - Scanners: Slightly reactive, thinking of MRI scans as an extreme example
  * - Lasers: Slightly capacitive, like LEDs
- * - Capacitors: Slighlty distorted, rarely capacitive. Most capacitors are meant for DC and are behind an AC to DC rectifier, they're rarely connected directly to AC
+ * - Capacitors: Slighlty deformed, rarely capacitive. Most capacitors are meant for DC and are behind an AC to DC rectifier, they're rarely connected directly to AC
  *
- * ==== Distorted load ratios ====
- * Defined as D/P (distorted load per real load)
- * Distorted loads are caused by non-linear loads, eg: AC to DC rectifiers as found in most computers, lightning arcs, connecting a capacitor bank
+ * ==== Deformed load ratios ====
+ * Defined as D/P (deformed load per real load)
+ * Deformed loads are caused by non-linear loads, eg: AC to DC rectifiers as found in most computers, lightning arcs, connecting a capacitor bank
  *
  * For reference: IRL this value corresponds to the "THD" (Total Harmonic Distortion), of which IEEE 519 considers 5% THD good for computers and the like
  *

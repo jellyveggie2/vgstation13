@@ -8,7 +8,7 @@ AC Power is represented as a vector with three components:
 		and reabsorbed each cycle. As inductors cause lag, and capacitors lead, it'll be positive or negative depending on whether you've got too
 		many inductors or capacitors.
 
-	- Distorted Power (D): Measured in VAD. Losses caused by distortions in the sinewave, usually caused by non-linear loads, eg: a computer's
+	- Deformed Power (D): Measured in VAD. Losses caused by distortions in the sinewave, usually caused by non-linear loads, eg: a computer's
 		PSU, and most other DC-to-AC converters.
 
 The vector's norm gives us the Apparent Power (S): Measured in VA. How much power actually has to travel through the grid to meet demand.
@@ -57,21 +57,21 @@ There are some properties of this vector that are of interest, in order of popul
 
 	var/P = 0	// Real power, measured in W
 	var/Q = 0	// Reactive power, measured in VAR (+inductors, -capacitors)
-	var/D = 0	// Distorted power, measured in VAD
+	var/D = 0	// Deformed power, measured in VAD
 	//  S = |v|	// Apparent power, measured in VA
 
 /*
- * 'ratios' set to TRUE switches the meaning of 'reactive' and 'distorted' from power to ratios
+ * 'ratios' set to TRUE switches the meaning of 'reactive' and 'deformed' from power to ratios
  * eg: power: 2.0, reactive: 0.5, ratios: TRUE  -> 2.0 W, 1.0 VAR
  *     power: 2.0, reactive: 0.5, ratios: FALSE -> 2.0 W, 0.5 VAR */
-/datum/power_vector/New(power=0, reactive=0, distorted=0, ratios=TRUE)
+/datum/power_vector/New(power=0, reactive=0, deformed=0, ratios=TRUE)
 	P = power
 	if (ratios)
 		Q = P * reactive
-		D = P * distorted
+		D = P * deformed
 	else
 		Q = reactive
-		D = distorted
+		D = deformed
 
 /datum/power_vector/proc/duplicate()
 	return new /datum/power_vector(P, Q, D, FALSE)
@@ -157,7 +157,7 @@ There are some properties of this vector that are of interest, in order of popul
 	var/sign = qf >= 0 ? -1 : 1
 	Q = sign * sqrt((P/qf)**2 - P**2)
 
-// Distorted ratio/factor
+// Deformed ratio/factor
 /datum/power_vector/proc/distortion_ratio() // aka. Total Harmonic Distortion (THD)
 	return P ? D / P : 0
 /datum/power_vector/proc/dr()

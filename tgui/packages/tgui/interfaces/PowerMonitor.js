@@ -3,18 +3,13 @@ import { flow } from 'common/fp';
 import { toFixed } from 'common/math';
 import { pureComponentHooks } from 'common/react';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Chart, ColorBox, Flex, Icon, LabeledList, ProgressBar, Section, Table } from '../components';
+import { Box, Button, Chart, ColorBox, Flex, Icon, LabeledList, ProgressBar, Section, Table, RoundGauge } from '../components';
 import { Window } from '../layouts';
-
-export const powerRank = str => {
-  const unit = String(str.split(' ')[1]).toLowerCase();
-  return ['w', 'kw', 'mw', 'gw'].indexOf(unit);
-};
 
 export const PowerMonitor = () => {
   return (
     <Window
-      width={550}
+      width={600}
       height={700}>
       <Window.Content scrollable>
         <PowerMonitorContent />
@@ -30,7 +25,7 @@ export const PowerMonitorContent = (props, context) => {
     sortByField,
     setSortByField,
   ] = useLocalState(context, 'sortByField', null);
-  const { supply, demand, real, reactive, distorted } = data;
+  const { supply, demand, real, reactive, deformed } = data;
   const supplyNum = history.supply[history.supply.length - 1] || 0;
   const demandNum = history.demand[history.demand.length - 1] || 0;
   const supplyData = history.supply.map((value, i) => [i, value]);
@@ -40,17 +35,23 @@ export const PowerMonitorContent = (props, context) => {
     ...history.demand);
     // Process area data
 
-
   const realNum = history.real[history.real.length - 1] || 0;
   const reactiveNum = history.reactive[history.reactive.length - 1] || 0;
-  const distortedNum = history.distorted[history.distorted.length - 1] || 0;
+  const deformedNum = history.deformed[history.deformed.length - 1] || 0;
   const realData = history.real.map((value, i) => [i, value]);
-  const reactiveData = history.reactive.map((value, i) => [i, value]);
-  const distortedData = history.distorted.map((value, i) => [i, value]);
+  const reactiveData = history.reactive.map((value, i) => [i, Math.abs(value)]);
+  const deformedData = history.deformed.map((value, i) => [i, value]);
   const maxValuePQR = Math.max(
     ...history.real,
-    ...history.reactive,
-    ...history.distorted);
+    ...history.reactive.map((value) => Math.abs(value)),
+    ...history.deformed);
+
+  const pfGaugeMin = 2 * data.pfLimitAverage - data.pfLimitGood;
+  const pfGaugeMax = 1;
+  const dpfGaugeMin = 2 * data.dpfLimitAverage - data.dpfLimitGood;
+  const dpfGaugeMax = 2 - (2 * data.dpfLimitAverage - data.dpfLimitGood);
+  const thdGaugeMin = 0;
+  const thdGaugeMax = 2 * data.thdLimitAverage - data.thdLimitGood;
 
   const areas = flow([
     map((area, i) => ({
@@ -60,15 +61,14 @@ export const PowerMonitorContent = (props, context) => {
     })),
     sortByField === 'name' && sortBy(area => area.name),
     sortByField === 'charge' && sortBy(area => -area.charge),
-    sortByField === 'draw' && sortBy( area => -area.rawLoad),
-    sortByField === 'pf' && sortBy( area => -area.rawPf),
-    sortByField === 'thd' && sortBy( area => -area.rawThd),
+    sortByField === 'draw' && sortBy(area => -area.rawLoad),
+    sortByField === 'pf' && sortBy(area => area.rawPf),
+    sortByField === 'thd' && sortBy(area => -area.rawThd),
   ])(data.areas);
+  const rating2color = ['color-bad', 'color-average', ''];
   return (
     <>
-
       <Flex mx={-0.5} mb={1}>
-
         <Flex.Item mx={0.5} width="200px">
           <Section>
             <LabeledList>
@@ -112,7 +112,6 @@ export const PowerMonitorContent = (props, context) => {
           </Box>
         </Flex.Item>
       </Flex>
-
       <Flex mx={-0.5} mb={1}>
         <Flex.Item mx={0.5} width="200px">
           <Section>
@@ -128,20 +127,20 @@ export const PowerMonitorContent = (props, context) => {
               </LabeledList.Item>
               <LabeledList.Item label="Reactive">
                 <ProgressBar
-                  value={reactiveNum}
+                  value={Math.abs(reactiveNum)}
                   minValue={0}
                   maxValue={demandNum}
                   color="blue">
                   {reactive}
                 </ProgressBar>
               </LabeledList.Item>
-              <LabeledList.Item label="Distortion">
+              <LabeledList.Item label="Deformed">
                 <ProgressBar
-                  value={distortedNum}
+                  value={deformedNum}
                   minValue={0}
                   maxValue={demandNum}
                   color="red">
-                  {distorted}
+                  {deformed}
                 </ProgressBar>
               </LabeledList.Item>
             </LabeledList>
@@ -166,8 +165,8 @@ export const PowerMonitorContent = (props, context) => {
               fillColor="rgba(0, 0, 255, 0.1)" />
             <Chart.Line
               fillPositionedParent
-              data={distortedData}
-              rangeX={[0, distortedData.length - 1]}
+              data={deformedData}
+              rangeX={[0, deformedData.length - 1]}
               rangeY={[0, maxValuePQR]}
               strokeColor="rgba(255, 0, 0, 1)"
               fillColor="rgba(255, 0, 0, 0.1)" />
@@ -175,6 +174,56 @@ export const PowerMonitorContent = (props, context) => {
         </Flex.Item>
       </Flex>
 
+      <Flex mx={-0.5} mb={1} justify={'space-around'}>
+        <Flex.Item mx={0.5}>
+          <RoundGauge
+            size={1.5}
+            value={data.rawPf}
+            minValue={pfGaugeMin}
+            maxValue={pfGaugeMax}
+            ranges={{
+              "bad": [pfGaugeMin, data.pfLimitAverage],
+              "average": [data.pfLimitAverage, data.pfLimitGood],
+              "good": [data.pfLimitGood, pfGaugeMax],
+            }}
+            format={function () { return data.pf; }}
+            alertAfter={data.rawPf < data.pfLimitAverage
+              ? pfGaugeMin : pfGaugeMax} />
+        </Flex.Item>
+        <Flex.Item mx={0.5}>
+          <RoundGauge
+            size={1.5}
+            value={data.rawDpf < 0
+              ? Math.abs(data.rawDpf)
+              : 2 - data.rawDpf}
+            minValue={dpfGaugeMin}
+            maxValue={dpfGaugeMax}
+            ranges={{
+              "red": [dpfGaugeMin, data.dpfLimitAverage],
+              "orange": [data.dpfLimitAverage, data.dpfLimitGood],
+              "good": [data.dpfLimitGood, 2 - data.dpfLimitGood],
+              "average": [2 - data.dpfLimitGood, 2 - data.dpfLimitAverage],
+              "bad": [2 - data.dpfLimitAverage, dpfGaugeMax],
+            }}
+            format={function () { return data.dpf; }}
+            alertAfter={Math.abs(data.rawDpf) < data.dpfLimitAverage
+              ? dpfGaugeMin : dpfGaugeMax} />
+        </Flex.Item>
+        <Flex.Item mx={0.5}>
+          <RoundGauge
+            size={1.5}
+            value={data.rawThd}
+            minValue={thdGaugeMin}
+            maxValue={thdGaugeMax}
+            ranges={{
+              "good": [thdGaugeMin, data.thdLimitGood],
+              "average": [data.thdLimitGood, data.thdLimitAverage],
+              "bad": [data.thdLimitAverage, thdGaugeMax],
+            }}
+            format={function () { return data.thd; }}
+            alertAfter={data.thdLimitAverage} />
+        </Flex.Item>
+      </Flex>
       <Section>
         <Box mb={1}>
           <Box inline mr={2} color="label">
@@ -205,7 +254,7 @@ export const PowerMonitorContent = (props, context) => {
               sortByField !== 'pf' && 'pf'
             )} />
           <Button.Checkbox
-            checked={sortByField === 'draw'}
+            checked={sortByField === 'thd'}
             content="Total Harmonic Distortion"
             onClick={() => setSortByField(
               sortByField !== 'thd' && 'thd'
@@ -254,10 +303,10 @@ export const PowerMonitorContent = (props, context) => {
                 {area.load}
               </td>
               <td className="Table__cell text-right text-nowrap">
-                {area.pf}
+                <span className={rating2color[area.pfRating]}>{area.pf}</span>
               </td>
               <td className="Table__cell text-right text-nowrap">
-                {area.thd}
+                <span className={rating2color[area.thdRating]}>{area.thd}</span>
               </td>
               <td className="Table__cell text-center text-nowrap">
                 <AreaStatusColorBox status={area.eqp} />
